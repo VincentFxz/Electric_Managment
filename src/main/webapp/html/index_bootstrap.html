@@ -8,8 +8,9 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <style type="text/css">
+    <link href = "/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href = "/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <style type = "text/css">
         @import "/dojo-release-1.7.2/dojo/resources/dojo.css";
         @import "/dojo-release-1.7.2/dijit/themes/dijit.css";
         @import "/dojo-release-1.7.2/dijit/themes/claro/claro.css";
@@ -21,28 +22,31 @@
         body {
             padding-top: 60px;
             padding-bottom: 40px;
+
         }
-        #ammeter_grid {
+        #ammeter_grid  {
             height:800px;
+            width: 100%
         }
+
     </style>
     
-    <script src="/dojo-release-1.7.2/dojo/dojo.js" 
+    <script src = "/dojo-release-1.7.2/dojo/dojo.js" 
         data-dojo-config="
             async:true,
             parseOnLoad:true,
             locale:'zh-cn'">
     </script>
-    <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    
     
     <script language="javascript" src="/js/index3.js">  </script>
   </head>
 
-  <body>
+  <body class = "claro">
     <div class="navbar navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
-                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <a class="btn btn-navbar" data-toggle = "collapse" data-target = ".nav-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -89,50 +93,91 @@
                     </ul>
                 </div><!--/.well -->
             </div><!--/.span -->
-            <div class="span9">
+            <div id ="main_container" class="span9">
                 <div class="claro">
                     <div id="tab_container" data-dojo-type="dijit.layout.TabContainer" doLayout="false" style="width:98%;height:85%;">
                         <div data-dojo-type="dijit.layout.ContentPane" title="电表纪录管理" >
                             <div id="ammeter_record_grid" class="claro" style="height:473px"></div>   
                         </div>
                         
-                        <div data-dojo-type="dijit.layout.ContentPane" title="电表管理" >
+                        <div data-dojo-type="dijit.layout.ContentPane" title="电表管理">
+                            <div id = "ammeter_grid_container" style = "width: 100%;" class = "claro">
+                                <div id="search_var">
+                                    <div data-dojo-type="dijit.form.DropDownButton">
+                                        <span>新建</span>
+                                        <div data-dojo-type="dijit.TooltipDialog" id="new_ammeter_dialog">
+                                            <form id="add_ammeter_form" method="post" action="/ammeter/list">
+                                            <div>
+                                                <strong><label class="add_form_label" for="name">电表名称</label></strong>
+                                                <div data-dojo-type="dijit.form.TextBox" id="name"></div>
+                                            </div>
+                                            <div>
+                                                <strong><label class="add_form_label" for="pumpName">泵名称</label></strong>
+                                                <div data-dojo-type="dijit.form.TextBox" id="pumpName"></div>
+                                            </div>
+                                            <div>
+                                                <strong><label class="add_form_label" for="companyName">公司名称</label></strong>
+                                                <div data-dojo-type="dijit.form.TextBox" id="companyName"></div>
+                                            </div>
+                                            <div>
+                                                <strong><label class="add_form_label" for="projectName">项目名称</label></strong>
+                                                <div data-dojo-type="dijit.form.TextBox" id="projectName"></div>
+                                            </div>
+                                            <div>
+                                                <button id="add_ammeter_btn"></button>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- The Data Grid -->
+                                <div id="ammeter_grid" class="claro" style="height:400px"></div>
+                                <!-- The Action Bar -->
+                                <div id="modify_bar" class="claro">
+                                    <button id="save_button"></button>
+                                    <button id="delete_button"></button>
+                                </div>
+                            </div>
+
+                            
+                        </div>
+                        <!-- /ammeter pane -->
+
+                        <div data-dojo-type="dijit.layout.ContentPane" title = "用户管理" >
                             <div id="search_var">
                                 <div data-dojo-type="dijit.form.DropDownButton">
                                 <span>新建</span>
-                                <div data-dojo-type="dijit.TooltipDialog" id="new_ammeter_dialog">
-                                    <form id="add_ammeter_form" method="post" action="/ammeter/list">
+                                <div data-dojo-type="dijit.TooltipDialog" id="new_user_dialog">
+                                    <form id="add_user_form" method="post" action="/user/list">
                                     <div>
-                                        <strong><label class="add_form_label" for="name">电表名称</label></strong>
-                                        <div data-dojo-type="dijit.form.TextBox" id="name"></div>
+                                        <strong><label class="add_form_label" for="username">用户名称</label></strong>
+                                        <div data-dojo-type="dijit.form.TextBox" id="username"></div>
                                     </div>
                                     <div>
-                                        <strong><label class="add_form_label" for="pumpName">泵名称</label></strong>
-                                        <div data-dojo-type="dijit.form.TextBox" id="pumpName"></div>
+                                        <strong><label class="add_form_label" for="userCompanyName">公司名称</label></strong>
+                                        <div data-dojo-type="dijit.form.TextBox" id="userCompanyName"></div>
                                     </div>
                                     <div>
-                                        <strong><label class="add_form_label" for="companyName">公司名称</label></strong>
-                                        <div data-dojo-type="dijit.form.TextBox" id="companyName"></div>
+                                        <strong><label class="add_form_label" for="userProjectName">项目名称</label></strong>
+                                        <div data-dojo-type="dijit.form.TextBox" id="userProjectName"></div>
                                     </div>
                                     <div>
-                                        <strong><label class="add_form_label" for="projectName">项目名称</label></strong>
-                                        <div data-dojo-type="dijit.form.TextBox" id="projectName"></div>
-                                    </div>
-                                    <div>
-                                        <button id="add_ammeter_btn"></button>
+                                        <button id="add_user_btn"></button>
                                     </div>
                                     </form>
                                 </div>
                             </div>
                             </div>
                             <!-- The Data Grid -->
-                            <div id="ammeter_grid" class="claro" style="height:400px"></div>
+                            <div id="user_grid" class="claro" style="height:400px"></div>
                             <!-- The Action Bar -->
-                            <div id="modify_bar" class="claro">
-                                <button id="save_button"></button>
-                                <button id="delete_button"></button>
+                            <div id="user_modify_bar" class="claro">
+                                <button id="user_save_button"></button>
+                                <button id="user_delete_button"></button>
                             </div>
                         </div>
+                        <!--/user pane-->
+
                     </div>
                 </div>
                 <!-- /tab_container -->
