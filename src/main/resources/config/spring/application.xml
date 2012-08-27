@@ -118,9 +118,9 @@
 		else we might need: -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<property name="loginUrl" value="/html/login.jsp" />
-		<property name="successUrl" value="/html/home.jsp" />
-		<property name="unauthorizedUrl" value="/html/home.jsp" />
+		<property name="loginUrl" value="/login" />
+		<property name="successUrl" value="/home" />
+		<property name="unauthorizedUrl" value="/home" />
 		<!-- The 'filters' property is usually not necessary unless performing 
 			an override, which we want to do here (make authc point to a PassthruAuthenticationFilter 
 			instead of the default FormAuthenticationFilter: -->
@@ -134,7 +134,7 @@
 		</property>
 		<property name="filterChainDefinitions">
 			<value>
-				/** = anon
+				/** = authc
 			</value>
 		</property>
 	</bean>
