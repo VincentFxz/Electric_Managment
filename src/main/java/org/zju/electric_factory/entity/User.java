@@ -23,7 +23,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -38,12 +37,18 @@ import java.util.Set;
 @Table(name="users")
 @Cache(usage= CacheConcurrencyStrategy.READ_WRITE)
 public class User  {
-
+	
+	
     private Long id;
+    @Column(name = "username")
     private String username;
+    @Column(name = "email")
     private String email;
+    @Column(name = "password")
     private String password;
-    private Set<Role> roles = new HashSet<Role>();
+    
+    
+    private Set<Role> roles;
 
 
     @Id
@@ -98,7 +103,7 @@ public class User  {
     }
 
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="users_roles")
     @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
     public Set<Role> getRoles() {
