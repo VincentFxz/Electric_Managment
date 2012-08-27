@@ -26,9 +26,11 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.zju.electric_factory.dao.UserDAO;
 import org.zju.electric_factory.entity.Role;
 import org.zju.electric_factory.entity.User;
+import org.zju.electric_factory.service.UserManager;
 
 /**
  * The Spring/Hibernate sample application's one and only configured Apache Shiro Realm.
@@ -40,7 +42,11 @@ import org.zju.electric_factory.entity.User;
  * of a 'real' application in addition to here. We felt it better to use that same DAO to show code re-use.</p>
  */
 @Component
+@Transactional
 public class SampleRealm extends AuthorizingRealm {
+	
+	@Autowired
+	private UserManager userManager;
 
     protected UserDAO userDAO = null;
 
@@ -54,9 +60,10 @@ public class SampleRealm extends AuthorizingRealm {
         this.userDAO = userDAO;
     }
 
+    @Transactional
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-        User user = userDAO.findUser(token.getUsername());
+        User user = userManager.getUserByName(token.getUsername());
         if( user != null ) {
             return new SimpleAuthenticationInfo(user.getId(), user.getPassword(), getName());
         } else {
@@ -65,9 +72,11 @@ public class SampleRealm extends AuthorizingRealm {
     }
 
 
+    @Transactional
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         Long userId = (Long) principals.fromRealm(getName()).iterator().next();
-        User user = userDAO.getUser(userId);
+        User user = userManager.getUser(userId);
+        user.getEmail();
         if( user != null ) {
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
             for( Role role : user.getRoles() ) {
