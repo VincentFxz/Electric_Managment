@@ -17,4 +17,8 @@ public interface UserManager {
     void deleteUser(Long userId);
 
     void updateUser(User user);
+    
+    public void createUser(User user);
+    
+    public User getUserByName(String name);
 }
