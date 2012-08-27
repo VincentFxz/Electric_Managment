@@ -21,7 +21,8 @@ import org.zju.electric_factory.service.AmmeterRecordManager;
 @RequestMapping("/ammeter")
 @Transactional
 public class AmmeterController {
-	
+
+    	
     @Autowired
     private AmmeterManager ammeterManager;
     
@@ -66,14 +67,17 @@ public class AmmeterController {
     public @ResponseBody List<Ammeter> listAmmeterDescbyProjectName(){
         return ammeterManager.getAllAmmeterDescByProjectName();
     }
+
+
     
     @RequestMapping(method=RequestMethod.GET,value="/list/",headers="Accept=application/json", params="sort(+projectName)")
     public @ResponseBody List<Ammeter> listAmmeterAscbyProjectName(){
         return ammeterManager.getAllAmmeterAscByProjectName();
     }
-    
+
+
     @RequestMapping(method=RequestMethod.GET,value="/list/",headers="Accept=application/json", params="sort(-companyName)")
-    public @ResponseBody List<Ammeter> listAmmeterDescbyCompanyName(){
+        public @ResponseBody List<Ammeter> listAmmeterDescbyCompanyName(){
         return ammeterManager.getAllAmmeterDescByProjectName();
     }
     
@@ -83,8 +87,9 @@ public class AmmeterController {
     }
     
     @RequestMapping(method=RequestMethod.DELETE,value="/list/{id}",headers="Accept=application/json")
-    public void deleteAmmeterbyId(@PathVariable String id){
+    public @ResponseBody boolean deleteAmmeterbyId(@PathVariable String id){
         ammeterManager.deleteAmmeterbyId(id);
+        return true;
     }
     
     
