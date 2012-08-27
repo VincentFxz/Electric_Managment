@@ -59,7 +59,7 @@ public class SecurityController {
         if( errors.hasErrors() ) {
             return showLoginForm(model, command);
         } else {
-            return "redirect:/s/home";
+            return "redirect:/home";
         }
     }
 
