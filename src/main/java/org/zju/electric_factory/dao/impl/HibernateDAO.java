@@ -169,6 +169,7 @@ public class HibernateDAO<T, PK extends Serializable> {
 	/**
 	 * 按属性查找唯一对象, 匹配方式为相等.
 	 */
+	@Transactional
 	public T findUniqueBy(final String propertyName, final Object value) {
 		Assert.hasText(propertyName, "propertyName不能为空");
 		Criterion criterion = Restrictions.eq(propertyName, value);
