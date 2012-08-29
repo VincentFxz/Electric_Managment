@@ -37,7 +37,7 @@ import org.zju.electric_factory.service.UserManager;
  *
  * <p>Because a Realm is really just a security-specific DAO, we could have just made Hibernate calls directly
  * in the implementation and named it a 'HibernateRealm' or something similar.</p>
- *
+ *currentUserInterceptor
  * <p>But we've decided to make the calls to the database using a UserDAO, since a DAO would be used in other areas
  * of a 'real' application in addition to here. We felt it better to use that same DAO to show code re-use.</p>
  */
@@ -65,7 +65,7 @@ public class SampleRealm extends AuthorizingRealm {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
         User user = userManager.getUserByName(token.getUsername());
         if( user != null ) {
-            return new SimpleAuthenticationInfo(user.getId(), user.getPassword(), getName());
+            return new SimpleAuthenticationInfo(token.getUsername(), user.getPassword(), getName());
         } else {
             return null;
         }
@@ -74,8 +74,8 @@ public class SampleRealm extends AuthorizingRealm {
 
     @Transactional
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        Long userId = (Long) principals.fromRealm(getName()).iterator().next();
-        User user = userManager.getUser(userId);
+        String userName = (String) principals.fromRealm(getName()).iterator().next();
+        User user = userManager.getUserByName(userName);
         user.getEmail();
         if( user != null ) {
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
