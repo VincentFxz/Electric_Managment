@@ -17,8 +17,8 @@ public class UserCompanyLink {
     @Column(name="USER_ID")
     private Long userId;
     
-    @Column(name="PROJECT_ID")
-    private Long projectId;
+    @Column(name="COMPANY_ID")
+    private Long companyId;
 
     public Long getId() {
         return id;
@@ -36,11 +36,12 @@ public class UserCompanyLink {
         this.userId = userId;
     }
 
-    public Long getProjectId() {
-        return projectId;
-    }
+	public Long getCompanyId() {
+		return companyId;
+	}
 
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
-    }
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
+	}
+
 }
