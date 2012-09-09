@@ -5,7 +5,22 @@ public class UserVO {
 	private Long id;
 	private String username;
 	private String email;
+	private String company;
+	private String project;
 	private String roles;
+	
+	public String getCompany() {
+		return company;
+	}
+	public void setCompany(String company) {
+		this.company = company;
+	}
+	public String getProject() {
+		return project;
+	}
+	public void setProject(String project) {
+		this.project = project;
+	}
 	public Long getId() {
 		return id;
 	}
