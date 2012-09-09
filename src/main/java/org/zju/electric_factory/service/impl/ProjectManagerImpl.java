@@ -66,4 +66,69 @@ public class ProjectManagerImpl implements ProjectManager {
         return projectsOwnByCompany;
     }
 
+
+	@Override
+	public List<Project> getProjects() {
+		return projectDAO.getAllProjects();
+	}
+
+	@Override
+	public List<Project> getProjectsAscById() {
+		return projectDAO.getAllByOrder("id", true);
+	}
+
+	@Override
+	public List<Project> getProjectsDescById() {
+		return projectDAO.getAllByOrder("id", false);
+	}
+
+	@Override
+	public List<Project> getProjectsAscByName() {
+		return projectDAO.getAllByOrder("projectName", true);
+	}
+
+	@Override
+	public List<Project> getProjectsDescByName() {
+		return projectDAO.getAllByOrder("projectName", false);
+	}
+
+	@Override
+	public List<Project> getProjectsAscByStartDate() {
+		return projectDAO.getAllByOrder("startDate", true);
+	}
+
+	@Override
+	public List<Project> getProjectsDescByStartDate() {
+		return projectDAO.getAllByOrder("startDate", false);
+	}
+
+	@Override
+	public List<Project> getProjectsAscByEndDate() {
+		return projectDAO.getAllByOrder("endDate", true);
+	}
+
+	@Override
+	public List<Project> getProjectsDescByEndDate() {
+		return projectDAO.getAllByOrder("endDate", false);
+	}
+
+	@Override
+	public void deleteProjectById(String id) {
+		if(null != id){
+			projectDAO.delete(Long.parseLong(id));
+		}
+	}
+
+	@Override
+	public void editProject(Project project) {
+		projectDAO.update(project);
+		
+	}
+
+	@Override
+	public void add(Project project) {
+		projectDAO.add(project);
+		
+	}
+
 }

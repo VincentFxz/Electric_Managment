@@ -2,10 +2,21 @@ package org.zju.electric_factory.service;
 
 import java.util.List;
 
-import org.zju.electric_factory.entity.Ammeter;
 import org.zju.electric_factory.entity.Project;
 
 public interface ProjectManager {
     public List<Project> getProjectsOwnByUser(Long userId);
-    public List<Project> getProjectsOwnByCompany(Long userId);
+    List<Project> getProjectsOwnByCompany(Long companyId);
+	public List<Project> getProjects();
+	public List<Project> getProjectsAscById();
+	public List<Project> getProjectsDescById();
+	public List<Project> getProjectsAscByName();
+	public List<Project> getProjectsDescByName();
+	public List<Project> getProjectsAscByStartDate();
+	public List<Project> getProjectsDescByStartDate();
+	public List<Project> getProjectsAscByEndDate();
+	public List<Project> getProjectsDescByEndDate();
+	public void deleteProjectById(String id);
+	public void editProject(Project project);
+	public void add(Project project);
 }
