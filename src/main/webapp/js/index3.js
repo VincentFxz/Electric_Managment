@@ -18,6 +18,14 @@ var projectPane;
 var construtProjectPane;
 var projectPaneConstruted = false;
 
+var cpPane;
+var construtCPPane;
+var cpPaneConstruted = false;
+
+var paPane;
+var construtPAPane;
+var paPaneConstruted = false;
+
 require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "dojox/grid/EnhancedGrid", "dojo/data/ObjectStore", "dojo/query", "dojo/ready", "dijit/form/TextBox", "dijit/form/Button", "dijit/Menu", "dijit/MenuItem", "dijit/form/ComboButton", "dojo/dom", "dojo/_base/xhr", "dojo/i18n!/dojo-release-1.7.2/dojox/grid/enhanced/nls/zh/Filter.js", "dojox/grid/enhanced/plugins/Search", "dojox/grid/enhanced/plugins/Filter", "dojo/parser", "dijit/layout/TabContainer", "dijit/layout/ContentPane", "dijit/form/DropDownButton", "dijit/TooltipDialog", "dijit/form/TextBox", "dojox/grid/enhanced/plugins/IndirectSelection", "dojox/grid/enhanced/plugins/Printer", "dojo/domReady!"], function(JsonRestStore, Memory, Cache, EnhancedGrid, ObjectStore, query, ready, TextBox, Button, Menu, MenuItem, ComboButton, dom, xhr, i18n) {
 
     ready(function() {
@@ -29,12 +37,16 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
         ammeterRecordPane = dijit.byId("ammeterRecordPane");
         companyPane = dijit.byId("companyPane");
         projectPane = dijit.byId("projectPane");
+        cpPane = dijit.byId("cpPane");
+        paPane = dijit.byId("paPane");
 
         tabContainer.removeChild(userPane);
         tabContainer.removeChild(ammeterPane);
         tabContainer.removeChild(ammeterRecordPane);
         tabContainer.removeChild(companyPane);
         tabContainer.removeChild(projectPane);
+        tabContainer.removeChild(cpPane);
+        tabContainer.removeChild(paPane);
 
         var main_container_width = dojo.style("main_container", "width");
         var ammeter_cell_width = main_container_width * 0.18;
@@ -42,6 +54,234 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
         var user_cell_width = main_container_width * 0.17;
         var company_cell_width = main_container_width * 0.43;
         var project_cell_width = main_container_width * 0.20;
+        var cp_cell_width = main_container_width * 0.20;
+        var pa_cell_width = main_container_width * 0.20;
+
+        construtPAPane = function construtPAPane() {
+            var construtPAGrid = function construtPAGrid() {
+                    paStore = new JsonRestStore({
+                        target: "/pa/list/"
+                    });
+                    paGrid = new EnhancedGrid({
+                        store: paDataStore = paStore,
+                        autoWidth: true,
+                        structure: [{
+                            name: "编号",
+                            field: "id",
+                            width: pa_cell_width * 0.2  + "px",
+                            canSort: true
+                        },{
+                            name: "项目编号",
+                            field: "projectId",
+                            width: pa_cell_width  + "px",
+                            canSort: true
+                        }, {
+                            name: "项目名称",
+                            field: "projectName",
+                            width: pa_cell_width + "px",
+                            editable: true
+                        },{
+                            name: "电表编号",
+                            field: "ammeterId",
+                            width: pa_cell_width + "px",
+                            canSort: true
+                        },{
+                            name: "电表名称",
+                            field: "ammeterName",
+                            width: pa_cell_width + "px",
+                            canSort: true
+                        }],
+                        plugins: {
+                            search: true,
+                            filter: true,
+                            printer: true,
+                            indirectSelection: {
+                                headerSelector: true,
+                                width: "40px",
+                                styles: "text-align: center;"
+                            }
+                        }
+                    }, "pa_grid");
+                    paGrid.startup();
+
+                    //construt add button
+                    var add_pa_btn = new Button({
+                        
+                        label: "新建",
+                        onClick: function() {
+                            var form_content = {
+                                ammeterName: dom.byId("paAmmeterName").value,
+                                projectName: dom.byId("paProjectName").value
+                            };
+                            xhr.post({
+                                form: "add_pa_form",
+                                // read the url: from the action="" of the <form>
+                                timeout: 3000,
+                                // give up after 3 seconds
+                                content: form_content,
+                                handleAs: "json",
+                                load: function(new_pa) {
+                                    console.log(new_pa);
+                                    paDataStore.newItem(new_pa);
+                                    padataStore.save();
+                                }
+                            });
+                        }
+                    }, "add_pa_btn");
+                    add_pa_btn.startup();
+
+                    //construt save button
+                    var pa_save_button = new Button({
+                        label: "保存",
+                        onClick: function() {
+                            paDataStore.save();
+
+                        }
+                    }, "pa_save_button");
+                    pa_save_button.startup();
+
+                    //construt delete button
+                    var pa_delete_button = new Button({
+                        label: "删除",
+                        onClick: function() {
+                            var pa_selected = paGrid.selection.getSelected();
+                            console.log(pa_selected);
+                            if (pa_selected.length) {
+                                for (key in pa_selected) {
+                                    console.log(pa_selected[key]);
+                                    paDataStore.deleteItem(pa_selected[key]);
+                                    paDataStore.save();
+                                }
+                            }
+                        }
+                    }, "pa_delete_button");
+                    pa_delete_button.startup();
+                }
+
+            if (!paPaneConstruted) {
+                if (typeof paPane != "undefined") {
+                    tabContainer.addChild(paPane, 0);
+                    tabContainer.selectChild(paPane);
+                    construtPAGrid();
+                    paPaneConstruted = true;
+                }
+            } else {
+                tabContainer.selectChild(paPane);
+            }
+        };
+
+        construtCPPane = function construtCPPane() {
+            var construtCPGrid = function construtCPGrid() {
+                    cpStore = new JsonRestStore({
+                        target: "/cp/list/"
+                    });
+                    cpGrid = new EnhancedGrid({
+                        store: cpDataStore = cpStore,
+                        autoWidth: true,
+                        structure: [{
+                            name: "编号",
+                            field: "id",
+                            width: cp_cell_width * 0.2  + "px",
+                            canSort: true
+                        },{
+                            name: "项目编号",
+                            field: "projectId",
+                            width: cp_cell_width  + "px",
+                            canSort: true
+                        }, {
+                            name: "项目名称",
+                            field: "projectName",
+                            width: cp_cell_width + "px",
+                            editable: true
+                        },{
+                            name: "公司编号",
+                            field: "companyId",
+                            width: cp_cell_width + "px",
+                            canSort: true
+                        },{
+                            name: "公司名称",
+                            field: "companyName",
+                            width: cp_cell_width + "px",
+                            canSort: true
+                        }],
+                        plugins: {
+                            search: true,
+                            filter: true,
+                            printer: true,
+                            indirectSelection: {
+                                headerSelector: true,
+                                width: "40px",
+                                styles: "text-align: center;"
+                            }
+                        }
+                    }, "cp_grid");
+                    cpGrid.startup();
+
+                    //construt add button
+                    var add_cp_btn = new Button({
+                        
+                        label: "新建",
+                        onClick: function() {
+                            var form_content = {
+                                companyName: dom.byId("cpCompanyName").value,
+                                projectName: dom.byId("cpProjectName").value
+                            };
+                            xhr.post({
+                                form: "add_cp_form",
+                                // read the url: from the action="" of the <form>
+                                timeout: 3000,
+                                // give up after 3 seconds
+                                content: form_content,
+                                handleAs: "json",
+                                load: function(new_cp) {
+                                    console.log(new_cp);
+                                    cpDataStore.newItem(new_cp);
+                                    cpdataStore.save();
+                                }
+                            });
+                        }
+                    }, "add_cp_btn");
+                    add_cp_btn.startup();
+
+                    //construt save button
+                    var cp_save_button = new Button({
+                        label: "保存",
+                        onClick: function() {
+                            cpDataStore.save();
+
+                        }
+                    }, "cp_save_button");
+                    cp_save_button.startup();
+
+                    //construt delete button
+                    var cp_delete_button = new Button({
+                        label: "删除",
+                        onClick: function() {
+                            var cp_selected = cpGrid.selection.getSelected();
+                            console.log(cp_selected);
+                            if (cp_selected.length) {
+                                for (key in cp_selected) {
+                                    console.log(cp_selected[key]);
+                                    cpDataStore.deleteItem(cp_selected[key]);
+                                    cpDataStore.save();
+                                }
+                            }
+                        }
+                    }, "cp_delete_button");
+                    cp_delete_button.startup();
+                }
+
+            if (!cpPaneConstruted) {
+                if (typeof cpPane != "undefined") {
+                    tabContainer.addChild(cpPane, 0);
+                    tabContainer.selectChild(cpPane);
+                    construtCPGrid();
+                    cpPaneConstruted = true;
+                }
+            } else {
+                tabContainer.selectChild(cpPane);
+            }
+        };
 
         construtProjectPane = function construtProjectPane() {
             var construtProjectGrid = function construtProjectGrid() {
@@ -145,7 +385,7 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
             } else {
                 tabContainer.selectChild(projectPane);
             }
-        }
+        };
 
         construtCompanyPane = function construtCompanyPane() {
             var construtCompanyGrid = function construtCompanyGrid() {
@@ -239,9 +479,7 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
             } else {
                 tabContainer.selectChild(companyPane);
             }
-
-
-        }
+        };
 
         construtAmmeterRecordPane = function construtAmmeterRecordPane() {
 
@@ -297,8 +535,7 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
             } else {
                 tabContainer.selectChild(ammeterRecordPane);
             }
-
-        }
+        };
 
 
 
@@ -415,9 +652,7 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
             } else {
                 tabContainer.selectChild(ammeterPane);
             }
-
-
-        }
+        };
 
         construtUserPane = function construtUserPane() {
 
@@ -540,9 +775,7 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
             } else {
                 tabContainer.selectChild(userPane);
             }
-
-
-        }
+        };
 
 
         //construtUserPane();   
@@ -568,4 +801,12 @@ function showCompanyMan() {
 
 function showProjectMan() {
     construtProjectPane();
+}
+
+function showCPMan(){
+    construtCPPane();
+}
+
+function showPAMan(){
+    construtPAPane();
 }

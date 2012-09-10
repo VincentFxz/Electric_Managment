@@ -40,4 +40,9 @@ public class ProjectDAOImpl extends HibernateDAO<Project, Long> implements Proje
 		super.save(project);
 	}
 
+	@Override
+	public Project getByProjectName(String projectName) {
+		return super.findUniqueBy("projectName", projectName);
+	}
+
 }

@@ -29,7 +29,7 @@ public interface AmmeterManager {
      * @param name
      * @return
      */
-    public List<Ammeter> getAmmeterByName(String name);
+    public Ammeter getAmmeterByName(String name);
 
     /**
      * get all ammeter

@@ -68,12 +68,21 @@ public class CompanyManagerImpl implements CompanyManager {
 	@Override
 	public void editCompany(Company company) {
 		companyDAO.update(company);
-		
 	}
 
 	@Override
 	public void add(Company company) {
 		companyDAO.add(company);
+	}
+
+	@Override
+	public Company getById(Long id) {
+		return companyDAO.getCompanyById(id);
+	}
+
+	@Override
+	public Company getCompanyByCompanyName(String companyName) {
+		return companyDAO.getCompanyByName(companyName);
 	}
 	
 }

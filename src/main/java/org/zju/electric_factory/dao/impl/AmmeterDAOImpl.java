@@ -23,8 +23,8 @@ public class AmmeterDAOImpl extends HibernateDAO<Ammeter, Long> implements Ammet
 	/**
 	 * get ammeter by name
 	 */
-	public List<Ammeter> getByName(String name) {
-		return this.findBy("name", name);
+	public Ammeter getByName(String name) {
+		return this.findUniqueBy("name", name);
 	}
 
 	/**

@@ -28,6 +28,13 @@ public class ProjectAmmeterLinkDAOImpl extends HibernateDAO<ProjectAmmeterLink, 
     public List<ProjectAmmeterLink> getAll() {
         return super.getAll();
     }
+
+	@Override
+	public void add(ProjectAmmeterLink projectAmmeterLink) {
+		super.save(projectAmmeterLink);
+		
+	}
+
     
     
 

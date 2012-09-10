@@ -6,6 +6,7 @@ import org.zju.electric_factory.entity.Project;
 
 public interface ProjectManager {
     public List<Project> getProjectsOwnByUser(Long userId);
+    public Project getProjectByProjectName(String projectName);
     List<Project> getProjectsOwnByCompany(Long companyId);
 	public List<Project> getProjects();
 	public List<Project> getProjectsAscById();
@@ -19,4 +20,5 @@ public interface ProjectManager {
 	public void deleteProjectById(String id);
 	public void editProject(Project project);
 	public void add(Project project);
+	public Project getById(Long id);
 }

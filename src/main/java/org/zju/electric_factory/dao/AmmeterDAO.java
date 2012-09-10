@@ -28,7 +28,7 @@ public interface AmmeterDAO {
 	/**
 	 * get ammeter by name
 	 */
-	public List<Ammeter> getByName(String name);
+	public Ammeter getByName(String name);
 	
 	/**
 	 *  upate ammeter

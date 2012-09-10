@@ -131,4 +131,14 @@ public class ProjectManagerImpl implements ProjectManager {
 		
 	}
 
+	@Override
+	public Project getById(Long id) {
+		return projectDAO.getById(id);
+	}
+
+	@Override
+	public Project getProjectByProjectName(String projectName) {
+		return projectDAO.getByProjectName(projectName);
+	}
+
 }

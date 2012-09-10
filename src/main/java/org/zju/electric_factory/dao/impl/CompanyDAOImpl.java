@@ -47,6 +47,11 @@ public class CompanyDAOImpl extends HibernateDAO<Company, Long> implements Compa
 	public void add(Company company) {
 		super.save(company);
 	}
+
+	@Override
+	public Company getCompanyByName(String companyName) {
+		return super.findUniqueBy("companyName", companyName);
+	}
 	
 
 }

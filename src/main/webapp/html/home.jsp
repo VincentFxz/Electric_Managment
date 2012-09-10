@@ -92,8 +92,11 @@
                         <shiro:hasRole name="admin">
                         <li class="nav-header">项目管理</li>
                         <li><a href="#" onclick = "showProjectMan()">项目管理</a></li>
+                        <li><a href="#" onclick = "showPAMan()">项目电表管理</a></li>
                         <li class="nav-header">公司管理</li>
                         <li><a onclick = "showCompanyMan()" href="#">公司管理</a></li>
+                        <li><a onclick = "showCPMan()" href="#">公司项目管理</a></li>
+                        <li><a onclick = "showCompanyMan()" href="#">公司电表管理</a></li>
                         <li class="nav-header">权限管理</li>
                         <li><a href="#" onclick = "showUserMan()">权限管理</a></li>
                         </shiro:hasRole>
@@ -149,6 +152,72 @@
                             
                         </div>
                         <!-- /ammeter pane -->
+
+                        <div id = "cpPane" data-dojo-type="dijit.layout.ContentPane" title="公司项目管理">
+                            <div id = "cp_grid_container" style = "width: 100%;" class = "claro">
+                                <div id="search_var">
+                                    <div data-dojo-type="dijit.form.DropDownButton">
+                                        <span>新建</span>
+                                        <div data-dojo-type="dijit.TooltipDialog" id="new_cp_dialog">
+                                            <form id="add_cp_form" method="post" action="/cp/add">
+                                            <div>
+                                                <strong><label class="add_form_label" for="cpCompanyName">公司名称</label></strong>
+                                                <div data-dojo-type="dijit.form.TextBox" id="cpCompanyName"></div>
+                                            </div>
+                                            <div>
+                                                <strong><label class="add_form_label" for="cpProjectName">项目名称</label></strong>
+                                                <div data-dojo-type="dijit.form.TextBox" id="cpProjectName"></div>
+                                            </div>
+                                            <div>
+                                                <button id="add_cp_btn"></button>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- The Data Grid -->
+                                <div id="cp_grid" class="claro" style="height:400px"></div>
+                                <!-- The Action Bar -->
+                                <div id="modify_bar" class="claro">
+                                    <button id="cp_save_button"></button>
+                                    <button id="cp_delete_button"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /cp pane -->
+
+                        <div id = "paPane" data-dojo-type="dijit.layout.ContentPane" title="项目电表管理">
+                            <div id = "pa_grid_container" style = "width: 100%;" class = "claro">
+                                <div id="search_var">
+                                    <div data-dojo-type="dijit.form.DropDownButton">
+                                        <span>新建</span>
+                                        <div data-dojo-type="dijit.TooltipDialog" id="new_pa_dialog">
+                                            <form id="add_pa_form" method="post" action="/pa/add">
+                                            <div>
+                                                <strong><label class="add_form_label" for="paProjectName">项目名称</label></strong>
+                                                <div data-dojo-type="dijit.form.TextBox" id="paProjectName"></div>
+                                            </div>
+                                            <div>
+                                                <strong><label class="add_form_label" for="paAmmeterName">电表名称</label></strong>
+                                                <div data-dojo-type="dijit.form.TextBox" id="paAmmeterName"></div>
+                                            </div>
+                                            <div>
+                                                <button id="add_pa_btn"></button>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- The Data Grid -->
+                                <div id="pa_grid" class="claro" style="height:400px"></div>
+                                <!-- The Action Bar -->
+                                <div id="modify_bar" class="claro">
+                                    <button id="pa_save_button"></button>
+                                    <button id="pa_delete_button"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /pa pane -->
 
                         <div id = "userPane" data-dojo-type="dijit.layout.ContentPane" title = "用户管理">
                             <div id="search_var">

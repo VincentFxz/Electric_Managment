@@ -43,7 +43,7 @@ public class AmmeterManagerImpl implements AmmeterManager{
 		return ammeterDAO.get(id);
 	}
 
-	public List<Ammeter> getAmmeterByName(String name) {
+	public Ammeter getAmmeterByName(String name) {
 		return ammeterDAO.getByName(name);
 	}
 

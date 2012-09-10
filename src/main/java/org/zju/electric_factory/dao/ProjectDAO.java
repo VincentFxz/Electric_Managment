@@ -6,6 +6,7 @@ import org.zju.electric_factory.entity.Project;
 
 public interface ProjectDAO {
     public Project getById(Long projectId);
+    public Project getByProjectName(String projectName);
     
     public List<Project> getAllProjects();
 	public List<Project> getAllByOrder(String columnToSort, boolean isAsc);

@@ -8,6 +8,8 @@ import org.zju.electric_factory.entity.Company;
 public interface CompanyDAO {
 	public List<Company> getAllCompanies();
 	public Company getCompanyById(Long id);
+	public Company getCompanyByName(String companyName);
+	
 	public List<Company> getAllByOrder(String columnToSort, boolean isAsc);
 	/**
 	 * delete
