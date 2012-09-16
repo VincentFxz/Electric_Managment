@@ -26,7 +26,11 @@ var paPane;
 var construtPAPane;
 var paPaneConstruted = false;
 
-require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "dojox/grid/EnhancedGrid", "dojo/data/ObjectStore", "dojo/query", "dojo/ready", "dijit/form/TextBox", "dijit/form/Button", "dijit/Menu", "dijit/MenuItem", "dijit/form/ComboButton", "dojo/dom", "dojo/_base/xhr", "dojo/i18n!/dojo-release-1.7.2/dojox/grid/enhanced/nls/zh/Filter.js", "dojox/grid/enhanced/plugins/Search", "dojox/grid/enhanced/plugins/Filter", "dojo/parser", "dijit/layout/TabContainer", "dijit/layout/ContentPane", "dijit/form/DropDownButton", "dijit/TooltipDialog", "dijit/form/TextBox", "dojox/grid/enhanced/plugins/IndirectSelection", "dojox/grid/enhanced/plugins/Printer", "dojo/domReady!"], function(JsonRestStore, Memory, Cache, EnhancedGrid, ObjectStore, query, ready, TextBox, Button, Menu, MenuItem, ComboButton, dom, xhr, i18n) {
+var upPane;
+var constructUPPane;
+var upPaneConstruted = false;
+
+require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "dojox/grid/EnhancedGrid", "dojo/data/ObjectStore", "dojo/query", "dojo/ready", "dijit/form/TextBox", "dijit/form/Button", "dijit/Menu", "dijit/MenuItem", "dijit/form/ComboButton", "dijit/form/ComboBox", "dojo/dom", "dojo/_base/xhr", "dojo/i18n!/dojo-release-1.7.2/dojox/grid/enhanced/nls/zh/Filter.js", "dojox/grid/enhanced/plugins/Search", "dojox/grid/enhanced/plugins/Filter", "dojo/parser", "dijit/layout/TabContainer", "dijit/layout/ContentPane", "dijit/form/DropDownButton", "dijit/TooltipDialog", "dijit/form/TextBox", "dojox/grid/enhanced/plugins/IndirectSelection", "dojox/grid/enhanced/plugins/Printer", "dojo/domReady!"], function(JsonRestStore, Memory, Cache, EnhancedGrid, ObjectStore, query, ready, TextBox, Button, Menu, MenuItem, ComboButton, ComboBox, dom, xhr, i18n) {
 
     ready(function() {
         //hidden the user ContentPane
@@ -39,6 +43,7 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
         projectPane = dijit.byId("projectPane");
         cpPane = dijit.byId("cpPane");
         paPane = dijit.byId("paPane");
+        upPane = dijit.byId("upPane");
 
         tabContainer.removeChild(userPane);
         tabContainer.removeChild(ammeterPane);
@@ -47,6 +52,8 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
         tabContainer.removeChild(projectPane);
         tabContainer.removeChild(cpPane);
         tabContainer.removeChild(paPane);
+        tabContainer.removeChild(upPane);
+
 
         var main_container_width = dojo.style("main_container", "width");
         var ammeter_cell_width = main_container_width * 0.18;
@@ -56,6 +63,147 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
         var project_cell_width = main_container_width * 0.20;
         var cp_cell_width = main_container_width * 0.20;
         var pa_cell_width = main_container_width * 0.20;
+        var up_cell_width = main_container_width * 0.20;
+
+
+        construtUPPane = function construtUPPane() {
+            var construtUPGrid = function construtUPGrid() {
+                    upStore = new JsonRestStore({
+                        target: "/up/list/"
+                    });
+                    upGrid = new EnhancedGrid({
+                        store: upDataStore = upStore,
+                        autoWidth: true,
+                        structure: [{
+                            name: "编号",
+                            field: "id",
+                            width: up_cell_width * 0.2 + "px",
+                            canSort: true
+                        }, {
+                            name: "项目编号",
+                            field: "projectId",
+                            width: up_cell_width + "px",
+                            canSort: true
+                        }, {
+                            name: "项目名称",
+                            field: "projectName",
+                            width: up_cell_width + "px",
+                            editable: true
+                        }, {
+                            name: "用户编号",
+                            field: "userId",
+                            width: up_cell_width + "px",
+                            canSort: true
+                        }, {
+                            name: "用户名称",
+                            field: "userName",
+                            width: up_cell_width + "px",
+                            canSort: true
+                        }],
+                        plugins: {
+                            search: true,
+                            filter: true,
+                            printer: true,
+                            indirectSelection: {
+                                headerSelector: true,
+                                width: "40px",
+                                styles: "text-align: center;"
+                            }
+                        }
+                    }, "up_grid");
+                    upGrid.startup();
+
+                    //construt add button
+                    var add_up_btn = new Button({
+
+                        label: "新建",
+                        onClick: function() {
+                            var form_content = {
+                                userName: dijit.byId("userForUPCombo").get("value"),
+                                projectName: dijit.byId("projectForUPCombo").get("value")
+                            };
+                            xhr.post({
+                                form: "add_up_form",
+                                // read the url: from the action="" of the <form>
+                                timeout: 3000,
+                                // give up after 3 seconds
+                                content: form_content,
+                                handleAs: "json",
+                                load: function(new_up) {
+                                    upDataStore.newItem(new_up);
+                                    updataStore.save();
+                                }
+                            });
+                        }
+                    }, "add_up_btn");
+                    add_up_btn.startup();
+
+                    //construt save button
+                    var up_save_button = new Button({
+                        label: "保存",
+                        onClick: function() {
+                            upDataStore.save();
+
+                        }
+                    }, "up_save_button");
+                    up_save_button.startup();
+
+                    //construt delete button
+                    var up_delete_button = new Button({
+                        label: "删除",
+                        onClick: function() {
+                            var up_selected = upGrid.selection.getSelected();
+                            if (up_selected.length) {
+                                for (key in up_selected) {
+                                    upDataStore.deleteItem(up_selected[key]);
+                                    upDataStore.save();
+                                }
+                            }
+                        }
+                    }, "up_delete_button");
+                    up_delete_button.startup();
+                }
+
+            var constructUserProjectForUPCombo = function constructUserProjectForUPCombo() {
+
+                    projectForUPStore = new JsonRestStore({
+                        target: "/project/list/"
+                    });
+
+                    userForUPStore = new JsonRestStore({
+                        target: "/user/list/"
+                    });
+                    
+                    var projectForUPCombo = new ComboBox({
+                        id: "projectForUPCombo",
+                        name: "project",
+                        value: "",
+                        store: projectForUPStore,
+                        searchAttr: "projectName"
+                    }, "projectForUPCombo");
+
+                    var userForUPCombo = new ComboBox({
+                        id: "userForUPCombo",
+                        name: "user",
+                        value: "",
+                        store: userForUPStore,
+                        searchAttr: "username"
+                    }, "userForUPCombo");
+                };
+
+            if (!upPaneConstruted) {
+                if (typeof upPane != "undefined") {
+                    tabContainer.addChild(upPane, 0);
+                    tabContainer.selectChild(upPane);
+                    construtUPGrid();
+                    constructUserProjectForUPCombo();
+                    upPaneConstruted = true;
+                }
+            } else {
+                tabContainer.selectChild(upPane);
+            }
+        };
+
 
         construtPAPane = function construtPAPane() {
             var construtPAGrid = function construtPAGrid() {
@@ -68,24 +216,24 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                         structure: [{
                             name: "编号",
                             field: "id",
-                            width: pa_cell_width * 0.2  + "px",
+                            width: pa_cell_width * 0.2 + "px",
                             canSort: true
-                        },{
+                        }, {
                             name: "项目编号",
                             field: "projectId",
-                            width: pa_cell_width  + "px",
+                            width: pa_cell_width + "px",
                             canSort: true
                         }, {
                             name: "项目名称",
                             field: "projectName",
                             width: pa_cell_width + "px",
                             editable: true
-                        },{
+                        }, {
                             name: "电表编号",
                             field: "ammeterId",
                             width: pa_cell_width + "px",
                             canSort: true
-                        },{
+                        }, {
                             name: "电表名称",
                             field: "ammeterName",
                             width: pa_cell_width + "px",
@@ -106,12 +254,12 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
 
                     //construt add button
                     var add_pa_btn = new Button({
-                        
+
                         label: "新建",
                         onClick: function() {
                             var form_content = {
-                                ammeterName: dom.byId("paAmmeterName").value,
-                                projectName: dom.byId("paProjectName").value
+                                ammeterName: dijit.byId("ammeterForPACombo").get("value"),
+                                projectName: dijit.byId("projectForPACombo").get("value")
                             };
                             xhr.post({
                                 form: "add_pa_form",
@@ -121,7 +269,6 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                                 content: form_content,
                                 handleAs: "json",
                                 load: function(new_pa) {
-                                    console.log(new_pa);
                                     paDataStore.newItem(new_pa);
                                     padataStore.save();
                                 }
@@ -145,10 +292,8 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                         label: "删除",
                         onClick: function() {
                             var pa_selected = paGrid.selection.getSelected();
-                            console.log(pa_selected);
                             if (pa_selected.length) {
                                 for (key in pa_selected) {
-                                    console.log(pa_selected[key]);
                                     paDataStore.deleteItem(pa_selected[key]);
                                     paDataStore.save();
                                 }
@@ -158,11 +303,39 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                     pa_delete_button.startup();
                 }
 
+            var constructProjectAmmeterForPACombo = function constructProjectAmmeterForPACombo() {
+
+                    projectForPAStore = new JsonRestStore({
+                        target: "/project/list/"
+                    });
+
+                    ammeterForPAStore = new JsonRestStore({
+                        target: "/ammeter/list/"
+                    });
+                    
+                    var projectForAmmeterCombo = new ComboBox({
+                        id: "projectForPACombo",
+                        name: "project",
+                        value: "",
+                        store: projectForPAStore,
+                        searchAttr: "projectName"
+                    }, "projectForPACombo");
+
+                    var companyForAmmeterCombo = new ComboBox({
+                        id: "ammeterForPACombo",
+                        name: "company",
+                        value: "",
+                        store: ammeterForPAStore,
+                        searchAttr: "name"
+                    }, "ammeterForPACombo");
+                };
+
             if (!paPaneConstruted) {
                 if (typeof paPane != "undefined") {
                     tabContainer.addChild(paPane, 0);
                     tabContainer.selectChild(paPane);
                     construtPAGrid();
+                    constructProjectAmmeterForPACombo();
                     paPaneConstruted = true;
                 }
             } else {
@@ -181,24 +354,24 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                         structure: [{
                             name: "编号",
                             field: "id",
-                            width: cp_cell_width * 0.2  + "px",
+                            width: cp_cell_width * 0.2 + "px",
                             canSort: true
-                        },{
+                        }, {
                             name: "项目编号",
                             field: "projectId",
-                            width: cp_cell_width  + "px",
+                            width: cp_cell_width + "px",
                             canSort: true
                         }, {
                             name: "项目名称",
                             field: "projectName",
                             width: cp_cell_width + "px",
                             editable: true
-                        },{
+                        }, {
                             name: "公司编号",
                             field: "companyId",
                             width: cp_cell_width + "px",
                             canSort: true
-                        },{
+                        }, {
                             name: "公司名称",
                             field: "companyName",
                             width: cp_cell_width + "px",
@@ -219,12 +392,14 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
 
                     //construt add button
                     var add_cp_btn = new Button({
-                        
+
                         label: "新建",
                         onClick: function() {
+                            console.log(dijit.byId("companyForCP").get("value"));
+                            var valueCompanyForCP = dijit.byId("companyForCP").get("value");
                             var form_content = {
-                                companyName: dom.byId("cpCompanyName").value,
-                                projectName: dom.byId("cpProjectName").value
+                                companyName: dijit.byId("companyForCP").get("value"),
+                                projectName: dijit.byId("projectForCP").get("value")
                             };
                             xhr.post({
                                 form: "add_cp_form",
@@ -271,11 +446,41 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                     cp_delete_button.startup();
                 }
 
+            var constructProjectCompanyForCPCombo = function constructProjectCompanyForCPCombo() {
+
+                    console.log("start combo");
+
+                    companyForCPStoreForCP = new JsonRestStore({
+                        target: "/company/list/"
+                    });
+
+                    projectForCPStoreForCP = new JsonRestStore({
+                        target: "/project/list/"
+                    });
+                    
+                    var projectForCPCombo = new ComboBox({
+                        id: "projectForCP",
+                        name: "project",
+                        value: "",
+                        store: projectForCPStoreForCP,
+                        searchAttr: "projectName"
+                    }, "projectForCP");
+
+                    var companyForCPCombo = new ComboBox({
+                        id: "companyForCP",
+                        name: "company",
+                        value: "",
+                        store: companyForCPStoreForCP,
+                        searchAttr: "companyName"
+                    }, "companyForCP");
+                };
+
             if (!cpPaneConstruted) {
                 if (typeof cpPane != "undefined") {
                     tabContainer.addChild(cpPane, 0);
                     tabContainer.selectChild(cpPane);
                     construtCPGrid();
+                    constructProjectCompanyForCPCombo();
                     cpPaneConstruted = true;
                 }
             } else {
@@ -294,19 +499,19 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                         structure: [{
                             name: "项目编号",
                             field: "id",
-                            width: project_cell_width  + "px",
+                            width: project_cell_width + "px",
                             canSort: true
                         }, {
                             name: "项目名称",
                             field: "projectName",
                             width: project_cell_width + "px",
                             editable: true
-                        },{
+                        }, {
                             name: "项目开始日期",
                             field: "startDate",
                             width: project_cell_width + "px",
                             canSort: true
-                        },{
+                        }, {
                             name: "项目结束日期",
                             field: "endDate",
                             width: project_cell_width + "px",
@@ -327,7 +532,7 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
 
                     //construt add button
                     var add_project_btn = new Button({
-                        
+
                         label: "新建",
                         onClick: function() {
                             var form_content = {
@@ -398,7 +603,7 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                         structure: [{
                             name: "公司编号",
                             field: "id",
-                            width: company_cell_width  + "px",
+                            width: company_cell_width + "px",
                             canSort: true
                         }, {
                             name: "公司名称",
@@ -421,7 +626,7 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
 
                     //construt add button
                     var add_company_btn = new Button({
-                        
+
                         label: "新建",
                         onClick: function() {
                             var form_content = {
@@ -525,6 +730,8 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                     ammeterRecordGrid.startup();
                 }
 
+            
+
             if (!ammeterRecordPaneConstruted) {
                 if (typeof ammeterRecordPane != "undefined") {
                     tabContainer.addChild(ammeterRecordPane, 0);
@@ -593,8 +800,8 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                         onClick: function() {
                             var form_content = {
                                 name: dom.byId("name").value,
-                                companyName: dom.byId("companyName").value,
-                                projectName: dom.byId("projectName").value,
+                                companyName: dijit.byId("companyForAmmeter").get("value"),
+                                projectName: dijit.byId("projectForAmmeter").get("value"),
                                 pumpName: dom.byId("pumpName").value,
                             };
                             xhr.post({
@@ -629,11 +836,10 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                         label: "删除",
                         onClick: function() {
                             console.log("delete");
-                            var ammeters_selected = ammeterGrid.selection.getSelected();
-                            if (ammeters_selected.length) {
-                                for (key in ammeters_selected) {
-                                    console.log(ammeters_selected[key]);
-                                    dataStore.deleteItem(ammeters_selected[key]);
+                            var user_selected = ammeterGrid.selection.getSelected();
+                            if (user_selected.length) {
+                                for (key in user_selected) {
+                                    dataStore.deleteItem(user_selected[key]);
                                     dataStore.save();
                                 }
                             }
@@ -642,10 +848,42 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                     delete_button.startup();
                 }
 
+            var constructProjectCompanyForAmmeterCombo = function constructProjectCompanyForAmmeterCombo() {
+
+                    console.log("start combo");
+
+                    companyForAmmeterStore = new JsonRestStore({
+                        target: "/company/list/"
+                    });
+
+                    projectForAmmeterStore = new JsonRestStore({
+                        target: "/project/list/"
+                    });
+                    
+                    var projectForAmmeterCombo = new ComboBox({
+                        id: "projectForAmmeter",
+                        name: "project",
+                        value: "",
+                        store: projectForAmmeterStore,
+                        searchAttr: "projectName"
+                    }, "projectForAmmeter");
+
+                    var companyForAmmeterCombo = new ComboBox({
+                        id: "companyForAmmeter",
+                        name: "company",
+                        value: "",
+                        store: companyForAmmeterStore,
+                        searchAttr: "companyName"
+                    }, "companyForAmmeter");
+                };    
+
+            
+
             if (!ammeterPaneConstruted) {
                 if (typeof ammeterPane != "undefined") {
                     tabContainer.addChild(ammeterPane);
                     tabContainer.selectChild(ammeterPane);
+                    constructProjectCompanyForAmmeterCombo();
                     construtAmmeterGrid();
                     ammeterPaneConstruted = true;
                 }
@@ -751,11 +989,11 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                     var delete_button = new Button({
                         label: "删除",
                         onClick: function() {
-                            var ammeters_selected = ammeterGrid.selection.getSelected();
-                            if (ammeters_selected.length) {
-                                for (key in ammeters_selected) {
-                                    console.log(ammeters_selected[key]);
-                                    userDataStore.deleteItem(ammeters_selected[key]);
+                            var user_selected = userGrid.selection.getSelected();
+                            if (user_selected.length) {
+                                for (key in user_selected) {
+                                    console.log(user_selected[key]);
+                                    userDataStore.deleteItem(user_selected[key]);
                                     userDataStore.save();
                                 }
                             }
@@ -764,12 +1002,40 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                     delete_button.startup();
                 }
 
+            var constructProjectCompanyForUserCombo = function constructProjectCompanyForUserCombo() {
+
+                    companyForUserStore = new JsonRestStore({
+                        target: "/company/list/"
+                    });
+
+                    projectForUserStore = new JsonRestStore({
+                        target: "/project/list/"
+                    });
+                    
+                    var projectForUserCombo = new ComboBox({
+                        id: "projectForUser",
+                        name: "project",
+                        value: "",
+                        store: projectForUserStore,
+                        searchAttr: "projectName"
+                    }, "projectForUser");
+
+                    var companyForAmmeterCombo = new ComboBox({
+                        id: "companyForUser",
+                        name: "company",
+                        value: "",
+                        store: companyForUserStore,
+                        searchAttr: "companyName"
+                    }, "companyForUser");
+                };  
+
             if (!userPaneConstruted) {
                 if (typeof userPane != "undefined") {
-
+                    console.log("start con");
                     tabContainer.addChild(userPane, 0);
                     tabContainer.selectChild(userPane);
                     construtUserGrid();
+                    constructProjectCompanyForUserCombo();
                     userPaneConstruted = true;
                 }
             } else {
@@ -803,10 +1069,18 @@ function showProjectMan() {
     construtProjectPane();
 }
 
-function showCPMan(){
+function showCPMan() {
     construtCPPane();
 }
 
-function showPAMan(){
+function showPAMan() {
     construtPAPane();
+}
+
+function showUPMan() {
+    construtProjectPane();
+}
+
+function showPUMan(){
+    construtUPPane();
 }

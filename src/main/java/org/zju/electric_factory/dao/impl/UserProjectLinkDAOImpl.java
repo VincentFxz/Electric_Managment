@@ -29,4 +29,18 @@ public class UserProjectLinkDAOImpl extends HibernateDAO<UserProjectLink, Long> 
         return super.getAll();
     }
 
+	@Override
+	public void add(UserProjectLink userProjectLink) {
+		super.save(userProjectLink);
+		
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		super.delete(id);
+		
+	}
+	
+	
+
 }

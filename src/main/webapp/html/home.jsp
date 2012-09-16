@@ -72,9 +72,6 @@
                         <li><a href="#">Sign Out</a></li>
                     </ul>
                 </div>
-                
-                
-                
             </div><!-- /.nav-collapse -->
           </div>
         </div><!-- /navbar-inner -->
@@ -84,6 +81,9 @@
             <div class="span3">
                 <div class="well sidebar-nav">
                     <ul class="nav nav-list">
+                        <li class="nav-header">个人管理</li>
+                        <li><a onclick = "showUPMan()" href="#">我的项目</a></li>
+                        <li><a onclick = "showAmmeterMan()" href="#">我的电表</a></li>
                         <li class="nav-header">电表管理</li>
                         <shiro:hasRole name="admin">  
                         <li class="active"><a onclick = "showAmmeterMan()" href="#">电表管理</a></li>
@@ -93,6 +93,7 @@
                         <li class="nav-header">项目管理</li>
                         <li><a href="#" onclick = "showProjectMan()">项目管理</a></li>
                         <li><a href="#" onclick = "showPAMan()">项目电表管理</a></li>
+                        <li><a href="#" onclick = "showPUMan()">项目用户管理</a></li>
                         <li class="nav-header">公司管理</li>
                         <li><a onclick = "showCompanyMan()" href="#">公司管理</a></li>
                         <li><a onclick = "showCPMan()" href="#">公司项目管理</a></li>
@@ -112,34 +113,35 @@
                         
                         <div id = "ammeterPane" data-dojo-type="dijit.layout.ContentPane" title="电表管理">
                             <div id = "ammeter_grid_container" style = "width: 100%;" class = "claro">
-                                <div id="search_var">
-                                    <div data-dojo-type="dijit.form.DropDownButton">
-                                        <span>新建</span>
-                                        <div data-dojo-type="dijit.TooltipDialog" id="new_ammeter_dialog">
-                                            <form id="add_ammeter_form" method="post" action="/ammeter/list">
-                                            <div>
-                                                <strong><label class="add_form_label" for="name">电表名称</label></strong>
-                                                <div data-dojo-type="dijit.form.TextBox" id="name"></div>
-                                            </div>
-                                            <div>
-                                                <strong><label class="add_form_label" for="pumpName">泵名称</label></strong>
-                                                <div data-dojo-type="dijit.form.TextBox" id="pumpName"></div>
-                                            </div>
-                                            <div>
-                                                <strong><label class="add_form_label" for="companyName">公司名称</label></strong>
-                                                <div data-dojo-type="dijit.form.TextBox" id="companyName"></div>
-                                            </div>
-                                            <div>
-                                                <strong><label class="add_form_label" for="projectName">项目名称</label></strong>
-                                                <div data-dojo-type="dijit.form.TextBox" id="projectName"></div>
-                                            </div>
-                                            <div>
-                                                <button id="add_ammeter_btn"></button>
-                                            </div>
-                                            </form>
+                               <shiro:hasRole name="admin">
+                                <div data-dojo-type="dijit.form.DropDownButton">
+                                    <span>新建</span>
+                                    <div data-dojo-type="dijit.TooltipDialog" id="new_ammeter_dialog">
+                                        <form id="add_ammeter_form" method="post" action="/ammeter/list">
+                                        <div>
+                                            <strong><label class="add_form_label" for="name">电表名称</label></strong>
+                                            <div data-dojo-type="dijit.form.TextBox" id="name"></div>
                                         </div>
+                                        <div>
+                                            <strong><label class="add_form_label" for="pumpName">泵名称</label></strong>
+                                            <div data-dojo-type="dijit.form.TextBox" id="pumpName"></div>
+                                        </div>
+                                        <div>
+                                            <strong><label class="add_form_label" for="companyName">公司名称</label></strong>
+                                            <input id = "companyForAmmeter" />
+                                        </div>
+                                        <div>
+                                            <strong><label class="add_form_label" for="projectName">项目名称</label></strong>
+                                            <input id = "projectForAmmeter" />
+                                            <!--<div data-dojo-type="dijit.form.TextBox" id="projectName"></div>-->
+                                        </div>
+                                        <div>
+                                            <button id="add_ammeter_btn"></button>
+                                        </div>
+                                        </form>
                                     </div>
                                 </div>
+                                </shiro:hasRole>
                                 <!-- The Data Grid -->
                                 <div id="ammeter_grid" class="claro" style="height:400px"></div>
                                 <!-- The Action Bar -->
@@ -162,11 +164,11 @@
                                             <form id="add_cp_form" method="post" action="/cp/add">
                                             <div>
                                                 <strong><label class="add_form_label" for="cpCompanyName">公司名称</label></strong>
-                                                <div data-dojo-type="dijit.form.TextBox" id="cpCompanyName"></div>
+                                                <input id = "companyForCP" />
                                             </div>
                                             <div>
                                                 <strong><label class="add_form_label" for="cpProjectName">项目名称</label></strong>
-                                                <div data-dojo-type="dijit.form.TextBox" id="cpProjectName"></div>
+                                                <input id = "projectForCP" />
                                             </div>
                                             <div>
                                                 <button id="add_cp_btn"></button>
@@ -188,18 +190,18 @@
 
                         <div id = "paPane" data-dojo-type="dijit.layout.ContentPane" title="项目电表管理">
                             <div id = "pa_grid_container" style = "width: 100%;" class = "claro">
-                                <div id="search_var">
+                                <shiro:hasRole name="admin">
                                     <div data-dojo-type="dijit.form.DropDownButton">
                                         <span>新建</span>
                                         <div data-dojo-type="dijit.TooltipDialog" id="new_pa_dialog">
                                             <form id="add_pa_form" method="post" action="/pa/add">
                                             <div>
                                                 <strong><label class="add_form_label" for="paProjectName">项目名称</label></strong>
-                                                <div data-dojo-type="dijit.form.TextBox" id="paProjectName"></div>
+                                                <input id="projectForPACombo" />
                                             </div>
                                             <div>
                                                 <strong><label class="add_form_label" for="paAmmeterName">电表名称</label></strong>
-                                                <div data-dojo-type="dijit.form.TextBox" id="paAmmeterName"></div>
+                                                <input id="ammeterForPACombo" />
                                             </div>
                                             <div>
                                                 <button id="add_pa_btn"></button>
@@ -207,7 +209,7 @@
                                             </form>
                                         </div>
                                     </div>
-                                </div>
+                                </shiro:hasRole>    
                                 <!-- The Data Grid -->
                                 <div id="pa_grid" class="claro" style="height:400px"></div>
                                 <!-- The Action Bar -->
@@ -218,6 +220,39 @@
                             </div>
                         </div>
                         <!-- /pa pane -->
+
+                        <div id = "upPane" data-dojo-type="dijit.layout.ContentPane" title="项目电表管理">
+                            <div id = "up_grid_container" style = "width: 100%;" class = "claro">
+                                <shiro:hasRole name="admin">
+                                    <div data-dojo-type="dijit.form.DropDownButton">
+                                        <span>新建</span>
+                                        <div data-dojo-type="dijit.TooltipDialog" id="new_up_dialog">
+                                            <form id="add_up_form" method="post" action="/up/add">
+                                            <div>
+                                                <strong><label class="add_form_label" for="upProjectName">项目名称</label></strong>
+                                                <input id="projectForUPCombo" />
+                                            </div>
+                                            <div>
+                                                <strong><label class="add_form_label" for="upAmmeterName">用户名称</label></strong>
+                                                <input id="userForUPCombo" />
+                                            </div>
+                                            <div>
+                                                <button id="add_up_btn"></button>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </shiro:hasRole>    
+                                <!-- The Data Grid -->
+                                <div id="up_grid" class="claro" style="height:400px"></div>
+                                <!-- The Action Bar -->
+                                <div id="modify_bar" class="claro">
+                                    <button id="up_save_button"></button>
+                                    <button id="up_delete_button"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /up upne -->
 
                         <div id = "userPane" data-dojo-type="dijit.layout.ContentPane" title = "用户管理">
                             <div id="search_var">
@@ -238,6 +273,14 @@
                                             <div data-dojo-type="dijit.form.TextBox" id="password"></div>
                                         </div>
                                         <div>
+                                            <strong><label class="add_form_label" for="companyForUser">公司</label></strong>
+                                            <input id = "companyForUser" />
+                                        </div>
+                                        <div>
+                                            <strong><label class="add_form_label" for="projectForUser">项目</label></strong>
+                                            <input id = "projectForUser" />
+                                        </div>
+                                        <div>
                                             <button id="add_user_btn"></button>
                                         </div>
                                         </form>
@@ -255,60 +298,62 @@
                         <!--/user pane-->
 
                         <div id = "companyPane" data-dojo-type="dijit.layout.ContentPane" title = "公司管理">
-                            <div id="search_var">
-                                <div data-dojo-type="dijit.form.DropDownButton">
-                                    <span>新建</span>
-                                    <div data-dojo-type="dijit.TooltipDialog" id="new_company_dialog">
-                                        
-                                        <form id="add_company_form" method="post" action="/company/add">
-                                            <div>
-                                                <strong><label class="add_form_label" for="addCompanyName">公司名称</label></strong>
-                                                <div data-dojo-type="dijit.form.TextBox" id="addCompanyName"></div>
-                                            </div>
-                                            <div>
-                                                <button id="add_company_btn"></button>
-                                            </div>
-                                        </form>
-                                    </div>
+                            <shiro:hasRole name="admin">
+                            <div data-dojo-type="dijit.form.DropDownButton">
+                                <span>新建</span>
+                                <div data-dojo-type="dijit.TooltipDialog" id="new_company_dialog">
+                                    
+                                    <form id="add_company_form" method="post" action="/company/add">
+                                        <div>
+                                            <strong><label class="add_form_label" for="addCompanyName">公司名称</label></strong>
+                                            <div data-dojo-type="dijit.form.TextBox" id="addCompanyName"></div>
+                                        </div>
+                                        <div>
+                                            <button id="add_company_btn"></button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <!-- The Data Grid -->
-                                <div id="company_grid" class="claro" style="height:400px"></div>
-                                <!-- The Action Bar -->
-                                <div id="company_modify_bar" class="claro">
-                                    <button id="company_save_button"></button>
-                                    <button id="company_delete_button"></button>
-                                </div>
+                            </div>
+                            </shiro:hasRole>
+                            <!-- The Data Grid -->
+                            <div id="company_grid" class="claro" style="height:400px"></div>
+                            <!-- The Action Bar -->
+                            <div id="company_modify_bar" class="claro">
+                                <button id="company_save_button"></button>
+                                <button id="company_delete_button"></button>
                             </div>
                         </div>    
                         <!--/company pane-->
 
                         <div id = "projectPane" data-dojo-type="dijit.layout.ContentPane" title = "项目管理">
-                            <div id="search_var">
-                                <div data-dojo-type="dijit.form.DropDownButton">
-                                    <span>新建</span>
-                                    <div data-dojo-type="dijit.TooltipDialog" id="new_project_dialog">
-                                        
-                                        <form id="add_project_form" method="post" action="/project/add">
-                                            <div>
-                                                <strong><label class="add_form_label" for="addProjectName">项目名称</label></strong>
-                                                <div data-dojo-type="dijit.form.TextBox" id="addProjectName"></div>
-                                            </div>
-                                            <div>
-                                                <button id="add_project_btn"></button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <!-- The Data Grid -->
-                                <div id="project_grid" class="claro" style="height:400px"></div>
-                                <!-- The Action Bar -->
-                                <div id="project_modify_bar" class="claro">
-                                    <button id="project_save_button"></button>
-                                    <button id="project_delete_button"></button>
+                            <shiro:hasRole name="admin">
+                            <div data-dojo-type="dijit.form.DropDownButton">
+                                <span>新建</span>
+                                <div data-dojo-type="dijit.TooltipDialog" id="new_project_dialog">
+                                    
+                                    <form id="add_project_form" method="post" action="/project/add">
+                                        <div>
+                                            <strong><label class="add_form_label" for="addProjectName">项目名称</label></strong>
+                                            <div data-dojo-type="dijit.form.TextBox" id="addProjectName"></div>
+                                        </div>
+                                        <div>
+                                            <button id="add_project_btn"></button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
+                            <!-- The Data Grid -->
+                            <div id="project_grid" class="claro" style="height:400px"></div>
+                            <!-- The Action Bar -->
+                            <div id="project_modify_bar" class="claro">
+                                <button id="project_save_button"></button>
+                                <button id="project_delete_button"></button>
+                            </div>
+                        </shiro:hasRole>
                         </div> 
                         <!--project Pane-->
+
+                        
 
                     </div>
                 </div>

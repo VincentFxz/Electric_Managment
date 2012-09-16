@@ -10,4 +10,6 @@ public interface UserProjectLinkDAO {
     public List<UserProjectLink> getByProjectId(Long projectId);
     public UserProjectLink getById(Long id);
     public List<UserProjectLink> getAll();
+    public void add(UserProjectLink userProjectLink);
+	public void deleteById(Long id);
 }

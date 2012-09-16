@@ -18,9 +18,13 @@ import org.zju.electric_factory.entity.Company;
 import org.zju.electric_factory.entity.Project;
 import org.zju.electric_factory.entity.Role;
 import org.zju.electric_factory.entity.User;
+import org.zju.electric_factory.entity.UserCompanyLink;
+import org.zju.electric_factory.entity.UserProjectLink;
 import org.zju.electric_factory.service.CompanyManager;
 import org.zju.electric_factory.service.ProjectManager;
+import org.zju.electric_factory.service.UserCompanyLinkManager;
 import org.zju.electric_factory.service.UserManager;
+import org.zju.electric_factory.service.UserProjectLinkManager;
 import org.zju.electric_factory.vo.UserVO;
 
 @Controller
@@ -34,6 +38,10 @@ public class UserController {
 	private CompanyManager companyManager;
 	@Autowired
 	private ProjectManager projectManager;
+	@Autowired
+	private UserProjectLinkManager userProjectLinkManager;
+	@Autowired
+	private UserCompanyLinkManager userCompanyLinkManager;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/list", headers = "Accept=application/json")
 	public @ResponseBody List<UserVO> getUsers() {
@@ -82,9 +90,39 @@ public class UserController {
     }
 	
 	@RequestMapping(method=RequestMethod.POST,value="/add",headers="Accept=application/json")
-    public @ResponseBody User addUser(User user){
+    public @ResponseBody UserVO addUser(UserVO userVO,String password){
+		User user = new User();
+		user.setEmail(userVO.getEmail());
+		user.setUsername(userVO.getUsername());
+		user.setPassword(password);
 		userManager.createUser(user);
-		return user;
+		if(null != userVO.getProject()){
+			Project project = projectManager.getProjectByProjectName(userVO.getProject());
+			UserProjectLink userProjectLink = new UserProjectLink();
+			userProjectLink.setProjectId(project.getId());
+			userProjectLink.setUserId(user.getId());
+			userProjectLinkManager.add(userProjectLink);
+		}
+		
+		if(null != userVO.getCompany()){
+			Company company = companyManager.getCompanyByCompanyName(userVO.getCompany());
+			UserCompanyLink userCompanyLink = new UserCompanyLink();
+			userCompanyLink.setCompanyId(company.getId());
+			userCompanyLink.setUserId(user.getId());
+			userCompanyLinkManager.add(userCompanyLink);
+		}
+		return userVO;
+    }
+	
+	@RequestMapping(method=RequestMethod.DELETE, value="/list/{id}", headers="Accept=application/json")
+    public @ResponseBody boolean deleteUser(@PathVariable String id){
+		userManager.deleteUser(Long.parseLong(id));
+		return true;
+    }
+	
+	@RequestMapping(method=RequestMethod.PUT,value="/add",headers="Accept=application/json")
+    public @ResponseBody boolean putUser(UserVO userVO){
+		return true;
     }
 	
 	

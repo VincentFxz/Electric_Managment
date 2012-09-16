@@ -10,4 +10,5 @@ public interface UserCompanyLinkDAO {
     public List<UserCompanyLink> getByCompanyId(Long companyId);
     public UserCompanyLink getById(Long id);
     public List<UserCompanyLink> getAll();
+    public void add(UserCompanyLink userCompanyLink);
 }

@@ -21,4 +21,6 @@ public interface UserManager {
     public void createUser(User user);
     
     public User getUserByName(String name);
+
+	User getUserByUserName(String userName);
 }

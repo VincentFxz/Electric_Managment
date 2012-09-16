@@ -358,4 +358,23 @@ public class ProjectAmmeterManagerImpl implements ProjectAmmeterManager {
 		return projectAmmeterVOs;
 	}
 
+	@Override
+	public List<ProjectAmmeterLink> getProjectAmmeterLinkByAmmeterId(
+			String ammeterId) {
+		if(null != ammeterId){
+			return projectAmmeterLinkDAO.getByAmmeterId(Long.parseLong(ammeterId));
+		}
+		return null;
+		
+	}
+
+	@Override
+	public List<ProjectAmmeterLink> getProjectAmmeterLinkByProjectId(
+			String projectId) {
+		if(null != projectId){
+			return projectAmmeterLinkDAO.getByProjectId(Long.parseLong(projectId));
+		}
+		return null;
+	}
+
 }

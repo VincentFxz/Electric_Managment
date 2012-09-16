@@ -2,6 +2,7 @@ package org.zju.electric_factory.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -10,6 +11,7 @@ import javax.persistence.Table;
 public class UserProjectLink {
     
     @Id
+    @GeneratedValue
     private Long id;
     
     @Column(name="USER_ID")

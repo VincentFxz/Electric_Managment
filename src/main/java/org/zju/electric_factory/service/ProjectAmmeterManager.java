@@ -11,6 +11,8 @@ public interface ProjectAmmeterManager {
 	public void deleteProjectAmmeterLink(Long id);
 	public void edit(ProjectAmmeterLink companyProjectLink);
 	public ProjectAmmeterLink getProjectAmmeterLinkById(String id);
+	public List<ProjectAmmeterLink> getProjectAmmeterLinkByAmmeterId(String ammeterId);
+	public List<ProjectAmmeterLink> getProjectAmmeterLinkByProjectId(String projectId);
 	
 	public List<ProjectAmmeterVO> getAllProjectAmmeterAscByAmmeterIdForView();
 	public List<ProjectAmmeterVO> getAllProjectAmmeterDescByAmmeterIdForView();

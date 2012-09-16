@@ -23,10 +23,10 @@ public class UserManagerImpl implements UserManager {
 	private UserDAO userDAO;
 
 	public User getCurrentUser() {
-		final Long currentUserId = (Long) SecurityUtils.getSubject()
+		final String currentUserName = (String) SecurityUtils.getSubject()
 				.getPrincipal();
-		if (currentUserId != null) {
-			return getUser(currentUserId);
+		if (currentUserName != null) {
+			return userDAO.findUser(currentUserName);
 		} else {
 			return null;
 		}
@@ -46,6 +46,7 @@ public class UserManagerImpl implements UserManager {
 		logger.info("create user : name '" + user.getUsername()
 				+ "', password '" + user.getPassword() + "', Email '"
 				+ user.getEmail() + "'");
+
 		userDAO.createUser(user);
 	}
 
@@ -69,7 +70,10 @@ public class UserManagerImpl implements UserManager {
 	public User getUserByName(String name) {
 		return userDAO.findUser(name);
 	}
-	
-	
+
+	@Override
+	public User getUserByUserName(String userName) {
+		return userDAO.findUser(userName);
+	}
 
 }

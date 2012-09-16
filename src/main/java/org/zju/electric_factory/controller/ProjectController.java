@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.zju.electric_factory.entity.Project;
+import org.zju.electric_factory.entity.ProjectAmmeterLink;
+import org.zju.electric_factory.service.ProjectAmmeterManager;
 import org.zju.electric_factory.service.ProjectManager;
 
 @Controller
@@ -18,6 +20,9 @@ public class ProjectController {
 	
 	@Autowired
 	private ProjectManager projectManager;
+	
+	@Autowired
+	private ProjectAmmeterManager projectAmmeterManager;
 	
 	@RequestMapping(method=RequestMethod.GET,value="/list",headers="Accept=application/json")
 	public @ResponseBody List<Project> listProjects(){
@@ -67,6 +72,12 @@ public class ProjectController {
     
     @RequestMapping(method=RequestMethod.DELETE,value="/list/{id}",headers="Accept=application/json")
     public @ResponseBody boolean deleteProjectbyId(@PathVariable String id){
+    	List<ProjectAmmeterLink> projectAmmeterLinks = projectAmmeterManager.getProjectAmmeterLinkByProjectId(id);
+    	if(null != projectAmmeterLinks){
+    		for(ProjectAmmeterLink projectAmmeterLink : projectAmmeterLinks){
+    			projectAmmeterManager.deleteProjectAmmeterLink(projectAmmeterLink.getId());
+    		}
+    	}
         projectManager.deleteProjectById(id);
         return true;
     }

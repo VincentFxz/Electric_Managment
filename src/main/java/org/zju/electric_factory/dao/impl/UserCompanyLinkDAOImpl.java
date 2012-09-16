@@ -28,4 +28,9 @@ public class UserCompanyLinkDAOImpl extends HibernateDAO<UserCompanyLink, Long> 
     public List<UserCompanyLink> getAll() {
         return super.getAll();
     }
+
+	@Override
+	public void add(UserCompanyLink userCompanyLink) {
+		super.save(userCompanyLink);
+	}
 }

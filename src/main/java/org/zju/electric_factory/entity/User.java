@@ -45,8 +45,7 @@ public class User  {
     @Column(name = "email")
     private String email;
     @Column(name = "password")
-    private String password;
-    
+    private String password;  
     
     private Set<Role> roles;
 
