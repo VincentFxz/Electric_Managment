@@ -26,11 +26,11 @@ public class AmmeterRecordManagerImpl implements AmmeterRecordManager {
         return ammeterRecordDAO.getAll();
     }
 
-    public AmmeterRecord get(int id) {
+    public AmmeterRecord get(Long id) {
         return ammeterRecordDAO.get(id);
     }
 
-    public List<AmmeterRecord> getByAmmeter(int ammeterId) {
+    public List<AmmeterRecord> getByAmmeter(Long ammeterId) {
         return ammeterRecordDAO.getByAmmeter(ammeterId);
     }
 
