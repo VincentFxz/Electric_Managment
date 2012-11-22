@@ -13,11 +13,13 @@ import org.zju.electric_factory.dao.ProjectDAO;
 import org.zju.electric_factory.dao.UserCompanyLinkDAO;
 import org.zju.electric_factory.dao.UserProjectLinkDAO;
 import org.zju.electric_factory.entity.Ammeter;
+import org.zju.electric_factory.entity.CompanyProjectLink;
 import org.zju.electric_factory.entity.Project;
 import org.zju.electric_factory.entity.ProjectAmmeterLink;
 import org.zju.electric_factory.entity.UserCompanyLink;
 import org.zju.electric_factory.entity.UserProjectLink;
 import org.zju.electric_factory.service.AmmeterManager;
+import org.zju.electric_factory.service.CompanyProjectManager;
 import org.zju.electric_factory.service.ProjectManager;
 
 @Service
@@ -32,6 +34,9 @@ public class ProjectManagerImpl implements ProjectManager {
     
     @Autowired
     private UserCompanyLinkDAO userCompanyLinkDAO;
+    
+    @Autowired 
+    private CompanyProjectManager companyProjectManager;
     
 
     @Override
@@ -52,18 +57,28 @@ public class ProjectManagerImpl implements ProjectManager {
     
     @Override
     @SuppressWarnings("null")
-    public List<Project> getProjectsOwnByCompany(Long companyId) {
-        List<Project> projectsOwnByCompany=null;
-        List<UserCompanyLink> userCompanyLinks=userCompanyLinkDAO.getByCompanyId(companyId);
-        if(null!=userCompanyLinks){
-            for(UserCompanyLink userCompanyLink : userCompanyLinks){
-                List<Project> projectsOwnByUser = this.getProjectsOwnByUser(userCompanyLink.getUserId());
-                if(null!=projectsOwnByUser){
-                    projectsOwnByCompany.addAll(projectsOwnByUser);
-                }
-            }
-        }
-        return projectsOwnByCompany;
+    public List<Project> getProjectsOwnByCompany(String companyId) {
+    	List<Project> projectForCompanyList = null;
+		List<CompanyProjectLink> cpLinksForCompany = companyProjectManager.getCompanyProjectLinksByCompanyId(companyId);
+		if(null != cpLinksForCompany){
+			projectForCompanyList = new ArrayList<Project>();
+			for(CompanyProjectLink cpLink : cpLinksForCompany){
+				Project project = projectDAO.getById(cpLink.getProjectId());
+				projectForCompanyList.add(project);
+			}
+		}
+		return projectForCompanyList;
+//        List<Project> projectsOwnByCompany=null;
+//        List<UserCompanyLink> userCompanyLinks=userCompanyLinkDAO.getByCompanyId(companyId);
+//        if(null!=userCompanyLinks){
+//            for(UserCompanyLink userCompanyLink : userCompanyLinks){
+//                List<Project> projectsOwnByUser = this.getProjectsOwnByUser(userCompanyLink.getUserId());
+//                if(null!=projectsOwnByUser){
+//                    projectsOwnByCompany.addAll(projectsOwnByUser);
+//                }
+//            }
+//        }
+//        return projectsOwnByCompany;
     }
 
 
