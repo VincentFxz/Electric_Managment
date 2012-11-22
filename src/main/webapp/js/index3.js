@@ -56,16 +56,16 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
 
 
         var main_container_width = dojo.style("main_container", "width");
-        var ammeter_cell_width = main_container_width * 0.18;
+        var ammeter_cell_width = main_container_width / 6;
         var ammeter_record_width = main_container_width * 0.24;
         var user_cell_width = main_container_width * 0.17;
-        var company_cell_width = main_container_width * 0.43;
+        var company_cell_width = main_container_width / 3;
         var project_cell_width = main_container_width * 0.20;
         var cp_cell_width = main_container_width * 0.20;
         var pa_cell_width = main_container_width * 0.20;
         var up_cell_width = main_container_width * 0.20;
 
-
+        //user project pane
         construtUPPane = function construtUPPane() {
             var construtUPGrid = function construtUPGrid() {
                     upStore = new JsonRestStore({
@@ -204,7 +204,7 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
             }
         };
 
-
+        //project ammeter pane
         construtPAPane = function construtPAPane() {
             var construtPAGrid = function construtPAGrid() {
                     paStore = new JsonRestStore({
@@ -342,6 +342,8 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                 tabContainer.selectChild(paPane);
             }
         };
+
+        //company project pane
 
         construtCPPane = function construtCPPane() {
             var construtCPGrid = function construtCPGrid() {
@@ -488,10 +490,18 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
             }
         };
 
-        construtProjectPane = function construtProjectPane() {
+        //project pane
+        construtProjectPane = function construtProjectPane(id) {
             var construtProjectGrid = function construtProjectGrid() {
+            		
+            		var targetUrl = "/project/list/";
+            		
+            		if(id){
+            			targetUrl = targetUrl + id;
+            		}
+            		
                     projectStore = new JsonRestStore({
-                        target: "/project/list/"
+                        target: targetUrl
                     });
                     projectGrid = new EnhancedGrid({
                         store: projectDataStore = projectStore,
@@ -592,6 +602,7 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
             }
         };
 
+        //company pane
         construtCompanyPane = function construtCompanyPane() {
             var construtCompanyGrid = function construtCompanyGrid() {
                     companyStore = new JsonRestStore({
@@ -610,7 +621,23 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                             field: "companyName",
                             width: company_cell_width + "px",
                             editable: true
-                        }],
+                        },{
+                        	name: "操作",
+							field: "id",
+							 width: company_cell_width / 2 + "px",
+							type: dojox.grid.cells._Widget,
+							editable: false,
+							formatter: function(id){
+								return new Button({
+									label:"查看项目",
+									onClick: function() {
+										console.log(id);
+										construtProjectPane(id);
+										
+									}
+								});
+							}
+                    	}],
                         plugins: {
                             search: true,
                             filter: true,
@@ -685,12 +712,21 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                 tabContainer.selectChild(companyPane);
             }
         };
+        
 
-        construtAmmeterRecordPane = function construtAmmeterRecordPane() {
+        //ammeter record pane
+        construtAmmeterRecordPane = function construtAmmeterRecordPane(id) {
 
             var construtAmmeterRecordGrid = function construtAmmeterRecordGrid() {
+            		
+            		var restUrl = "/ammeter_record/list";
+            		
+            		if(id){
+            			restUrl = restUrl + "/" + id;
+            		}
+            		
                     ammeterRecordStore = new JsonRestStore({
-                        target: "/ammeter_record/list "
+                        target: restUrl
                     });
                     ammeterRecordGrid = new EnhancedGrid({
                         autoHeight: 15,
@@ -746,9 +782,11 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
 
 
 
+        //ammeter pane
         construtAmmeterPane = function construtAmmeterPane() {
 
             var construtAmmeterGrid = function construtAmmeterGrid() {
+            	
                     ammeterStore = new JsonRestStore({
                         target: "/ammeter/list/"
                     });
@@ -780,7 +818,22 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                             field: "companyName",
                             width: ammeter_cell_width + "px",
                             editable: true
-                        }],
+                        },{
+                        	name: "操作",
+							field: "id",
+							type: dojox.grid.cells._Widget,
+							editable: false,
+							formatter: function(id){
+								return new Button({
+									label:"查看记录",
+									onClick: function() {
+										console.log(id);
+										construtAmmeterRecordPane(id);
+										
+									}
+								});
+							}
+                    	}],
                         plugins: {
                             search: true,
                             filter: true,
@@ -891,7 +944,8 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                 tabContainer.selectChild(ammeterPane);
             }
         };
-
+        
+        //user pane
         construtUserPane = function construtUserPane() {
 
             //show the user Pane
