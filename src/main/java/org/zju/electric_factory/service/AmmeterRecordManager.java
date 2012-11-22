@@ -26,7 +26,7 @@ public interface AmmeterRecordManager {
      * 
      * @param id
      */
-    public AmmeterRecord get(int id);
+    public AmmeterRecord get(Long id);
 
     /**
      * get record by ammeter id
@@ -34,7 +34,7 @@ public interface AmmeterRecordManager {
      * @param ammeterId
      * @return
      */
-    public List<AmmeterRecord> getByAmmeter(int ammeterId);
+    public List<AmmeterRecord> getByAmmeter(Long ammeterId);
 
     public List<AmmeterRecord> getAllAmmeterRecordAscById();
 
