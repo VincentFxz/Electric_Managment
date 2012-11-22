@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,7 +20,13 @@ public class AmmeterRecordController {
     @Autowired
     private AmmeterRecordManager ammeterRecordManager;
     
-    @RequestMapping(method=RequestMethod.GET,value="/list",headers="Accept=application/json")
+    @RequestMapping(method=RequestMethod.GET,value="/list/{id}",headers="Accept=application/json")
+    public  @ResponseBody List<AmmeterRecord> listAmmeterRecordsByAmmeterId(@PathVariable String id){
+    	if(null == id) return null;
+        return ammeterRecordManager.getByAmmeter(Long.parseLong(id));
+    }
+    
+    @RequestMapping(method=RequestMethod.GET,value="/list/",headers="Accept=application/json")
     public  @ResponseBody List<AmmeterRecord> listAmmeterRecords(){
     	
         return ammeterRecordManager.getAll();
