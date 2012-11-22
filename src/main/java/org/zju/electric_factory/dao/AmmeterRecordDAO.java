@@ -12,7 +12,7 @@ public interface AmmeterRecordDAO {
 	/**
 	 * get record by id
 	 */
-	public AmmeterRecord get(int id);
+	public AmmeterRecord get(Long id);
 	
 	/**
 	 *get record by date period 
@@ -30,7 +30,7 @@ public interface AmmeterRecordDAO {
 	/**
 	 * get by ammeter
 	 */
-	public List<AmmeterRecord> getByAmmeter(int ammeterId);
+	public List<AmmeterRecord> getByAmmeter(Long ammeterId);
 	
 	/**
 	 * get ammeter record by order
