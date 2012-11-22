@@ -22,5 +22,7 @@ public interface CompanyProjectManager {
 	public List<CompanyProjectVO> getAllCompanyProjectDescByCompanyNameForView();
 	public List<CompanyProjectVO> getAllCompanyProjectAscByProjectNameForView();
 	public List<CompanyProjectVO> getAllCompanyProjectDescByProjectNameForView();
+	
+	public List<CompanyProjectLink> getCompanyProjectLinksByCompanyId(String companyId);
 
 }
