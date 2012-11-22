@@ -17,13 +17,13 @@ public class AmmeterRecord {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     /**
      * 电表id
      */
     @Column(name = "AMMETER_ID")
-    private int ammeterId;
+    private Long ammeterId;
 
     /**
      * 记录的时间
@@ -49,19 +49,19 @@ public class AmmeterRecord {
         this.ammeterName = ammeterName;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getAmmeterId() {
+    public Long getAmmeterId() {
         return ammeterId;
     }
 
-    public void setAmmeterId(int ammeterId) {
+    public void setAmmeterId(Long ammeterId) {
         this.ammeterId = ammeterId;
     }
 
