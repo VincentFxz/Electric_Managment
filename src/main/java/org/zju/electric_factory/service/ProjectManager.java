@@ -7,7 +7,7 @@ import org.zju.electric_factory.entity.Project;
 public interface ProjectManager {
     public List<Project> getProjectsOwnByUser(Long userId);
     public Project getProjectByProjectName(String projectName);
-    List<Project> getProjectsOwnByCompany(Long companyId);
+    List<Project> getProjectsOwnByCompany(String companyId);
 	public List<Project> getProjects();
 	public List<Project> getProjectsAscById();
 	public List<Project> getProjectsDescById();
