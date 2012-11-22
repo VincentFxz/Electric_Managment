@@ -97,7 +97,7 @@
                         <li class="nav-header">公司管理</li>
                         <li><a onclick = "showCompanyMan()" href="#">公司管理</a></li>
                         <li><a onclick = "showCPMan()" href="#">公司项目管理</a></li>
-                        <li><a onclick = "showCompanyMan()" href="#">公司电表管理</a></li>
+                        <!-- <li><a onclick = "showCompanyMan()" href="#">公司电表管理</a></li>  -->
                         <li class="nav-header">权限管理</li>
                         <li><a href="#" onclick = "showUserMan()">权限管理</a></li>
                         </shiro:hasRole>
