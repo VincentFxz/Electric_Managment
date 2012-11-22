@@ -9,14 +9,14 @@ import org.zju.electric_factory.dao.AmmeterRecordDAO;
 import org.zju.electric_factory.entity.AmmeterRecord;
 
 @Repository
-public class AmmeterRecordDAOImpl extends HibernateDAO<AmmeterRecord, Integer> implements AmmeterRecordDAO {
+public class AmmeterRecordDAOImpl extends HibernateDAO<AmmeterRecord, Long> implements AmmeterRecordDAO {
     private final String FIND_BY_PERIOD_HQL="from "+this.entityClass.getName()+
             " ammeterRecord where ammeterRecord.recordDate>=? and ammeterRecord.recordDate<=?";
 
     /**
      * get record by id
      */
-    public AmmeterRecord get(int id) {
+    public AmmeterRecord get(Long id) {
     	return super.get(id);
     }
 
@@ -44,7 +44,7 @@ public class AmmeterRecordDAOImpl extends HibernateDAO<AmmeterRecord, Integer> i
     /**
      * get by ammeter id
      */
-    public List<AmmeterRecord> getByAmmeter(int ammeterId) {
+    public List<AmmeterRecord> getByAmmeter(Long ammeterId) {
         return findBy("ammeterId",ammeterId);
     }
 
