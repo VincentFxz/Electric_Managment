@@ -22,7 +22,11 @@ import org.zju.electric_factory.service.CompanyManager;
 import org.zju.electric_factory.service.ProjectAmmeterManager;
 import org.zju.electric_factory.service.ProjectManager;
 import org.zju.electric_factory.service.UserManager;
-
+/**
+ * 
+ * @author vincent
+ *
+ */
 @Controller
 @RequestMapping("/ammeter")
 @Transactional
@@ -59,6 +63,7 @@ public class AmmeterController {
 		}
 		return ammeterManager.getAmmetersOwnByUser(currentUser.getId());
 	}
+	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/list/", headers = "Accept=application/json", params = "sort(+id)")
 	public @ResponseBody
@@ -301,7 +306,6 @@ public class AmmeterController {
 			projectAmmeterLink.setProjectId(project.getId());
 			projectAmmeterManager.addProjectAmmeterLink(projectAmmeterLink);
 		}
-		
 		return ammeter;
 	}
 
