@@ -1,5 +1,6 @@
 package org.zju.electric_factory.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.zju.electric_factory.entity.CompanyProjectLink;
 import org.zju.electric_factory.entity.Project;
 import org.zju.electric_factory.entity.ProjectAmmeterLink;
+import org.zju.electric_factory.service.CompanyProjectManager;
 import org.zju.electric_factory.service.ProjectAmmeterManager;
 import org.zju.electric_factory.service.ProjectManager;
+import org.zju.electric_factory.vo.ProjectVO;
 
 @Controller
 @RequestMapping("/project")
@@ -23,6 +27,28 @@ public class ProjectController {
 	
 	@Autowired
 	private ProjectAmmeterManager projectAmmeterManager;
+	
+	@Autowired
+	private CompanyProjectManager companyProjectManager;
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/list/{id}", headers = "Accept=application/json")
+	public @ResponseBody List<ProjectVO> listProjectsByCompanyId(@PathVariable String id){
+		List<Project> projects = projectManager.getProjectsOwnByCompany(id);
+		List<ProjectVO> projectVOs = null;
+		if(null != projects){
+			projectVOs = new ArrayList<ProjectVO>();
+			for(Project project : projects){
+				ProjectVO projectVO = new ProjectVO();
+				projectVO.setId(project.getId());
+				projectVO.setEndDate(project.getEndDate());
+				projectVO.setProjectDescription(project.getProjectDescription());
+				projectVO.setProjectName(project.getProjectName());
+				projectVO.setStartDate(project.getStartDate());
+				projectVOs.add(projectVO);
+			}
+		}
+		return projectVOs;
+	}
 	
 	@RequestMapping(method=RequestMethod.GET,value="/list",headers="Accept=application/json")
 	public @ResponseBody List<Project> listProjects(){
