@@ -30,7 +30,10 @@ var upPane;
 var constructUPPane;
 var upPaneConstruted = false;
 
-require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "dojox/grid/EnhancedGrid", "dojo/data/ObjectStore", "dojo/query", "dojo/ready", "dijit/form/TextBox", "dijit/form/Button", "dijit/Menu", "dijit/MenuItem", "dijit/form/ComboButton", "dijit/form/ComboBox", "dojo/dom", "dojo/_base/xhr", "dojo/i18n!/dojo-release-1.7.2/dojox/grid/enhanced/nls/zh/Filter.js", "dojox/grid/enhanced/plugins/Search", "dojox/grid/enhanced/plugins/Filter", "dojo/parser", "dijit/layout/TabContainer", "dijit/layout/ContentPane", "dijit/form/DropDownButton", "dijit/TooltipDialog", "dijit/form/TextBox", "dojox/grid/enhanced/plugins/IndirectSelection", "dojox/grid/enhanced/plugins/Printer", "dojo/domReady!"], function(JsonRestStore, Memory, Cache, EnhancedGrid, ObjectStore, query, ready, TextBox, Button, Menu, MenuItem, ComboButton, ComboBox, dom, xhr, i18n) {
+var constructNewPane;
+
+
+require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "dojox/grid/EnhancedGrid", "dojo/data/ObjectStore", "dojo/query", "dojo/ready", "dijit/form/TextBox", "dijit/form/Button", "dijit/Menu", "dijit/MenuItem", "dijit/form/ComboButton", "dijit/form/ComboBox", "dojo/dom", "dojo/_base/xhr", "dijit/layout/ContentPane", "dojo/i18n!/dojo-release-1.7.2/dojox/grid/enhanced/nls/zh/Filter.js", "dojox/grid/enhanced/plugins/Search", "dojox/grid/enhanced/plugins/Filter", "dojo/parser", "dijit/layout/TabContainer", "dijit/form/DropDownButton", "dijit/TooltipDialog", "dijit/form/TextBox", "dojox/grid/enhanced/plugins/IndirectSelection", "dojox/grid/enhanced/plugins/Printer", "dojo/domReady!"], function(JsonRestStore, Memory, Cache, EnhancedGrid, ObjectStore, query, ready, TextBox, Button, Menu, MenuItem, ComboButton, ComboBox, dom, xhr, ContentPane, i18n) {
 
     ready(function() {
         //hidden the user ContentPane
@@ -64,6 +67,8 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
         var cp_cell_width = main_container_width * 0.20;
         var pa_cell_width = main_container_width * 0.20;
         var up_cell_width = main_container_width * 0.20;
+
+        var paneTempate = "<div id='project_grid' class='claro' style='height:400px'></div>"
 
         //user project pane
         construtUPPane = function construtUPPane() {
@@ -492,6 +497,7 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
 
         //project pane
         construtProjectPane = function construtProjectPane(id) {
+
             var construtProjectGrid = function construtProjectGrid() {
             		
             		var targetUrl = "/project/list/";
@@ -631,8 +637,41 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
 								return new Button({
 									label:"查看项目",
 									onClick: function() {
-										console.log(id);
-										construtProjectPane(id);
+										//console.log(id);
+										//construtProjectPane(id);
+										var paneNode = document.getElementById("公司" + id + "的项目");
+										if(paneNode){
+											console.log(dijit.byId("公司" + id + "的项目Pane"));
+											tabContainer.selectChild(dijit.byId("公司" + id + "的项目Pane"));
+										}
+                                        paneNode = constructNewPane("公司" + id + "的项目","width: 100%;",tabContainer)
+                                        var gridNodeId = paneNode + "Grid";
+                                        var newGridNode = document.createElement("div");
+                                        document.getElementById(paneNode).appendChild(newGridNode);
+                                        newGridNode.setAttribute("id", gridNodeId);
+                                        newGridNode.setAttribute("style", "height:400px;");
+                                        var newGridLayout = [{
+                                            name: "项目编号",
+                                            field: "id",
+                                            width: project_cell_width + "px",
+                                            canSort: true
+                                        }, {
+                                            name: "项目名称",
+                                            field: "projectName",
+                                            width: project_cell_width + "px",
+                                            editable: true
+                                        }, {
+                                            name: "项目开始日期",
+                                            field: "startDate",
+                                            width: project_cell_width + "px",
+                                            canSort: true
+                                        }, {
+                                            name: "项目结束日期",
+                                            field: "endDate",
+                                            width: project_cell_width + "px",
+                                            canSort: true
+                                        }]
+                                        constructNewGridForPane(gridNodeId, newGridLayout, "/project/list/" + id);
 										
 									}
 								});
@@ -1098,7 +1137,50 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
         };
 
 
-        //construtUserPane();   
+        //construtUserPane(); 
+
+        //constuctNewPane and return the content node id
+        constructNewPane = function  constructNewPane(title, styles, container){
+
+            console.log(title);
+            console.log(styles)
+            var newPane = new ContentPane({
+            	id: title + "Pane",
+                title:title,
+                content:"<div id = "+title+"></div>",
+                style: styles
+            });
+            container.addChild(newPane, 0);
+            container.selectChild(newPane);
+            return title;
+        };
+        
+        //constuctNewGrid
+        constructNewGridForPane = function constructNewGridForPane(contentNode, layout, targetUrl){
+        	
+        	 var newStore = new JsonRestStore({
+                 target: targetUrl
+             });
+        	 
+             var newGrid = new EnhancedGrid({
+                 store: newStore,
+                 autoWidth: true,
+                 structure: layout,
+                 plugins: {
+                     search: true,
+                     filter: true,
+                     printer: true,
+                     indirectSelection: {
+                         headerSelector: true,
+                         width: "40px",
+                         styles: "text-align: center;"
+                     }
+                 }
+             }, contentNode);
+             newGrid.startup();
+        };
+        
+
     });
 });
 
