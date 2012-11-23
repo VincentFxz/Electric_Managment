@@ -11,7 +11,7 @@ public class CompanyProjectLinkDAOImpl extends HibernateDAO<CompanyProjectLink, 
 
 	@Override
 	public List<CompanyProjectLink> getByCompanyId(Long companyId) {
-		return super.getAll("companyId", true);
+		return super.findBy("companyId", companyId);
 	}
 
 	@Override
