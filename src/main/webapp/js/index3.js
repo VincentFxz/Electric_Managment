@@ -33,9 +33,37 @@ var upPaneConstruted = false;
 var constructNewPane;
 
 
-require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "dojox/grid/EnhancedGrid", "dojo/data/ObjectStore", "dojo/query", "dojo/ready", "dijit/form/TextBox", "dijit/form/Button", "dijit/Menu", "dijit/MenuItem", "dijit/form/ComboButton", "dijit/form/ComboBox", "dojo/dom", "dojo/_base/xhr", "dijit/layout/ContentPane", "dojo/i18n!/dojo-release-1.7.2/dojox/grid/enhanced/nls/zh/Filter.js", "dojox/grid/enhanced/plugins/Search", "dojox/grid/enhanced/plugins/Filter", "dojo/parser", "dijit/layout/TabContainer", "dijit/form/DropDownButton", "dijit/TooltipDialog", "dijit/form/TextBox", "dojox/grid/enhanced/plugins/IndirectSelection", "dojox/grid/enhanced/plugins/Printer", "dojo/domReady!"], function(JsonRestStore, Memory, Cache, EnhancedGrid, ObjectStore, query, ready, TextBox, Button, Menu, MenuItem, ComboButton, ComboBox, dom, xhr, ContentPane, i18n) {
+require(["dojox/data/JsonRestStore", 
+         "dojo/store/Memory", 
+         "dojo/store/Cache", 
+         "dojox/grid/EnhancedGrid", 
+         "dojo/data/ObjectStore", 
+         "dojo/query", 
+         "dojo/ready", 
+         "dijit/form/TextBox", 
+         "dijit/form/Button", 
+         "dijit/Menu", 
+         "dijit/MenuItem", 
+         "dijit/form/ComboButton", 
+         "dijit/form/ComboBox", 
+         "dojo/dom", 
+         "dojo/_base/xhr", 
+         "dijit/layout/ContentPane", 
+         "dijit/Dialog", 
+         "dojo/i18n!/dojo-release-1.7.2/dojox/grid/enhanced/nls/zh/Filter.js",
+         "dojox/grid/enhanced/plugins/Search",
+         "dojox/grid/enhanced/plugins/Filter", 
+         "dojo/parser", 
+         "dijit/layout/TabContainer", 
+         "dijit/form/DropDownButton", 
+         "dijit/TooltipDialog", 
+         "dijit/form/TextBox", 
+         "dojox/grid/enhanced/plugins/IndirectSelection", 
+         "dojox/grid/enhanced/plugins/Printer", 
+         "dojo/domReady!"], function(JsonRestStore, Memory, Cache, EnhancedGrid, ObjectStore, query, ready, TextBox, Button, Menu, MenuItem, ComboButton, ComboBox, dom, xhr, ContentPane, Dialog, i18n) {
 
     ready(function() {
+    	
         //hidden the user ContentPane
         var tabContainer = dijit.byId("tab_container");
 
@@ -68,7 +96,6 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
         var pa_cell_width = main_container_width * 0.20;
         var up_cell_width = main_container_width * 0.20;
 
-        var paneTempate = "<div id='project_grid' class='claro' style='height:400px'></div>"
 
         //user project pane
         construtUPPane = function construtUPPane() {
@@ -167,8 +194,8 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                         }
                     }, "up_delete_button");
                     up_delete_button.startup();
-                }
-
+                };
+            
             var constructUserProjectForUPCombo = function constructUserProjectForUPCombo() {
 
                     projectForUPStore = new JsonRestStore({
@@ -208,7 +235,8 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                 tabContainer.selectChild(upPane);
             }
         };
-
+        
+        
         //project ammeter pane
         construtPAPane = function construtPAPane() {
             var construtPAGrid = function construtPAGrid() {
@@ -403,7 +431,6 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                         label: "新建",
                         onClick: function() {
                             console.log(dijit.byId("companyForCP").get("value"));
-                            var valueCompanyForCP = dijit.byId("companyForCP").get("value");
                             var form_content = {
                                 companyName: dijit.byId("companyForCP").get("value"),
                                 projectName: dijit.byId("projectForCP").get("value")
@@ -451,7 +478,7 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
                         }
                     }, "cp_delete_button");
                     cp_delete_button.startup();
-                }
+                };
 
             var constructProjectCompanyForCPCombo = function constructProjectCompanyForCPCombo() {
 
@@ -641,10 +668,102 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
 										//construtProjectPane(id);
 										var paneNode = document.getElementById("公司" + id + "的项目");
 										if(paneNode){
-											console.log(dijit.byId("公司" + id + "的项目Pane"));
 											tabContainer.selectChild(dijit.byId("公司" + id + "的项目Pane"));
+											return ;
 										}
-                                        paneNode = constructNewPane("公司" + id + "的项目","width: 100%;",tabContainer)
+                                        paneNode = constructNewPane("公司" + id + "的项目","width: 100%;",tabContainer);
+                                        //create button node
+                                        var addButtonNodeId = paneNode + "AddButton";
+                                        var newAddButtonNode = document.createElement("div");
+                                        newAddButtonNode.setAttribute("id", addButtonNodeId);
+                                        document.getElementById(paneNode).appendChild(newAddButtonNode);
+                                        //construt add button
+                                        var add_project_btn = new Button({
+
+                                            label: "新建",
+                                            onClick: function() {
+                                            	
+                                            	dijit.byId("createProjectForCompanyDialog").show();
+                                            	
+                                            	var newProjectDialogNameText = new TextBox({
+                                            		placeHolder: "输入项目名称"
+                                            	},"forCompanyProjectName");
+                                            	newProjectDialogNameText.startup();
+                                            	
+                                            	var newProjectDialogStartText = new TextBox({
+                                            		placeHolder: "输入项目开始时间"
+                                            	},"forCompanyProjectStart");
+                                            	newProjectDialogStartText.startup();
+                                            	
+                                            	var newProjectDialogEndText = new TextBox({
+                                            		placeHolder: "输入项目结束时间"
+                                            	},"forCompanyProjectEnd");
+                                            	newProjectDialogEndText.startup();
+                                            	
+                                            	var newProjectDialogAddBtn = new Button({
+                                            		label: "添加",
+                                            		onClick: function(){
+                                            			var form_content = {
+                                                              projectName: dom.byId("forCompanyProjectName").value
+                                                          };
+                                                          xhr.post({
+                                                              form: "newProjectDialogForm",
+                                                              // read the url: from the action="" of the <form>
+                                                              timeout: 3000,
+                                                              // give up after 3 seconds
+                                                              content: form_content,
+                                                              handleAs: "json",
+                                                              load: function(new_project) {
+                                                                  projectDataStore.newItem(new_project);
+                                                                  projectdataStore.save();
+                                                                  
+                                                              }
+                                                          });
+                                            		}
+                                            	},"newProjectDialogAddBtn");
+                                            	newProjectDialogAddBtn.startup();
+                                            	
+                                            	var newProjectDialogCancelBtn = new Button({
+                                            		label: "取消",
+                                            		onClick: function(){
+                                            			dijit.byId("createProjectForCompanyDialog").hide();
+                                            		}
+                                            	}, "newProjectDialogCancelBtn");
+                                            	newProjectDialogCancelBtn.startup();
+//                                                var form_content = {
+//                                                    projectName: dom.byId("addProjectName").value,
+//                                                };
+//                                                xhr.post({
+//                                                    form: "add_project_form",
+//                                                    // read the url: from the action="" of the <form>
+//                                                    timeout: 3000,
+//                                                    // give up after 3 seconds
+//                                                    content: form_content,
+//                                                    handleAs: "json",
+//                                                    load: function(new_project) {
+//                                                        projectDataStore.newItem(new_project);
+//                                                        projectdataStore.save();
+//                                                    }
+//                                                });
+                                            }
+                                        }, addButtonNodeId);
+                                        add_project_btn.startup();
+                                        
+                                        //create 
+                                        var addFromExistButtonNodeId = paneNode + "AddFromExsitButton";
+                                        console.log(addFromExistButtonNodeId);
+                                        var addFromExitAddButtonNode = document.createElement("div");
+                                        addFromExitAddButtonNode.setAttribute("id", addFromExistButtonNodeId);
+                                        document.getElementById(paneNode).appendChild(addFromExitAddButtonNode);
+                                        console.log(document.getElementById(addFromExistButtonNodeId));
+                                        var addProjectFromExistBtn = new Button({
+                                        	label: "从已存在的项目中添加",
+                                        	onClick: function(){
+                                        		
+                                        	}
+                                        },addFromExistButtonNodeId);
+
+                                        //create grid node
                                         var gridNodeId = paneNode + "Grid";
                                         var newGridNode = document.createElement("div");
                                         document.getElementById(paneNode).appendChild(newGridNode);
@@ -1184,12 +1303,13 @@ require(["dojox/data/JsonRestStore", "dojo/store/Memory", "dojo/store/Cache", "d
     });
 });
 
+
+
 function showAmmeterMan() {
     construtAmmeterPane();
 }
 
 function showUserMan() {
-    showCompanyMan
     construtUserPane();
 }
 
