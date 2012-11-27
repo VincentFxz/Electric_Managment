@@ -33,7 +33,8 @@ var upPaneConstruted = false;
 var constructNewPane;
 
 
-require(["dojox/data/JsonRestStore", 
+require(["dojo/on",
+         "dojox/data/JsonRestStore", 
          "dojo/store/Memory", 
          "dojo/store/Cache", 
          "dojox/grid/EnhancedGrid", 
@@ -60,7 +61,7 @@ require(["dojox/data/JsonRestStore",
          "dijit/form/TextBox", 
          "dojox/grid/enhanced/plugins/IndirectSelection", 
          "dojox/grid/enhanced/plugins/Printer", 
-         "dojo/domReady!"], function(JsonRestStore, Memory, Cache, EnhancedGrid, ObjectStore, query, ready, TextBox, Button, Menu, MenuItem, ComboButton, ComboBox, dom, xhr, ContentPane, Dialog, i18n) {
+         "dojo/domReady!"], function(on,JsonRestStore, Memory, Cache, EnhancedGrid, ObjectStore, query, ready, TextBox, Button, Menu, MenuItem, ComboButton, ComboBox, dom, xhr, ContentPane, Dialog, i18n) {
 
     ready(function() {
     	
@@ -1299,44 +1300,56 @@ require(["dojox/data/JsonRestStore",
              newGrid.startup();
         };
         
-
+        var ammeterMenuItem = dojo.byId("ammeterMenuItem");
+        on(ammeterMenuItem, "click", function(){
+        	construtAmmeterPane();
+        });
+        
+        var upMenuItem = dojo.byId("upMenuItem");
+        on(upMenuItem, "click", function(){
+        	construtProjectPane();
+        });
+        
+        var uaMenuItem = dojo.byId("uaMenuItem");
+        on(uaMenuItem, "click", function(){
+        	construtAmmeterPane();
+        });
+        
+        var ammeterRecordMenuItem = dojo.byId("ammeterRecordMenuItem");
+        on(ammeterRecordMenuItem, "click", function(){
+        	construtAmmeterRecordPane();
+        });
+        
+        var projectMenuItem = dojo.byId("projectMenuItem");
+        on(projectMenuItem, "click", function(){
+        	construtProjectPane();
+        });
+        
+        var paMenuItem = dojo.byId("paMenuItem")
+        on(paMenuItem, "click", function(){
+        	construtPAPane();
+        });
+        
+        var puMenuItem = dojo.byId("puMenuItem");
+        on(puMenuItem, "click", function(){
+        	construtUPPane();
+        });
+        
+        var companyMenuItem = dojo.byId("companyMenuItem");
+        console.log(companyMenuItem);
+        on(companyMenuItem, "click", function(){
+        	construtCompanyPane();
+        });
+        
+        var cpMenuItem = dojo.byId("cpMenuItem");
+        on(cpMenuItem, "click", function(){
+        	construtCPPane();
+        });
+        
+        var userMenuItem = dojo.byId("userMenuItem");
+        on(userMenuItem, "click", function(){
+        	construtUserPane();
+        });
     });
 });
 
-
-
-function showAmmeterMan() {
-    construtAmmeterPane();
-}
-
-function showUserMan() {
-    construtUserPane();
-}
-
-function showAmmeterRecordMan() {
-    construtAmmeterRecordPane();
-}
-
-function showCompanyMan() {
-    construtCompanyPane();
-}
-
-function showProjectMan() {
-    construtProjectPane();
-}
-
-function showCPMan() {
-    construtCPPane();
-}
-
-function showPAMan() {
-    construtPAPane();
-}
-
-function showUPMan() {
-    construtProjectPane();
-}
-
-function showPUMan(){
-    construtUPPane();
-}
