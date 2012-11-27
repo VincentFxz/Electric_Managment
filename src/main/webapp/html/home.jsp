@@ -33,14 +33,23 @@
         }
 
     </style>
+
     
+
     <script src = "/dojo-release-1.7.2/dojo/dojo.js" 
         data-dojo-config="
             async:true,
             parseOnLoad:true,
             locale:'zh-cn'">
     </script>
-    
+        <!--
+    <script src ="//ajax.googleapis.com/ajax/libs/dojo/1.8.1/dojo/dojo.js" 
+        data-dojo-config="
+            async:true,
+            parseOnLoad:true,
+            locale:'zh-cn'">
+    </script>
+    -->
     
     <script language="javascript" src="/js/index3.js">  </script>
   </head>
@@ -82,24 +91,24 @@
                 <div class="well sidebar-nav">
                     <ul class="nav nav-list">
                         <li class="nav-header">个人管理</li>
-                        <li><a onclick = "showUPMan()" href="#">我的项目</a></li>
-                        <li><a onclick = "showAmmeterMan()" href="#">我的电表</a></li>
+                        <li><a id="upMenuItem" href="#">我的项目</a></li>
+                        <li><a id="uaMenuItem" href="#">我的电表</a></li>
                         <li class="nav-header">电表管理</li>
                         <shiro:hasRole name="admin">  
-                        <li class="active"><a onclick = "showAmmeterMan()" href="#">电表管理</a></li>
+                        <li class="active"><a id="ammeterMenuItem" href="#">电表管理</a></li>
                         </shiro:hasRole> 
-                        <li><a onclick = "showAmmeterRecordMan()" href="#">电表记录管理</a></li>
+                        <li><a id="ammeterRecordMenuItem" href="#">电表记录管理</a></li>
                         <shiro:hasRole name="admin">
                         <li class="nav-header">项目管理</li>
-                        <li><a href="#" onclick = "showProjectMan()">项目管理</a></li>
-                        <li><a href="#" onclick = "showPAMan()">项目电表管理</a></li>
-                        <li><a href="#" onclick = "showPUMan()">项目用户管理</a></li>
+                        <li><a id="projectMenuItem" href="#" >项目管理</a></li>
+                        <li><a id="paMenuItem" href="#" >项目电表管理</a></li>
+                        <li><a id="puMenuItem" href="#" >项目用户管理</a></li>
                         <li class="nav-header">公司管理</li>
-                        <li><a onclick = "showCompanyMan()" href="#">公司管理</a></li>
-                        <li><a onclick = "showCPMan()" href="#">公司项目管理</a></li>
+                        <li><a id="companyMenuItem" href="#">公司管理</a></li>
+                        <li><a id="cpMenuItem" href="#">公司项目管理</a></li>
                         <!-- <li><a onclick = "showCompanyMan()" href="#">公司电表管理</a></li>  -->
                         <li class="nav-header">权限管理</li>
-                        <li><a href="#" onclick = "showUserMan()">权限管理</a></li>
+                        <li><a id="userMenuItem" href="#" >权限管理</a></li>
                         </shiro:hasRole>
                     </ul>
                 </div><!--/.well -->
@@ -352,9 +361,29 @@
                         </shiro:hasRole>
                         </div> 
                         <!--project Pane-->
-
-                        
-
+                        <!-- hiddens -->
+                        <div class="dijitHidden">
+							<div data-dojo-type="dijit.Dialog" data-dojo-id="createProjectForCompanyDialog" id="createProjectForCompanyDialog"
+								title="添加新项目到公司">
+								<form id="newProjectDialogForm" method="post" action="/project/add" >
+									<label for="forCompanyProjectName">项目名称:</label>
+									<input id="forCompanyProjectName"></input>
+									<label for="forCompanyProjectStart">项目开始时间:</label>
+									<input id="forCompanyProjectStart"></input>
+									<label for="forCompanyProjectEnd">项目结束时间:</label>
+									<input id="forCompanyProjectEnd"></input>
+								</form>
+								<form id="newProjectDialogCPFrom" method="post" action="/cp/add" >
+								</form>
+								
+						
+								<div class="dijitDialogPaneActionBar">
+									<button type="submit" id="newProjectDialogAddBtn">添加</button>
+									<button type="button" id="newProjectDialogCancelBtn">取消</button>
+								</div>
+							</div>
+						</div>
+						<!-- /hiddens -->
                     </div>
                 </div>
                 <!-- /tab_container -->
@@ -371,5 +400,6 @@
     </div>
     </div> 
     <!-- /container -->
+    <!-- hiddens -->
   </body>
 </html>
