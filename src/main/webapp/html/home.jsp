@@ -91,24 +91,24 @@
                 <div class="well sidebar-nav">
                     <ul class="nav nav-list">
                         <li class="nav-header">个人管理</li>
-                        <li><a id="upMenuItem" href="#">我的项目</a></li>
-                        <li><a id="uaMenuItem" href="#">我的电表</a></li>
+                        <li id="upMenuItemBtn"><a id="upMenuItem" href="#">我的项目</a></li>
+                        <li id="uaMenuItemBtn"><a id="uaMenuItem" href="#">我的电表</a></li>
                         <li class="nav-header">电表管理</li>
                         <shiro:hasRole name="admin">  
-                        <li class="active"><a id="ammeterMenuItem" href="#">电表管理</a></li>
+                        <li id="ammeterMenuItemBtn"><a id="ammeterMenuItem" href="#">电表管理</a></li>
                         </shiro:hasRole> 
-                        <li><a id="ammeterRecordMenuItem" href="#">电表记录管理</a></li>
+                        <li id="ammeterRecordMenuItemBtn" ><a id="ammeterRecordMenuItem" href="#">电表记录管理</a></li>
                         <shiro:hasRole name="admin">
                         <li class="nav-header">项目管理</li>
-                        <li><a id="projectMenuItem" href="#" >项目管理</a></li>
-                        <li><a id="paMenuItem" href="#" >项目电表管理</a></li>
-                        <li><a id="puMenuItem" href="#" >项目用户管理</a></li>
+                        <li id="projectMenuItemBtn"><a id="projectMenuItem" href="#" >项目管理</a></li>
+                        <li id = "paMenuItemBtn"><a id="paMenuItem" href="#" >项目电表管理</a></li>
+                        <li id="puMenuItemBtn" ><a id="puMenuItem" href="#" >项目用户管理</a></li>
                         <li class="nav-header">公司管理</li>
-                        <li><a id="companyMenuItem" href="#">公司管理</a></li>
-                        <li><a id="cpMenuItem" href="#">公司项目管理</a></li>
+                        <li id="companyMenuItemBtn"><a id="companyMenuItem" href="#">公司管理</a></li>
+                        <li id="cpMenuItemBtn"><a id="cpMenuItem" href="#">公司项目管理</a></li>
                         <!-- <li><a onclick = "showCompanyMan()" href="#">公司电表管理</a></li>  -->
                         <li class="nav-header">权限管理</li>
-                        <li><a id="userMenuItem" href="#" >权限管理</a></li>
+                        <li id="userMenuItemBtn"><a id="userMenuItem" href="#" >权限管理</a></li>
                         </shiro:hasRole>
                     </ul>
                 </div><!--/.well -->
