@@ -120,49 +120,7 @@
                             <div id="ammeter_record_grid" class="claro" style="height:473px"></div>   
                         </div>
                         
-                        <div id = "ammeterPane" data-dojo-type="dijit.layout.ContentPane" title="电表管理">
-                            <div id = "ammeter_grid_container" style = "width: 100%;" class = "claro">
-                               <shiro:hasRole name="admin">
-                                <div data-dojo-type="dijit.form.DropDownButton">
-                                    <span>新建</span>
-                                    <div data-dojo-type="dijit.TooltipDialog" id="new_ammeter_dialog">
-                                        <form id="add_ammeter_form" method="post" action="/ammeter/list">
-                                        <div>
-                                            <strong><label class="add_form_label" for="name">电表名称</label></strong>
-                                            <div data-dojo-type="dijit.form.TextBox" id="name"></div>
-                                        </div>
-                                        <div>
-                                            <strong><label class="add_form_label" for="pumpName">泵名称</label></strong>
-                                            <div data-dojo-type="dijit.form.TextBox" id="pumpName"></div>
-                                        </div>
-                                        <div>
-                                            <strong><label class="add_form_label" for="companyName">公司名称</label></strong>
-                                            <input id = "companyForAmmeter" />
-                                        </div>
-                                        <div>
-                                            <strong><label class="add_form_label" for="projectName">项目名称</label></strong>
-                                            <input id = "projectForAmmeter" />
-                                            <!--<div data-dojo-type="dijit.form.TextBox" id="projectName"></div>-->
-                                        </div>
-                                        <div>
-                                            <button id="add_ammeter_btn"></button>
-                                        </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                </shiro:hasRole>
-                                <!-- The Data Grid -->
-                                <div id="ammeter_grid" class="claro" style="height:400px"></div>
-                                <!-- The Action Bar -->
-                                <div id="modify_bar" class="claro">
-                                    <button id="save_button"></button>
-                                    <button id="delete_button"></button>
-                                </div>
-                            </div>
-
-                            
-                        </div>
-                        <!-- /ammeter pane -->
+                        
 
                         <div id = "cpPane" data-dojo-type="dijit.layout.ContentPane" title="公司项目管理">
                             <div id = "cp_grid_container" style = "width: 100%;" class = "claro">
@@ -382,6 +340,26 @@
 									<button type="button" id="newProjectDialogCancelBtn">取消</button>
 								</div>
 							</div>
+                            <div data-dojo-type="dijit.Dialog" data-dojo-id="createAmmeterDialog" id="createProjectForCompanyDialog"
+                                title="添加电表">
+                                <form id="newProjectDialogForm" method="post" action="/project/add" >
+                                    <label for="forCompanyProjectName">项目名称:</label>
+                                    <input id="forCompanyProjectName"></input>
+                                    <label for="forCompanyProjectStart">项目开始时间:</label>
+                                    <input id="forCompanyProjectStart"></input>
+                                    <label for="forCompanyProjectEnd">项目结束时间:</label>
+                                    <input id="forCompanyProjectEnd"></input>
+                                </form>
+                                <form id="newProjectDialogCPFrom" method="post" action="/cp/add" >
+                                </form>
+                                
+                        
+                                <div class="dijitDialogPaneActionBar">
+                                    <button type="submit" id="newProjectDialogAddBtn">添加</button>
+                                    <button type="button" id="newProjectDialogCancelBtn">取消</button>
+                                </div>
+                            </div>
+
 						</div>
 						<!-- /hiddens -->
                     </div>
