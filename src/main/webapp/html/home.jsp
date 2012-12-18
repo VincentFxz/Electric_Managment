@@ -51,7 +51,7 @@
     </script>
     -->
     
-    <script language="javascript" src="/js/index3.js">  </script>
+    <script language="javascript" src="/js/index_dev.js">  </script>
   </head>
 
   <body class = "claro">
