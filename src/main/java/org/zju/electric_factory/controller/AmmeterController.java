@@ -25,7 +25,7 @@ import org.zju.electric_factory.service.UserManager;
 /**
  * 
  * @author vincent
- *
+ * 
  */
 @Controller
 @RequestMapping("/ammeter")
@@ -49,6 +49,7 @@ public class AmmeterController {
 	public @ResponseBody
 	List<Ammeter> listAmmeters() {
 		boolean userHasAdminRole = false;
+		
 		User currentUser = userManager.getCurrentUser();
 		Set<Role> userRoles = currentUser.getRoles();
 		if (null != userRoles) {
