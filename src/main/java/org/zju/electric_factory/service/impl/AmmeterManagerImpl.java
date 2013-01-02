@@ -131,16 +131,17 @@ public class AmmeterManagerImpl implements AmmeterManager{
 
     @Override
     public List<Ammeter> getAmmetersOwnByProject(Long projectId) {
-        List<Ammeter> ammetersOwnByProject=null;
+        List<Ammeter> ammetersOwnByProject = null;
         List<ProjectAmmeterLink> projectAmmeterLinks = projectAmmeterLinkDAO
                 .getByProjectId(projectId);
         if(null!=projectAmmeterLinks){
             ammetersOwnByProject= new ArrayList<Ammeter>();
-            for (ProjectAmmeterLink projectAmmeterLink : projectAmmeterLinks) {
-                Ammeter ammeterOwnByProject=ammeterDAO.get(projectAmmeterLink.getAmmeterId());
-                if(null!=ammeterOwnByProject){
-                    ammetersOwnByProject.add(ammeterOwnByProject); 
+            List<Long> ammeterIds = new ArrayList<Long>();
+            if(projectAmmeterLinks.size() > 0){
+            	for (ProjectAmmeterLink projectAmmeterLink : projectAmmeterLinks) {
+                	ammeterIds.add(projectAmmeterLink.getAmmeterId());
                 }
+                ammetersOwnByProject = ammeterDAO.get(ammeterIds);
             }
         }
         return ammetersOwnByProject;

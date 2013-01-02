@@ -11,9 +11,8 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href = "/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href = "/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-    <style type = "text/css">
+
+     <!--
         @import "/dojo-release-1.7.2/dojo/resources/dojo.css";
         @import "/dojo-release-1.7.2/dijit/themes/dijit.css";
         @import "/dojo-release-1.7.2/dijit/themes/claro/claro.css";
@@ -22,21 +21,53 @@
         @import "/dojo-release-1.7.2/dojox/grid/enhanced/resources/tundra/EnhancedGrid.css";
         @import "/dojo-release-1.7.2/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
         @import "/dojo-release-1.7.2/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+    -->
+    <link href = "/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href = "/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <style type = "text/css">
+        @import "/dojo1.7src/dojo/resources/dojo.css";
+        @import "/dojo1.7src/dijit/themes/dijit.css";
+        @import "/dojo1.7src/dijit/themes/claro/claro.css";
+        @import "/dojo1.7src/dojox/grid/resources/claroGrid.css";
+        @import "/dojo1.7src/dojox/grid/enhanced/resources/claro/EnhancedGrid.css";
+        @import "/dojo1.7src/dojox/grid/enhanced/resources/tundra/EnhancedGrid.css";
+        @import "/dojo1.7src/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+        @import "/dojo1.7src/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css";
+
         body {
             padding-top: 60px;
             padding-bottom: 40px;
 
         }
+
+        .dialogLabel{
+            float:left;
+            width: 10em;
+            margin-left: 5em;
+            margin-right: 1em;
+        }
+
+        body .short {
+            width: 5em;
+        }
+        body .medium {
+            width: 10em;
+        }
+        body .long {
+            width: 20em;
+        }
+
         #ammeter_grid  {
             height:400px;
             width: 100%
         }
 
+
     </style>
 
     
 
-    <script src = "/dojo-release-1.7.2/dojo/dojo.js" 
+    <script src = "/dojo1.7src/dojo/dojo.js" 
         data-dojo-config="
             async:true,
             parseOnLoad:true,
@@ -321,46 +352,96 @@
                         <!--project Pane-->
                         <!-- hiddens -->
                         <div class="dijitHidden">
-							<div data-dojo-type="dijit.Dialog" data-dojo-id="createProjectForCompanyDialog" id="createProjectForCompanyDialog"
-								title="添加新项目到公司">
+							<div data-dojo-type="dijit.Dialog" data-dojo-id="createProjectForCompanyDialog" id="createProjectForCompanyDialog" title="添加新项目到公司" style="width:600px;">
 								<form id="newProjectDialogForm" method="post" action="/project/add" >
-									<label for="forCompanyProjectName">项目名称:</label>
-									<input id="forCompanyProjectName"></input>
-									<label for="forCompanyProjectStart">项目开始时间:</label>
-									<input id="forCompanyProjectStart"></input>
-									<label for="forCompanyProjectEnd">项目结束时间:</label>
-									<input id="forCompanyProjectEnd"></input>
+                                    <ul class="nav">
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="forCompanyProjectName">项目名称:</label>
+                                            
+                                            <input type="text" id="forCompanyProjectName" name="forCompanyProjectName" class="long"
+                                                dojoType="dijit.form.ValidationTextBox"
+                                                required="true" 
+                                                ucfirst="true" invalidMessage=""/>
+                                            </input>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="projectStartDate">项目开始时间:</label>
+                                            <input id="projectStartDate" name="projectStartDate" dojoType="dijit.form.DateTextBox" required=true/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="projectEndDate">项目结束时间:</label>
+                                            <input id="projectEndDate" name="projectEndDate" dojoType="dijit.form.DateTextBox" required=true/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="projectCompany">项目公司:</label>
+                                            <input class="medium" id="projectCompany" />
+
+                                        </li>
+                                    </ul>
+									
 								</form>
 								<form id="newProjectDialogCPFrom" method="post" action="/cp/add" >
 								</form>
 								
 						
 								<div class="dijitDialogPaneActionBar">
-									<button type="submit" id="newProjectDialogAddBtn">添加</button>
-									<button type="button" id="newProjectDialogCancelBtn">取消</button>
+                                    <button id="newProjectDialogAddBtn" data-dojo-type="dijit.form.Button">
+                                        添加
+                                    </button>
+                                    <button id="newProjectDialogCancelBtn" data-dojo-type="dijit.form.Button">
+                                        取消
+                                    </button>
 								</div>
 							</div>
-                            <div data-dojo-type="dijit.Dialog" data-dojo-id="createAmmeterDialog" id="createProjectForCompanyDialog"
-                                title="添加电表">
-                                <form id="newProjectDialogForm" method="post" action="/project/add" >
-                                    <label for="forCompanyProjectName">项目名称:</label>
-                                    <input id="forCompanyProjectName"></input>
-                                    <label for="forCompanyProjectStart">项目开始时间:</label>
-                                    <input id="forCompanyProjectStart"></input>
-                                    <label for="forCompanyProjectEnd">项目结束时间:</label>
-                                    <input id="forCompanyProjectEnd"></input>
-                                </form>
-                                <form id="newProjectDialogCPFrom" method="post" action="/cp/add" >
+                            <div data-dojo-type="dijit.Dialog" data-dojo-id="createAmmeterDialog" id="createAmmeterDialog" title="添加电表" style="width:600px;">
+                                <form id="createAmmeterDialogForm" method="post" action="/ammeter/add" >
+                                    <ul class="nav">
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="ammeterName">电表名称:</label>
+                                            <input id="ammeterName" type="text" dojoType="dijit.form.ValidationTextBox" class="long"
+                                                required="true" 
+                                                ucfirst="true" invalidMessage="">
+                                            </input>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label for="pumpName" class="dialogLabel">泵名称:</label>
+                                            <input id="pumpName" type="text" dojoType="dijit.form.ValidationTextBox" class="long"
+                                                required="true" 
+                                                ucfirst="true" invalidMessage="">
+                                            </input>
+                                        </li>
+                                        <!--
+                                        <li style="margin-bottom: 9px;">
+                                           <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="ammeterCompany">电表公司:</label>
+                                            <input class="medium" id="ammeterCompany" />
+                                        </li>
+                                        `-->
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="ammeterProject">电表项目:</label>
+                                            <input class="medium" id="ammeterProject" />
+                                        </li>
+                                    </ul>
                                 </form>
                                 
-                        
                                 <div class="dijitDialogPaneActionBar">
-                                    <button type="submit" id="newProjectDialogAddBtn">添加</button>
-                                    <button type="button" id="newProjectDialogCancelBtn">取消</button>
+                                    <button id="createAmmeterDialogAddBtn" data-dojo-type="dijit.form.Button">
+                                        添加
+                                    </button>
+                                    <button id="createAmmeterDialogCancelBtn" data-dojo-type="dijit.form.Button">
+                                        取消
+                                    </button>
                                 </div>
                             </div>
 
+                            <div data-dojo-type="dijit.Dialog" data-dojo-id="ErrorDialog" id="ErrorDialog" title="错误" style="width:600px;">
+                                错误
+                            </div>
+
 						</div>
+
+
 						<!-- /hiddens -->
                     </div>
                 </div>

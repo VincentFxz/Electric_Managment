@@ -1,5 +1,6 @@
 package org.zju.electric_factory.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -274,6 +275,24 @@ public class AmmeterController {
 		}
 		
 		return ammeterManager.getAmmetersOwnByUser(currentUser.getId());
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/list/{id}", headers = "Accept=appliction/json")
+	public @ResponseBody Ammeter listAmmeterById(@PathVariable String id){
+		Ammeter ammeter = null;
+		if(null != id){
+			ammeter = ammeterManager.getAmmeterById(Long.parseLong(id));
+		}
+		return ammeter;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/list/project/{projectId}", headers = "Accept=application/json")
+	public @ResponseBody List<Ammeter> listAmmetersByProjectId(@PathVariable String projectId){
+		List<Ammeter> ammeters = new ArrayList<Ammeter>();
+		if(null != projectId){
+			ammeters = ammeterManager.getAmmetersOwnByProject(Long.parseLong(projectId));
+		}
+		return ammeters;
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/list/{id}", headers = "Accept=application/json")

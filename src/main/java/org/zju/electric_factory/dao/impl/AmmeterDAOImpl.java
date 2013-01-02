@@ -69,4 +69,10 @@ public class AmmeterDAOImpl extends HibernateDAO<Ammeter, Long> implements Ammet
 	public List<Ammeter> getByOrder(String columnToSort, boolean isAsc){
 		return super.getAll(columnToSort,isAsc);
 	}
+	@Override
+	public List<Ammeter> get(List<Long> ids) {
+		// TODO Auto-generated method stub
+		
+		return super.get(ids);
+	}
 }

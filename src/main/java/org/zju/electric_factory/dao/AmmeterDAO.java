@@ -48,5 +48,7 @@ public interface AmmeterDAO {
 	public void delete(Long id);
 	
 	public List<Ammeter> getByOrder(String ColumnToSort, boolean isAsc);
+	
+	public List<Ammeter> get(List<Long> ids);
 
 }
