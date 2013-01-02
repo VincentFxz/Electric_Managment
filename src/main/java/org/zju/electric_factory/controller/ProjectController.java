@@ -1,18 +1,25 @@
 package org.zju.electric_factory.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.zju.electric_factory.entity.Company;
 import org.zju.electric_factory.entity.CompanyProjectLink;
 import org.zju.electric_factory.entity.Project;
 import org.zju.electric_factory.entity.ProjectAmmeterLink;
+import org.zju.electric_factory.service.CompanyManager;
 import org.zju.electric_factory.service.CompanyProjectManager;
 import org.zju.electric_factory.service.ProjectAmmeterManager;
 import org.zju.electric_factory.service.ProjectManager;
@@ -31,9 +38,20 @@ public class ProjectController {
 	@Autowired
 	private CompanyProjectManager companyProjectManager;
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/list/{id}", headers = "Accept=application/json")
-	public @ResponseBody List<ProjectVO> listProjectsByCompanyId(@PathVariable String id){
-		List<Project> projects = projectManager.getProjectsOwnByCompany(id);
+	@Autowired
+	private CompanyManager companyManager;
+	
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		dateFormat.setLenient(false); 
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/list/company/{companyId}", headers = "Accept=application/json")
+	public @ResponseBody List<ProjectVO> listProjectsByCompanyId(@PathVariable String companyId){
+		List<Project> projects = projectManager.getProjectsOwnByCompany(companyId);
 		List<ProjectVO> projectVOs = null;
 		if(null != projects){
 			projectVOs = new ArrayList<ProjectVO>();
@@ -48,6 +66,21 @@ public class ProjectController {
 			}
 		}
 		return projectVOs;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/list/{id}", headers = "Accept=application/json")
+	public @ResponseBody ProjectVO getProjectById(@PathVariable String id){
+		if(null != id){
+			Project project = projectManager.getById(Long.parseLong(id));
+			ProjectVO projectVO = new ProjectVO();
+			projectVO.setId(project.getId());
+			projectVO.setEndDate(project.getEndDate());
+			projectVO.setProjectDescription(project.getProjectDescription());
+			projectVO.setProjectName(project.getProjectName());
+			projectVO.setStartDate(project.getStartDate());
+			return projectVO;
+		}
+		return null;
 	}
 	
 	@RequestMapping(method=RequestMethod.GET,value="/list",headers="Accept=application/json")
@@ -116,8 +149,18 @@ public class ProjectController {
     }
     
     @RequestMapping(method=RequestMethod.POST,value="/add",headers="Accept=application/json")
-    public @ResponseBody Project addAmmeter(Project project ){
-        projectManager.add(project);
+    public @ResponseBody Project addAmmeter(Project project , String companyName){
+    	projectManager.add(project);
+    	if(null != companyName){
+    		CompanyProjectLink companyProjectLink = new CompanyProjectLink();
+    		Company company = companyManager.getCompanyByCompanyName(companyName);
+    	
+    		if(null != company){
+    			companyProjectLink.setCompanyId(company.getId());
+    			companyProjectLink.setProjectId(project.getId());
+    			companyProjectManager.addCompanyProjectLink(companyProjectLink);
+    		}
+    	}
         return project;
     }
 
