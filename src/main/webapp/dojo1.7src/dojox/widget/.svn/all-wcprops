@@ -1,0 +1,197 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/src/!svn/ver/27590/branches/1.7/dojox/widget
+END
+Standby.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26915/branches/1.7/dojox/widget/Standby.js
+END
+DataPresentation.js
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/src/!svn/ver/26915/branches/1.7/dojox/widget/DataPresentation.js
+END
+CalendarFx.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/26915/branches/1.7/dojox/widget/CalendarFx.js
+END
+Calendar.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/26915/branches/1.7/dojox/widget/Calendar.js
+END
+FisheyeLite.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26915/branches/1.7/dojox/widget/FisheyeLite.js
+END
+AnalogGauge.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26915/branches/1.7/dojox/widget/AnalogGauge.js
+END
+UpgradeBar.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/26915/branches/1.7/dojox/widget/UpgradeBar.js
+END
+ColorPicker.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26915/branches/1.7/dojox/widget/ColorPicker.js
+END
+FilePicker.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/26915/branches/1.7/dojox/widget/FilePicker.js
+END
+FeedPortlet.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26915/branches/1.7/dojox/widget/FeedPortlet.js
+END
+Toaster.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26915/branches/1.7/dojox/widget/Toaster.js
+END
+MultiSelectCalendar.js
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/src/!svn/ver/26927/branches/1.7/dojox/widget/MultiSelectCalendar.js
+END
+PlaceholderMenuItem.js
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/src/!svn/ver/26915/branches/1.7/dojox/widget/PlaceholderMenuItem.js
+END
+DocTester.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/26915/branches/1.7/dojox/widget/DocTester.js
+END
+TitleGroup.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/26915/branches/1.7/dojox/widget/TitleGroup.js
+END
+Pager.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26915/branches/1.7/dojox/widget/Pager.js
+END
+DynamicTooltip.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/26915/branches/1.7/dojox/widget/DynamicTooltip.js
+END
+Wizard.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26915/branches/1.7/dojox/widget/Wizard.js
+END
+RollingList.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26915/branches/1.7/dojox/widget/RollingList.js
+END
+Loader.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26915/branches/1.7/dojox/widget/Loader.js
+END
+DialogSimple.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/src/!svn/ver/26915/branches/1.7/dojox/widget/DialogSimple.js
+END
+BarGauge.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/26915/branches/1.7/dojox/widget/BarGauge.js
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/src/!svn/ver/26915/branches/1.7/dojox/widget/README
+END
+AutoRotator.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26915/branches/1.7/dojox/widget/AutoRotator.js
+END
+SortList.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/26915/branches/1.7/dojox/widget/SortList.js
+END
+CalendarViews.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26915/branches/1.7/dojox/widget/CalendarViews.js
+END
+FisheyeList.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26915/branches/1.7/dojox/widget/FisheyeList.js
+END
+Portlet.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26915/branches/1.7/dojox/widget/Portlet.js
+END
+Iterator.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/26915/branches/1.7/dojox/widget/Iterator.js
+END
+Rotator.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26915/branches/1.7/dojox/widget/Rotator.js
+END
+Dialog.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26915/branches/1.7/dojox/widget/Dialog.js
+END
+Roller.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26915/branches/1.7/dojox/widget/Roller.js
+END

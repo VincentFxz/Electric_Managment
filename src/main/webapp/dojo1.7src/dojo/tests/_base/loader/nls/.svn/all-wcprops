@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/nls
+END
+syncBundle.js
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/nls/syncBundle.js
+END
+amdBundle.js
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/nls/amdBundle.js
+END

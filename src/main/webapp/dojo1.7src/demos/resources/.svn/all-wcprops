@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/src/!svn/ver/28622/branches/1.7/demos/resources
+END
+demos.css
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/27532/branches/1.7/demos/resources/demos.css
+END
+build_demos.sh
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/26917/branches/1.7/demos/resources/build_demos.sh
+END
+ext_demos.json
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/28622/branches/1.7/demos/resources/ext_demos.json
+END
+desktop.css
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/27415/branches/1.7/demos/resources/desktop.css
+END
+phone.css
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/27553/branches/1.7/demos/resources/phone.css
+END
+LICENSE
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26917/branches/1.7/demos/resources/LICENSE
+END
+ie.css
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/27415/branches/1.7/demos/resources/ie.css
+END
+vtablet.css
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/27553/branches/1.7/demos/resources/vtablet.css
+END
+users.json
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/26917/branches/1.7/demos/resources/users.json
+END
+htablet.css
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/27553/branches/1.7/demos/resources/htablet.css
+END

@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/26927/branches/1.7/dojox/gauges/tests
+END
+test_AnalogGaugeWidgetLabelPlacement.html
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/src/!svn/ver/26915/branches/1.7/dojox/gauges/tests/test_AnalogGaugeWidgetLabelPlacement.html
+END
+test_AnalogGauge-AMD.html
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/src/!svn/ver/26927/branches/1.7/dojox/gauges/tests/test_AnalogGauge-AMD.html
+END
+test_AnalogGaugeWidgetOrientation.html
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/src/!svn/ver/26915/branches/1.7/dojox/gauges/tests/test_AnalogGaugeWidgetOrientation.html
+END
+test_GlossyGauges-AMD.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/src/!svn/ver/26927/branches/1.7/dojox/gauges/tests/test_GlossyGauges-AMD.html
+END
+test_AnalogGaugeWidget.html
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/src/!svn/ver/26915/branches/1.7/dojox/gauges/tests/test_AnalogGaugeWidget.html
+END
+test_AnalogGaugeWidgetIndicators.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/src/!svn/ver/26915/branches/1.7/dojox/gauges/tests/test_AnalogGaugeWidgetIndicators.html
+END
+test_GlossyCircularGauge.html
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/src/!svn/ver/26915/branches/1.7/dojox/gauges/tests/test_GlossyCircularGauge.html
+END
+test_BarGaugeWidget.html
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/src/!svn/ver/26915/branches/1.7/dojox/gauges/tests/test_BarGaugeWidget.html
+END
+test_GlossyHorizontalGauge.html
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/src/!svn/ver/26915/branches/1.7/dojox/gauges/tests/test_GlossyHorizontalGauge.html
+END

@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/exports
+END
+funcSet.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/exports/funcSet.js
+END
+simpleReturn.js
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/exports/simpleReturn.js
+END
+exports.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/exports/exports.html
+END
+implicitModule.js
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/exports/implicitModule.js
+END
+assign.js
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/exports/assign.js
+END
+exports-tests.js
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/exports/exports-tests.js
+END
+usethis.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/exports/usethis.js
+END
+assign2.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/exports/assign2.js
+END
+vanilla.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/exports/vanilla.js
+END

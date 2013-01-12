@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/src/!svn/ver/27721/branches/1.7/dojox/mvc
+END
+_patches.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26915/branches/1.7/dojox/mvc/_patches.js
+END
+StatefulModel.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/27170/branches/1.7/dojox/mvc/StatefulModel.js
+END
+_DataBindingMixin.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/27721/branches/1.7/dojox/mvc/_DataBindingMixin.js
+END
+_base.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/26915/branches/1.7/dojox/mvc/_base.js
+END
+Generate.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26915/branches/1.7/dojox/mvc/Generate.js
+END
+Bind.js
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/src/!svn/ver/26915/branches/1.7/dojox/mvc/Bind.js
+END
+Group.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/26915/branches/1.7/dojox/mvc/Group.js
+END
+Output.js
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/src/!svn/ver/26915/branches/1.7/dojox/mvc/Output.js
+END
+Repeat.js
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/src/!svn/ver/26915/branches/1.7/dojox/mvc/Repeat.js
+END
+_Container.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26915/branches/1.7/dojox/mvc/_Container.js
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/27104/branches/1.7/dojox/mvc/README
+END

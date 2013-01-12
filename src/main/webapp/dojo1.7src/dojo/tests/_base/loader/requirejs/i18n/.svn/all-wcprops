@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/i18n
+END
+testModule.js
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/i18n/testModule.js
+END
+i18n.html
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/i18n/i18n.html
+END
+commonA.js
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/i18n/commonA.js
+END
+commonB.js
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/i18n/commonB.js
+END
+i18n.js
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/i18n/i18n.js
+END
+common.html
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/requirejs/i18n/common.html
+END

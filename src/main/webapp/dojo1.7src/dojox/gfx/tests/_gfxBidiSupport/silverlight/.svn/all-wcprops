@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/silverlight
+END
+textBidiSilverlight.html
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/silverlight/textBidiSilverlight.html
+END
+inheritFromSurfaceSilverlight.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/silverlight/inheritFromSurfaceSilverlight.html
+END
+dynamicallyChangeTextSilverlight.html
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/silverlight/dynamicallyChangeTextSilverlight.html
+END
+test_SurfaceGroupSilverlight.html
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/silverlight/test_SurfaceGroupSilverlight.html
+END

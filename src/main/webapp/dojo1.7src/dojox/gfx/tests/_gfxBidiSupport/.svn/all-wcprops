@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport
+END
+runTests.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/runTests.html
+END
+textpathBidi.html
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/textpathBidi.html
+END
+textBidi.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/textBidi.html
+END
+module.js
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/module.js
+END
+inheritFromSurface.html
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/inheritFromSurface.html
+END
+dynamicallyChangeText.html
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/dynamicallyChangeText.html
+END
+test_SurfaceGroup.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/test_SurfaceGroup.html
+END

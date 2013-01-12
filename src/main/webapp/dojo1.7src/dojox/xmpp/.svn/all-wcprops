@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/src/!svn/ver/28627/branches/1.7/dojox/xmpp
+END
+ChatService.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/26915/branches/1.7/dojox/xmpp/ChatService.js
+END
+TransportSession.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/26915/branches/1.7/dojox/xmpp/TransportSession.js
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/src/!svn/ver/26915/branches/1.7/dojox/xmpp/README
+END
+sasl.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/26915/branches/1.7/dojox/xmpp/sasl.js
+END
+PresenceService.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26915/branches/1.7/dojox/xmpp/PresenceService.js
+END
+xmppSession.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/28627/branches/1.7/dojox/xmpp/xmppSession.js
+END
+bosh.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/26915/branches/1.7/dojox/xmpp/bosh.js
+END
+util.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/26915/branches/1.7/dojox/xmpp/util.js
+END
+RosterService.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26915/branches/1.7/dojox/xmpp/RosterService.js
+END
+UserService.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/26915/branches/1.7/dojox/xmpp/UserService.js
+END

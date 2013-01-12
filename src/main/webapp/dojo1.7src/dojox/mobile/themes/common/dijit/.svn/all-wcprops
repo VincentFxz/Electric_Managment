@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/common/dijit
+END
+dijit.css
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/common/dijit/dijit.css
+END
+dijit-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/common/dijit/dijit-compat.css
+END
+Calendar.css
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/common/dijit/Calendar.css
+END
+Calendar-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/common/dijit/Calendar-compat.css
+END
+base.css
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/common/dijit/base.css
+END
+ColorPicker.css
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/common/dijit/ColorPicker.css
+END
+ColorPalette.css
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/common/dijit/ColorPalette.css
+END

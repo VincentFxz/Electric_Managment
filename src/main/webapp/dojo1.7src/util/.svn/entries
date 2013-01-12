@@ -1,0 +1,92 @@
+10
+
+dir
+29378
+http://svn.dojotoolkit.org/src/branches/1.7/util
+http://svn.dojotoolkit.org/src
+
+
+
+2012-06-10T19:35:34.486123Z
+28785
+rcgill
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+560b804f-0ae3-0310-86f3-f6aa0a117693
+
+checkstyle
+dir
+
+build
+dir
+
+jsdoc
+dir
+
+LICENSE
+file
+
+
+
+
+2012-07-25T08:52:15.838811Z
+3d06b14ab533a5e4f9815b5b8761eb84
+2011-01-22T16:04:53.475842Z
+23605
+dante
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+11347
+
+less
+dir
+
+buildscripts
+dir
+
+closureCompiler
+dir
+
+migration
+dir
+
+doh
+dir
+
+docscripts
+dir
+
+shrinksafe
+dir
+

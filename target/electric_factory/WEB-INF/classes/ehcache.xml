@@ -18,7 +18,7 @@
   -->
 <ehcache>
 
-    <diskStore path="java.io.tmpdir/shiro-sprhib-ehcache"/>
+    <diskStore path="java.io.tmpdir/em"/>
 
 
     <defaultCache
@@ -33,22 +33,22 @@
         Hibernate Object Caches
         =================================================================-->
 
-    <cache name="org.apache.shiro.samples.sprhib.model.Role"
+    <cache name="org.zju.electric_factory.entity.Role"
         maxElementsInMemory="100"
         timeToLiveSeconds="0"
         overflowToDisk="true"/>
 
-    <cache name="org.apache.shiro.samples.sprhib.model.Role.permissions"
+    <cache name="org.zju.electric_factory.entity.Role.permissions"
         maxElementsInMemory="100"
         timeToLiveSeconds="0"
         overflowToDisk="true"/>
 
-    <cache name="org.apache.shiro.samples.sprhib.model.User"
+    <cache name="org.zju.electric_factory.entity.User"
         maxElementsInMemory="1000"
         timeToLiveSeconds="3600"
         overflowToDisk="true"/>
 
-    <cache name="org.apache.shiro.samples.sprhib.model.User.roles"
+    <cache name="org.zju.electric_factory.entity.User.roles"
         maxElementsInMemory="1000"
         timeToLiveSeconds="3600"
         overflowToDisk="true"/>

@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/src/!svn/ver/28785/branches/1.7/util/build
+END
+v1xProfiles.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/27802/branches/1.7/util/build/v1xProfiles.js
+END
+main.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/26916/branches/1.7/util/build/main.js
+END
+version.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26916/branches/1.7/util/build/version.js
+END
+optimizeRunner.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/src/!svn/ver/28785/branches/1.7/util/build/optimizeRunner.js
+END
+buildControlBase.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/27802/branches/1.7/util/build/buildControlBase.js
+END
+help.txt
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/src/!svn/ver/27102/branches/1.7/util/build/help.txt
+END
+argv.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/26916/branches/1.7/util/build/argv.js
+END
+fileUtils.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/27888/branches/1.7/util/build/fileUtils.js
+END
+buildControl.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/28785/branches/1.7/util/build/buildControl.js
+END
+removeComments.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/src/!svn/ver/26916/branches/1.7/util/build/removeComments.js
+END
+buildNotice.txt
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/26916/branches/1.7/util/build/buildNotice.txt
+END
+buildControlDefault.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/src/!svn/ver/28785/branches/1.7/util/build/buildControlDefault.js
+END
+messages.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/28785/branches/1.7/util/build/messages.js
+END
+fs.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/26916/branches/1.7/util/build/fs.js
+END
+copyright.txt
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/26916/branches/1.7/util/build/copyright.txt
+END
+replace.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/27299/branches/1.7/util/build/replace.js
+END
+discover.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/27802/branches/1.7/util/build/discover.js
+END
+process.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26916/branches/1.7/util/build/process.js
+END
+stringify.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/27802/branches/1.7/util/build/stringify.js
+END
+fileHandleThrottle.js
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/src/!svn/ver/26916/branches/1.7/util/build/fileHandleThrottle.js
+END

@@ -1,0 +1,223 @@
+10
+
+dir
+29378
+http://svn.dojotoolkit.org/src/branches/1.7/dijit/_editor/nls
+http://svn.dojotoolkit.org/src
+
+
+
+2012-03-13T12:54:32.868295Z
+28149
+doughays
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+560b804f-0ae3-0310-86f3-f6aa0a117693
+
+da
+dir
+
+sv
+dir
+
+de
+dir
+
+LinkDialog.js
+file
+
+
+
+
+2012-07-25T08:39:19.766772Z
+056b47c160a7f35e8b4394cfae5eeb92
+2011-12-26T19:19:52.121868Z
+27462
+doughays
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+711
+
+ja
+dir
+
+he
+dir
+
+fi
+dir
+
+nb
+dir
+
+pt-pt
+dir
+
+fr
+dir
+
+zh-tw
+dir
+
+nl
+dir
+
+hr
+dir
+
+th
+dir
+
+pl
+dir
+
+hu
+dir
+
+commands.js
+file
+
+
+
+
+2012-07-25T08:39:19.770772Z
+920ef57793bcc5d04a8b7fd468be48cf
+2011-12-26T19:19:52.121868Z
+27462
+doughays
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1923
+
+ro
+dir
+
+zh
+dir
+
+pt
+dir
+
+ca
+dir
+
+tr
+dir
+
+ru
+dir
+
+FontChoice.js
+file
+
+
+
+
+2012-07-25T08:39:19.766772Z
+8493805bd0d9159574d0b8a3356fed32
+2011-12-26T19:19:52.121868Z
+27462
+doughays
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+840
+
+el
+dir
+
+ar
+dir
+
+kk
+dir
+
+cs
+dir
+
+es
+dir
+
+ko
+dir
+
+az
+dir
+
+it
+dir
+
+sk
+dir
+
+sl
+dir
+

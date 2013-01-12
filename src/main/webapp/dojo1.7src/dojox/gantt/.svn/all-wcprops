@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/src/!svn/ver/26915/branches/1.7/dojox/gantt
+END
+TabMenu.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26915/branches/1.7/dojox/gantt/TabMenu.js
+END
+GanttChart.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/26915/branches/1.7/dojox/gantt/GanttChart.js
+END
+GanttTaskItem.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/src/!svn/ver/26915/branches/1.7/dojox/gantt/GanttTaskItem.js
+END
+GanttProjectItem.js
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/src/!svn/ver/26915/branches/1.7/dojox/gantt/GanttProjectItem.js
+END
+GanttResourceItem.js
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/src/!svn/ver/26915/branches/1.7/dojox/gantt/GanttResourceItem.js
+END

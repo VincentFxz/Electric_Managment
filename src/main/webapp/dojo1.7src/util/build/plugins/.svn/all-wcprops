@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/28785/branches/1.7/util/build/plugins
+END
+i18n.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/28785/branches/1.7/util/build/plugins/i18n.js
+END
+loadInit.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/28785/branches/1.7/util/build/plugins/loadInit.js
+END
+domReady.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/28785/branches/1.7/util/build/plugins/domReady.js
+END
+text.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/28785/branches/1.7/util/build/plugins/text.js
+END
+querySelector.js
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/src/!svn/ver/26916/branches/1.7/util/build/plugins/querySelector.js
+END
+has.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/26916/branches/1.7/util/build/plugins/has.js
+END
+require.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26916/branches/1.7/util/build/plugins/require.js
+END

@@ -1,0 +1,371 @@
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/src/!svn/ver/29322/branches/1.7/dojo
+END
+NodeList-manipulate.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26913/branches/1.7/dojo/NodeList-manipulate.js
+END
+i18n.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/src/!svn/ver/29322/branches/1.7/dojo/i18n.js
+END
+dom.js
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/src/!svn/ver/26925/branches/1.7/dojo/dom.js
+END
+dom-form.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/26925/branches/1.7/dojo/dom-form.js
+END
+text.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/src/!svn/ver/26913/branches/1.7/dojo/text.js
+END
+robot.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/src/!svn/ver/26913/branches/1.7/dojo/robot.js
+END
+dom-attr.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/26925/branches/1.7/dojo/dom-attr.js
+END
+NodeList-data.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26913/branches/1.7/dojo/NodeList-data.js
+END
+package.json
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/src/!svn/ver/26913/branches/1.7/dojo/package.json
+END
+number.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/src/!svn/ver/26913/branches/1.7/dojo/number.js
+END
+dojo.profile.js
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/src/!svn/ver/27300/branches/1.7/dojo/dojo.profile.js
+END
+currency.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/26913/branches/1.7/dojo/currency.js
+END
+dojo.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/src/!svn/ver/28785/branches/1.7/dojo/dojo.js
+END
+NodeList-fx.js
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/src/!svn/ver/26913/branches/1.7/dojo/NodeList-fx.js
+END
+dom-prop.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/26925/branches/1.7/dojo/dom-prop.js
+END
+behavior.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/26913/branches/1.7/dojo/behavior.js
+END
+dom-construct.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26925/branches/1.7/dojo/dom-construct.js
+END
+gears.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/src/!svn/ver/26913/branches/1.7/dojo/gears.js
+END
+colors.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/src/!svn/ver/26913/branches/1.7/dojo/colors.js
+END
+tests.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/src/!svn/ver/26913/branches/1.7/dojo/tests.js
+END
+html.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/src/!svn/ver/26913/branches/1.7/dojo/html.js
+END
+dom-geometry.js
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/src/!svn/ver/26925/branches/1.7/dojo/dom-geometry.js
+END
+AdapterRegistry.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26913/branches/1.7/dojo/AdapterRegistry.js
+END
+io-query.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/26925/branches/1.7/dojo/io-query.js
+END
+keys.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/src/!svn/ver/26925/branches/1.7/dojo/keys.js
+END
+topic.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/src/!svn/ver/26925/branches/1.7/dojo/topic.js
+END
+uacss.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/src/!svn/ver/26913/branches/1.7/dojo/uacss.js
+END
+aspect.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/src/!svn/ver/27770/branches/1.7/dojo/aspect.js
+END
+dom-class.js
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/src/!svn/ver/26925/branches/1.7/dojo/dom-class.js
+END
+touch.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/src/!svn/ver/26913/branches/1.7/dojo/touch.js
+END
+hash.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/src/!svn/ver/26913/branches/1.7/dojo/hash.js
+END
+NodeList-html.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26913/branches/1.7/dojo/NodeList-html.js
+END
+main.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/src/!svn/ver/26913/branches/1.7/dojo/main.js
+END
+Stateful.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/26913/branches/1.7/dojo/Stateful.js
+END
+mouse.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/src/!svn/ver/26925/branches/1.7/dojo/mouse.js
+END
+Evented.js
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/src/!svn/ver/26925/branches/1.7/dojo/Evented.js
+END
+regexp.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/src/!svn/ver/26913/branches/1.7/dojo/regexp.js
+END
+parser.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/src/!svn/ver/26913/branches/1.7/dojo/parser.js
+END
+NodeList-dom.js
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/src/!svn/ver/26913/branches/1.7/dojo/NodeList-dom.js
+END
+back.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/src/!svn/ver/26913/branches/1.7/dojo/back.js
+END
+cache.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/src/!svn/ver/26913/branches/1.7/dojo/cache.js
+END
+loadInit.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/26913/branches/1.7/dojo/loadInit.js
+END
+domReady.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/26913/branches/1.7/dojo/domReady.js
+END
+ready.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/src/!svn/ver/26913/branches/1.7/dojo/ready.js
+END
+query.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/src/!svn/ver/27042/branches/1.7/dojo/query.js
+END
+OpenAjax.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/26913/branches/1.7/dojo/OpenAjax.js
+END
+string.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/src/!svn/ver/26913/branches/1.7/dojo/string.js
+END
+window.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/src/!svn/ver/27423/branches/1.7/dojo/window.js
+END
+LICENSE
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/src/!svn/ver/26913/branches/1.7/dojo/LICENSE
+END
+json.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/src/!svn/ver/26925/branches/1.7/dojo/json.js
+END
+jaxer.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/src/!svn/ver/26913/branches/1.7/dojo/jaxer.js
+END
+cookie.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/src/!svn/ver/26913/branches/1.7/dojo/cookie.js
+END
+NodeList-traverse.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/26913/branches/1.7/dojo/NodeList-traverse.js
+END
+has.js
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/src/!svn/ver/27785/branches/1.7/dojo/has.js
+END
+require.js
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/src/!svn/ver/26913/branches/1.7/dojo/require.js
+END
+DeferredList.js
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/src/!svn/ver/26913/branches/1.7/dojo/DeferredList.js
+END
+on.js
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/src/!svn/ver/27329/branches/1.7/dojo/on.js
+END
+fx.js
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/src/!svn/ver/27046/branches/1.7/dojo/fx.js
+END
+robotx.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/src/!svn/ver/26913/branches/1.7/dojo/robotx.js
+END
+date.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/src/!svn/ver/26913/branches/1.7/dojo/date.js
+END
+dom-style.js
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/src/!svn/ver/27117/branches/1.7/dojo/dom-style.js
+END

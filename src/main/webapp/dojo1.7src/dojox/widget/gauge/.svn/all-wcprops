@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/26915/branches/1.7/dojox/widget/gauge
+END
+_Gauge.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/src/!svn/ver/26915/branches/1.7/dojox/widget/gauge/_Gauge.js
+END
+AnalogArrowIndicator.js
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/src/!svn/ver/26915/branches/1.7/dojox/widget/gauge/AnalogArrowIndicator.js
+END
+AnalogNeedleIndicator.js
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/src/!svn/ver/26915/branches/1.7/dojox/widget/gauge/AnalogNeedleIndicator.js
+END
+BarIndicator.js
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/src/!svn/ver/26915/branches/1.7/dojox/widget/gauge/BarIndicator.js
+END
+AnalogArcIndicator.js
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/src/!svn/ver/26915/branches/1.7/dojox/widget/gauge/AnalogArcIndicator.js
+END

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>SpringSource Team Blog</title>
+	<atom:link href="http://blog.springsource.org/feed/" rel="self" type="application/rss+xml" />
+	<link>http://blog.springsource.org</link>
+	<description>The voice of SpringSource</description>
+	<lastBuildDate>Mon, 17 Dec 2012 19:34:43 +0000</lastBuildDate>
+	<language>en</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=3.1.1</generator>
+		<item>
+		<title>Spring Security 3.2 M1 Highlights, Servlet 3 API Support</title>
+		<link>http://blog.springsource.org/2012/12/17/spring-security-3-2-m1-highlights-servlet-3-api-support/</link>
+		<comments>http://blog.springsource.org/2012/12/17/spring-security-3-2-m1-highlights-servlet-3-api-support/#comments</comments>
+		<pubDate>Mon, 17 Dec 2012 19:34:43 +0000</pubDate>
+		<dc:creator>rwinch</dc:creator>
+				<category><![CDATA[Security]]></category>
+		<category><![CDATA[Spring]]></category>
+
+		<guid isPermaLink="false">http://blog.springsource.org/?p=12321</guid>
+		<description><![CDATA[Last week I announced the release of Spring Security 3.2 M1 that contains improved Servlet 3 support. In this post, I will introduce some of the more exciting features found in the 3.2 M1 release. Specifically, we will take a look at the following new Spring Security features: Concurrency Support Servlet 3 API Integration Servlet  <a href="http://blog.springsource.org/2012/12/17/spring-security-3-2-m1-highlights-servlet-3-api-support/"><em>Read more...</em></a>]]></description>
+		<wfw:commentRss>http://blog.springsource.org/2012/12/17/spring-security-3-2-m1-highlights-servlet-3-api-support/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Spring Framework 3.2 goes GA</title>
+		<link>http://blog.springsource.org/2012/12/13/spring-framework-3-2-goes-ga/</link>
+		<comments>http://blog.springsource.org/2012/12/13/spring-framework-3-2-goes-ga/#comments</comments>
+		<pubDate>Thu, 13 Dec 2012 19:07:12 +0000</pubDate>
+		<dc:creator>Juergen Hoeller</dc:creator>
+				<category><![CDATA[Spring]]></category>
+
+		<guid isPermaLink="false">http://blog.springsource.org/?p=12297</guid>
+		<description><![CDATA[Dear Spring community, Exactly one year after the Spring Framework 3.1 release, I&#039;m pleased to announce that Spring Framework 3.2 is generally available now! We recommend an upgrade from all previous Spring releases, in particular from Spring Framework 3.1.x which this is a direct successor for. As previously discussed, key features in Spring Framework 3.2  <a href="http://blog.springsource.org/2012/12/13/spring-framework-3-2-goes-ga/"><em>Read more...</em></a>]]></description>
+		<wfw:commentRss>http://blog.springsource.org/2012/12/13/spring-framework-3-2-goes-ga/feed/</wfw:commentRss>
+		<slash:comments>12</slash:comments>
+		</item>
+		<item>
+		<title>Introducing Spring Scala</title>
+		<link>http://blog.springsource.org/2012/12/10/introducing-spring-scala/</link>
+		<comments>http://blog.springsource.org/2012/12/10/introducing-spring-scala/#comments</comments>
+		<pubDate>Mon, 10 Dec 2012 13:50:51 +0000</pubDate>
+		<dc:creator>Arjen Poutsma</dc:creator>
+				<category><![CDATA[Scala]]></category>
+		<category><![CDATA[Spring]]></category>
+
+		<guid isPermaLink="false">http://blog.springsource.org/?p=12215</guid>
+		<description><![CDATA[Last October, at SpringOne2GX, I introduced the Spring Scala project to the world. Since then, I&#039;ve also presented this project at Devoxx. In this blog post, I would like to give further details about this project and how you can use it in your Scala projects. Why Spring Scala? The goal of the Spring Scala  <a href="http://blog.springsource.org/2012/12/10/introducing-spring-scala/"><em>Read more...</em></a>]]></description>
+		<wfw:commentRss>http://blog.springsource.org/2012/12/10/introducing-spring-scala/feed/</wfw:commentRss>
+		<slash:comments>11</slash:comments>
+		</item>
+		<item>
+		<title>IOC + Javascript at SpringOne 2GX</title>
+		<link>http://blog.springsource.org/2012/12/06/ioc-javascript-at-springone-2gx/</link>
+		<comments>http://blog.springsource.org/2012/12/06/ioc-javascript-at-springone-2gx/#comments</comments>
+		<pubDate>Thu, 06 Dec 2012 19:01:47 +0000</pubDate>
+		<dc:creator>John Hann</dc:creator>
+				<category><![CDATA[IOC Container]]></category>
+		<category><![CDATA[Spring]]></category>
+		<category><![CDATA[ioc]]></category>
+		<category><![CDATA[JavaScript]]></category>
+		<category><![CDATA[s2js]]></category>
+
+		<guid isPermaLink="false">http://blog.springsource.org/?p=12239</guid>
+		<description><![CDATA[by Brian Cavalier &#38; John Hann We gave a talk on IOC + Javascript at SpringOne 2GX. Front-end web application architecture seemed to be quite a hot topic at the conference, in general, and our talk seemed to be very well received. Here are the video and slides from the talk. We&#039;ll also be starting a blog series about architectural  <a href="http://blog.springsource.org/2012/12/06/ioc-javascript-at-springone-2gx/"><em>Read more...</em></a>]]></description>
+		<wfw:commentRss>http://blog.springsource.org/2012/12/06/ioc-javascript-at-springone-2gx/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Introducing Spring Migration Analyzer</title>
+		<link>http://blog.springsource.org/2012/11/27/introducing-spring-migration-analyzer/</link>
+		<comments>http://blog.springsource.org/2012/11/27/introducing-spring-migration-analyzer/#comments</comments>
+		<pubDate>Tue, 27 Nov 2012 09:55:28 +0000</pubDate>
+		<dc:creator>Andy Wilkinson</dc:creator>
+				<category><![CDATA[Spring]]></category>
+
+		<guid isPermaLink="false">http://blog.springsource.org/?p=12134</guid>
+		<description><![CDATA[It&#039;s my pleasure to announce that we&#039;ve released the first milestone of Spring Migration Analyzer (SMA), a command-line utility that analyzes enterprise Java applications and produces a report describing the application and how it can be migrated to Spring. Why migrate an application to Spring? We see two main reasons when people choose to use  <a href="http://blog.springsource.org/2012/11/27/introducing-spring-migration-analyzer/"><em>Read more...</em></a>]]></description>
+		<wfw:commentRss>http://blog.springsource.org/2012/11/27/introducing-spring-migration-analyzer/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>Dependency analysis in Scripted</title>
+		<link>http://blog.springsource.org/2012/11/20/scripted-dependency-analysis/</link>
+		<comments>http://blog.springsource.org/2012/11/20/scripted-dependency-analysis/#comments</comments>
+		<pubDate>Tue, 20 Nov 2012 07:01:48 +0000</pubDate>
+		<dc:creator>Kris De Volder</dc:creator>
+				<category><![CDATA[Open Source]]></category>
+		<category><![CDATA[Tools]]></category>
+		<category><![CDATA[JavaScript]]></category>
+
+		<guid isPermaLink="false">http://blog.springsource.org/?p=12117</guid>
+		<description><![CDATA[Scripted, a JavaScript editor from VMWare was announced on this blog last month. In this article we&#039;ll take a look under the hood at Scripted&#039;s Dependency Analysis Engine. But before diving into the details, lets motivate why we need it. Main Motivation: Cross-file Content Assist To provide a great JavaScript editing experience, Scripted needs to  <a href="http://blog.springsource.org/2012/11/20/scripted-dependency-analysis/"><em>Read more...</em></a>]]></description>
+		<wfw:commentRss>http://blog.springsource.org/2012/11/20/scripted-dependency-analysis/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Spring Framework 3.2 RC1: Spring MVC Test Framework</title>
+		<link>http://blog.springsource.org/2012/11/12/spring-framework-3-2-rc1-spring-mvc-test-framework/</link>
+		<comments>http://blog.springsource.org/2012/11/12/spring-framework-3-2-rc1-spring-mvc-test-framework/#comments</comments>
+		<pubDate>Mon, 12 Nov 2012 14:13:37 +0000</pubDate>
+		<dc:creator>Rossen Stoyanchev</dc:creator>
+				<category><![CDATA[Spring]]></category>
+		<category><![CDATA[Testing]]></category>
+		<category><![CDATA[Web]]></category>
+
+		<guid isPermaLink="false">http://blog.springsource.org/?p=12053</guid>
+		<description><![CDATA[Last week Juergen Hoeller announced the release of Spring Framework 3.2 RC1 and Sam Brannen discussed exciting additions in its spring-test module such as support for WebApplicationContext&#039;s and upcoming plans for loading a hierarchy of contexts. Today I will continue this subject and describe another exciting spring-test addition. In 3.2 RC1 we&#039;ve added first class  <a href="http://blog.springsource.org/2012/11/12/spring-framework-3-2-rc1-spring-mvc-test-framework/"><em>Read more...</em></a>]]></description>
+		<wfw:commentRss>http://blog.springsource.org/2012/11/12/spring-framework-3-2-rc1-spring-mvc-test-framework/feed/</wfw:commentRss>
+		<slash:comments>6</slash:comments>
+		</item>
+		<item>
+		<title>Spring Framework 3.2 RC1: New Testing Features</title>
+		<link>http://blog.springsource.org/2012/11/07/spring-framework-3-2-rc1-new-testing-features/</link>
+		<comments>http://blog.springsource.org/2012/11/07/spring-framework-3-2-rc1-new-testing-features/#comments</comments>
+		<pubDate>Wed, 07 Nov 2012 17:23:18 +0000</pubDate>
+		<dc:creator>Sam Brannen</dc:creator>
+				<category><![CDATA[Java]]></category>
+		<category><![CDATA[Spring]]></category>
+		<category><![CDATA[Testing]]></category>
+		<category><![CDATA[Web]]></category>
+
+		<guid isPermaLink="false">http://blog.springsource.org/?p=12024</guid>
+		<description><![CDATA[As Juergen Hoeller mentioned in his post announcing the release of Spring Framework 3.2 RC1, the Spring Team has introduced some exciting new features in terms of testing support. Most importantly, we&#039;ve added first-class support for testing web applications. [1] &#160;&#160;&#160;&#160;&#160;&#160;Please note: this is a cross post from my Swiftmind company blog. In this post  <a href="http://blog.springsource.org/2012/11/07/spring-framework-3-2-rc1-new-testing-features/"><em>Read more...</em></a>]]></description>
+		<wfw:commentRss>http://blog.springsource.org/2012/11/07/spring-framework-3-2-rc1-new-testing-features/feed/</wfw:commentRss>
+		<slash:comments>11</slash:comments>
+		</item>
+		<item>
+		<title>A Groovy DSL For Spring Integration</title>
+		<link>http://blog.springsource.org/2012/11/06/a-groovy-dsl-for-spring-integration/</link>
+		<comments>http://blog.springsource.org/2012/11/06/a-groovy-dsl-for-spring-integration/#comments</comments>
+		<pubDate>Tue, 06 Nov 2012 23:25:22 +0000</pubDate>
+		<dc:creator>David Turanski</dc:creator>
+				<category><![CDATA[Groovy/Grails]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[Spring]]></category>
+		<category><![CDATA[Spring Integration]]></category>
+
+		<guid isPermaLink="false">http://blog.springsource.org/?p=11908</guid>
+		<description><![CDATA[Spring Integration implements Enterprise Integration Patterrns using the Spring programming model to enable messaging in Spring-based applications. Spring Integration also provides integration with external systems using declarative adapters supporting jms, http, amqp, tcp, ftp(s), smtp, and so on. Currently, configuring message flows is primarily done via Spring XML and Spring Integration supports several namespaces to  <a href="http://blog.springsource.org/2012/11/06/a-groovy-dsl-for-spring-integration/"><em>Read more...</em></a>]]></description>
+		<wfw:commentRss>http://blog.springsource.org/2012/11/06/a-groovy-dsl-for-spring-integration/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>Spring Framework 3.2 RC1 released</title>
+		<link>http://blog.springsource.org/2012/11/05/spring-framework-3-2-rc1-released/</link>
+		<comments>http://blog.springsource.org/2012/11/05/spring-framework-3-2-rc1-released/#comments</comments>
+		<pubDate>Mon, 05 Nov 2012 14:50:00 +0000</pubDate>
+		<dc:creator>Juergen Hoeller</dc:creator>
+				<category><![CDATA[Java]]></category>
+		<category><![CDATA[Spring]]></category>
+
+		<guid isPermaLink="false">http://blog.springsource.org/?p=11994</guid>
+		<description><![CDATA[Dear Spring community, I&#039;m pleased to announce that the first Spring Framework 3.2 release candidate is now available. This generation of the core framework is a straightforward next step after last year&#039;s Spring Framework 3.1, continuing several well-established themes. Key features in Spring Framework 3.2 include: * A new Gradle-based framework build, making it easier  <a href="http://blog.springsource.org/2012/11/05/spring-framework-3-2-rc1-released/"><em>Read more...</em></a>]]></description>
+		<wfw:commentRss>http://blog.springsource.org/2012/11/05/spring-framework-3-2-rc1-released/feed/</wfw:commentRss>
+		<slash:comments>9</slash:comments>
+		</item>
+	</channel>
+</rss>

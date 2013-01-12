@@ -1,0 +1,365 @@
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/src/!svn/ver/29047/branches/1.7/dijit
+END
+ProgressBar.js
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/src/!svn/ver/26914/branches/1.7/dijit/ProgressBar.js
+END
+_TimePicker.js
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/src/!svn/ver/27875/branches/1.7/dijit/_TimePicker.js
+END
+PopupMenuBarItem.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/26914/branches/1.7/dijit/PopupMenuBarItem.js
+END
+_WidgetsInTemplateMixin.js
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/src/!svn/ver/26914/branches/1.7/dijit/_WidgetsInTemplateMixin.js
+END
+InlineEditBox.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26914/branches/1.7/dijit/InlineEditBox.js
+END
+Dialog.js
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/src/!svn/ver/28213/branches/1.7/dijit/Dialog.js
+END
+WidgetSet.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/26914/branches/1.7/dijit/WidgetSet.js
+END
+Toolbar.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/26914/branches/1.7/dijit/Toolbar.js
+END
+_PaletteMixin.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26914/branches/1.7/dijit/_PaletteMixin.js
+END
+popup.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/src/!svn/ver/29047/branches/1.7/dijit/popup.js
+END
+_BidiSupport.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26926/branches/1.7/dijit/_BidiSupport.js
+END
+DialogUnderlay.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26914/branches/1.7/dijit/DialogUnderlay.js
+END
+_DialogMixin.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26914/branches/1.7/dijit/_DialogMixin.js
+END
+Menu.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/src/!svn/ver/26914/branches/1.7/dijit/Menu.js
+END
+LICENSE
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/src/!svn/ver/26914/branches/1.7/dijit/LICENSE
+END
+MenuBarItem.js
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/src/!svn/ver/26914/branches/1.7/dijit/MenuBarItem.js
+END
+registry.js
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/src/!svn/ver/29047/branches/1.7/dijit/registry.js
+END
+Calendar.js
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/src/!svn/ver/26914/branches/1.7/dijit/Calendar.js
+END
+_OnDijitClickMixin.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26914/branches/1.7/dijit/_OnDijitClickMixin.js
+END
+robotx.js
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/src/!svn/ver/26914/branches/1.7/dijit/robotx.js
+END
+_Templated.js
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/src/!svn/ver/26914/branches/1.7/dijit/_Templated.js
+END
+DropDownMenu.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26914/branches/1.7/dijit/DropDownMenu.js
+END
+ToolbarSeparator.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/26914/branches/1.7/dijit/ToolbarSeparator.js
+END
+place.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/src/!svn/ver/29045/branches/1.7/dijit/place.js
+END
+MenuSeparator.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26914/branches/1.7/dijit/MenuSeparator.js
+END
+Editor.js
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/src/!svn/ver/26914/branches/1.7/dijit/Editor.js
+END
+_HasDropDown.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/27410/branches/1.7/dijit/_HasDropDown.js
+END
+CalendarLite.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26926/branches/1.7/dijit/CalendarLite.js
+END
+MenuBar.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/26914/branches/1.7/dijit/MenuBar.js
+END
+Tooltip.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/28169/branches/1.7/dijit/Tooltip.js
+END
+CheckedMenuItem.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/26914/branches/1.7/dijit/CheckedMenuItem.js
+END
+_CssStateMixin.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26914/branches/1.7/dijit/_CssStateMixin.js
+END
+ColorPalette.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26914/branches/1.7/dijit/ColorPalette.js
+END
+_MenuBase.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/26914/branches/1.7/dijit/_MenuBase.js
+END
+typematic.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/26914/branches/1.7/dijit/typematic.js
+END
+_KeyNavContainer.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/26914/branches/1.7/dijit/_KeyNavContainer.js
+END
+Tree.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/src/!svn/ver/26914/branches/1.7/dijit/Tree.js
+END
+dijit.profile.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/27300/branches/1.7/dijit/dijit.profile.js
+END
+_Contained.js
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/src/!svn/ver/26914/branches/1.7/dijit/_Contained.js
+END
+hccss.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/src/!svn/ver/26914/branches/1.7/dijit/hccss.js
+END
+dijit.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/src/!svn/ver/26914/branches/1.7/dijit/dijit.js
+END
+BackgroundIframe.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/26914/branches/1.7/dijit/BackgroundIframe.js
+END
+PopupMenuItem.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26914/branches/1.7/dijit/PopupMenuItem.js
+END
+_Calendar.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/26914/branches/1.7/dijit/_Calendar.js
+END
+dijit-all.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/26914/branches/1.7/dijit/dijit-all.js
+END
+_base.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/src/!svn/ver/26914/branches/1.7/dijit/_base.js
+END
+TooltipDialog.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26914/branches/1.7/dijit/TooltipDialog.js
+END
+a11y.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/src/!svn/ver/26914/branches/1.7/dijit/a11y.js
+END
+_WidgetBase.js
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/src/!svn/ver/28133/branches/1.7/dijit/_WidgetBase.js
+END
+focus.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/src/!svn/ver/26914/branches/1.7/dijit/focus.js
+END
+_Container.js
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/src/!svn/ver/26914/branches/1.7/dijit/_Container.js
+END
+_Widget.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/26914/branches/1.7/dijit/_Widget.js
+END
+MenuItem.js
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/src/!svn/ver/26914/branches/1.7/dijit/MenuItem.js
+END
+_TemplatedMixin.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/26914/branches/1.7/dijit/_TemplatedMixin.js
+END
+_FocusMixin.js
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/src/!svn/ver/26914/branches/1.7/dijit/_FocusMixin.js
+END
+main.js
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/src/!svn/ver/26914/branches/1.7/dijit/main.js
+END
+robot.js
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/src/!svn/ver/26914/branches/1.7/dijit/robot.js
+END
+Declaration.js
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/src/!svn/ver/26982/branches/1.7/dijit/Declaration.js
+END
+TitlePane.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/26914/branches/1.7/dijit/TitlePane.js
+END
+package.json
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/src/!svn/ver/26914/branches/1.7/dijit/package.json
+END

@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/26915/branches/1.7/dojox/geo/openlayers/tests
+END
+test_bench.html
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/src/!svn/ver/26915/branches/1.7/dojox/geo/openlayers/tests/test_bench.html
+END
+test_resize.html
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/src/!svn/ver/26915/branches/1.7/dojox/geo/openlayers/tests/test_resize.html
+END
+test_widget.html
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/src/!svn/ver/26915/branches/1.7/dojox/geo/openlayers/tests/test_widget.html
+END
+test_gfx.html
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/src/!svn/ver/26915/branches/1.7/dojox/geo/openlayers/tests/test_gfx.html
+END
+test_gfx2.html
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/src/!svn/ver/26915/branches/1.7/dojox/geo/openlayers/tests/test_gfx2.html
+END

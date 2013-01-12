@@ -1,0 +1,119 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/28785/branches/1.7/util/build/transforms
+END
+hasFixup.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/src/!svn/ver/26916/branches/1.7/util/build/transforms/hasFixup.js
+END
+dojoReport.js
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/src/!svn/ver/26916/branches/1.7/util/build/transforms/dojoReport.js
+END
+write.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/27802/branches/1.7/util/build/transforms/write.js
+END
+trace.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/26916/branches/1.7/util/build/transforms/trace.js
+END
+depsScan.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/src/!svn/ver/28785/branches/1.7/util/build/transforms/depsScan.js
+END
+writeCss.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/src/!svn/ver/27802/branches/1.7/util/build/transforms/writeCss.js
+END
+hasFindAll.js
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/src/!svn/ver/26916/branches/1.7/util/build/transforms/hasFindAll.js
+END
+dojoPragmas.js
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/src/!svn/ver/26916/branches/1.7/util/build/transforms/dojoPragmas.js
+END
+writeDojo.js
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/src/!svn/ver/28785/branches/1.7/util/build/transforms/writeDojo.js
+END
+hasReport.js
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/src/!svn/ver/27802/branches/1.7/util/build/transforms/hasReport.js
+END
+optimizeCss.js
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/src/!svn/ver/27802/branches/1.7/util/build/transforms/optimizeCss.js
+END
+copy.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26916/branches/1.7/util/build/transforms/copy.js
+END
+report.js
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/src/!svn/ver/26916/branches/1.7/util/build/transforms/report.js
+END
+read.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/27802/branches/1.7/util/build/transforms/read.js
+END
+writeAmd.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/src/!svn/ver/28785/branches/1.7/util/build/transforms/writeAmd.js
+END
+insertSymbols.js
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/src/!svn/ver/27802/branches/1.7/util/build/transforms/insertSymbols.js
+END
+dojoBoot.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/src/!svn/ver/26916/branches/1.7/util/build/transforms/dojoBoot.js
+END
+writeOptimized.js
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/src/!svn/ver/28785/branches/1.7/util/build/transforms/writeOptimized.js
+END
+depsDump.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/src/!svn/ver/27802/branches/1.7/util/build/transforms/depsDump.js
+END

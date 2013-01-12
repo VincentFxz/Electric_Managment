@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/modules
+END
+full.js
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/modules/full.js
+END
+wrapped.js
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/modules/wrapped.js
+END
+data.js
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/modules/data.js
+END
+anon.js
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/modules/anon.js
+END
+factoryArity.js
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/src/!svn/ver/26913/branches/1.7/dojo/tests/_base/loader/modules/factoryArity.js
+END

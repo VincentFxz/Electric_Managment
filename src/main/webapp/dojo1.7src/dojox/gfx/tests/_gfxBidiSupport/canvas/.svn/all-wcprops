@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/canvas
+END
+test_SurfaceGroupCanvas.html
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/canvas/test_SurfaceGroupCanvas.html
+END
+textBidiCanvas.html
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/canvas/textBidiCanvas.html
+END
+inheritFromSurfaceCanvas.html
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/canvas/inheritFromSurfaceCanvas.html
+END
+dynamicallyChangeTextCanvas.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/src/!svn/ver/26915/branches/1.7/dojox/gfx/tests/_gfxBidiSupport/canvas/dynamicallyChangeTextCanvas.html
+END

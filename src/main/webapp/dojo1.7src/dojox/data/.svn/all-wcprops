@@ -1,0 +1,233 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/src/!svn/ver/29142/branches/1.7/dojox/data
+END
+PersevereStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/src/!svn/ver/26915/branches/1.7/dojox/data/PersevereStore.js
+END
+StoreExplorer.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26915/branches/1.7/dojox/data/StoreExplorer.js
+END
+PicasaStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/26915/branches/1.7/dojox/data/PicasaStore.js
+END
+GoogleSearchStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/src/!svn/ver/26915/branches/1.7/dojox/data/GoogleSearchStore.js
+END
+CouchDBRestStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/26915/branches/1.7/dojox/data/CouchDBRestStore.js
+END
+OpmlStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26915/branches/1.7/dojox/data/OpmlStore.js
+END
+FlickrRestStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26915/branches/1.7/dojox/data/FlickrRestStore.js
+END
+FlickrStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/26915/branches/1.7/dojox/data/FlickrStore.js
+END
+css.js
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/src/!svn/ver/26915/branches/1.7/dojox/data/css.js
+END
+SnapLogicStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/src/!svn/ver/26915/branches/1.7/dojox/data/SnapLogicStore.js
+END
+S3Store.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26915/branches/1.7/dojox/data/S3Store.js
+END
+KeyValueStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26915/branches/1.7/dojox/data/KeyValueStore.js
+END
+CsvStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26915/branches/1.7/dojox/data/CsvStore.js
+END
+AtomReadStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26915/branches/1.7/dojox/data/AtomReadStore.js
+END
+CdfStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26915/branches/1.7/dojox/data/CdfStore.js
+END
+AndOrReadStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/src/!svn/ver/26915/branches/1.7/dojox/data/AndOrReadStore.js
+END
+GoogleFeedStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26915/branches/1.7/dojox/data/GoogleFeedStore.js
+END
+ServiceStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/26915/branches/1.7/dojox/data/ServiceStore.js
+END
+XmlStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26915/branches/1.7/dojox/data/XmlStore.js
+END
+QueryReadStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/src/!svn/ver/26915/branches/1.7/dojox/data/QueryReadStore.js
+END
+dom.js
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/src/!svn/ver/26915/branches/1.7/dojox/data/dom.js
+END
+XmlItem.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26915/branches/1.7/dojox/data/XmlItem.js
+END
+ItemExplorer.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/26915/branches/1.7/dojox/data/ItemExplorer.js
+END
+HtmlStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26915/branches/1.7/dojox/data/HtmlStore.js
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/src/!svn/ver/26915/branches/1.7/dojox/data/README
+END
+WikipediaStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/src/!svn/ver/26915/branches/1.7/dojox/data/WikipediaStore.js
+END
+restListener.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/26915/branches/1.7/dojox/data/restListener.js
+END
+ClientFilter.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/26915/branches/1.7/dojox/data/ClientFilter.js
+END
+JsonRestStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/29142/branches/1.7/dojox/data/JsonRestStore.js
+END
+RailsStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/26915/branches/1.7/dojox/data/RailsStore.js
+END
+HtmlTableStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/src/!svn/ver/26915/branches/1.7/dojox/data/HtmlTableStore.js
+END
+AndOrWriteStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26915/branches/1.7/dojox/data/AndOrWriteStore.js
+END
+CssClassStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26915/branches/1.7/dojox/data/CssClassStore.js
+END
+FileStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26915/branches/1.7/dojox/data/FileStore.js
+END
+AppStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26915/branches/1.7/dojox/data/AppStore.js
+END
+CssRuleStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/26915/branches/1.7/dojox/data/CssRuleStore.js
+END
+OpenSearchStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26915/branches/1.7/dojox/data/OpenSearchStore.js
+END
+JsonQueryRestStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/src/!svn/ver/26915/branches/1.7/dojox/data/JsonQueryRestStore.js
+END

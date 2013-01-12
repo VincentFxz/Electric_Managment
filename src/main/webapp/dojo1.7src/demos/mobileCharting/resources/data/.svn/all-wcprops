@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/src/!svn/ver/26917/branches/1.7/demos/mobileCharting/resources/data
+END
+yahoo_prices.csv
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/src/!svn/ver/26917/branches/1.7/demos/mobileCharting/resources/data/yahoo_prices.csv
+END
+msft_prices.csv
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/src/!svn/ver/26917/branches/1.7/demos/mobileCharting/resources/data/msft_prices.csv
+END
+goog_prices.csv
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/src/!svn/ver/26917/branches/1.7/demos/mobileCharting/resources/data/goog_prices.csv
+END

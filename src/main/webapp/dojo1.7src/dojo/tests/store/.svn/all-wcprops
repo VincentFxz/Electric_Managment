@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/src/!svn/ver/26913/branches/1.7/dojo/tests/store
+END
+JsonRest.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/src/!svn/ver/26913/branches/1.7/dojo/tests/store/JsonRest.js
+END
+Memory.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/26913/branches/1.7/dojo/tests/store/Memory.js
+END
+treeTestRoot
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26913/branches/1.7/dojo/tests/store/treeTestRoot
+END
+node1.1
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/26913/branches/1.7/dojo/tests/store/node1.1
+END
+node1.2
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/26913/branches/1.7/dojo/tests/store/node1.2
+END
+runTests.html
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/26913/branches/1.7/dojo/tests/store/runTests.html
+END
+Cache.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/26913/branches/1.7/dojo/tests/store/Cache.js
+END
+Observable.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/26913/branches/1.7/dojo/tests/store/Observable.js
+END
+DataStore.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26913/branches/1.7/dojo/tests/store/DataStore.js
+END

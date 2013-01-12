@@ -30,6 +30,7 @@
     <!-- Enable annotation-based controllers using @Controller annotations -->
     <bean id="annotationUrlMapping"
           class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+          <property name="interceptors" ref="currentUserInterceptor"/>
     </bean>
 
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
@@ -43,7 +44,7 @@
 
 	<bean id="jacksonHttpMessageConverter"
 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
-
+	
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
@@ -52,6 +53,11 @@
 				<ref bean="jacksonHttpMessageConverter" />
 			</list>
 		</property>
+		<!-- 
+		<property name="webBindingInitializer">
+         	<bean class="org.zju.electric_factory.util.SpringMVCDateConverter"/>
+        </property>
+         -->
 	</bean>
 
 	<mvc:default-servlet-handler />

@@ -1,0 +1,377 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/src/!svn/ver/28220/branches/1.7/dojox/mobile
+END
+uacss.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/uacss.js
+END
+ViewController.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/28220/branches/1.7/dojox/mobile/ViewController.js
+END
+Overlay.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/Overlay.js
+END
+EdgeToEdgeDataList.js
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/EdgeToEdgeDataList.js
+END
+deviceTheme.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/deviceTheme.js
+END
+scrollable.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/27370/branches/1.7/dojox/mobile/scrollable.js
+END
+_ScrollableMixin.js
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/_ScrollableMixin.js
+END
+common.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/common.js
+END
+EdgeToEdgeList.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/EdgeToEdgeList.js
+END
+transition.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/transition.js
+END
+EdgeToEdgeCategory.js
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/EdgeToEdgeCategory.js
+END
+Tooltip.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/Tooltip.js
+END
+RoundRectDataList.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/RoundRectDataList.js
+END
+TabBar.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/TabBar.js
+END
+_ComboBoxMenu.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/_ComboBoxMenu.js
+END
+TransitionEvent.js
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/TransitionEvent.js
+END
+parser.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/parser.js
+END
+TextBox.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/TextBox.js
+END
+SpinWheel.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/SpinWheel.js
+END
+Heading.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/Heading.js
+END
+Switch.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/Switch.js
+END
+RoundRectList.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/RoundRectList.js
+END
+RoundRectCategory.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/RoundRectCategory.js
+END
+RoundRect.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/RoundRect.js
+END
+SwapView.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/SwapView.js
+END
+sniff.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/sniff.js
+END
+IconItem.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/IconItem.js
+END
+_base.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/_base.js
+END
+View.js
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/View.js
+END
+Button.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/Button.js
+END
+ExpandingTextArea.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/ExpandingTextArea.js
+END
+Carousel.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/Carousel.js
+END
+mobile-all.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/src/!svn/ver/26992/branches/1.7/dojox/mobile/mobile-all.js
+END
+TextArea.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/TextArea.js
+END
+ToggleButton.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/ToggleButton.js
+END
+ContentPane.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/ContentPane.js
+END
+i18n.js
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/i18n.js
+END
+app.js
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/app.js
+END
+Slider.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/27953/branches/1.7/dojox/mobile/Slider.js
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/src/!svn/ver/27102/branches/1.7/dojox/mobile/README
+END
+_ListTouchMixin.js
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/_ListTouchMixin.js
+END
+_compat.js
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/_compat.js
+END
+compat.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/compat.js
+END
+CheckBox.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/CheckBox.js
+END
+FixedSplitter.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/FixedSplitter.js
+END
+TabBarButton.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/src/!svn/ver/26994/branches/1.7/dojox/mobile/TabBarButton.js
+END
+Opener.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/Opener.js
+END
+_ItemBase.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/_ItemBase.js
+END
+FlippableView.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/FlippableView.js
+END
+SpinWheelDatePicker.js
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/SpinWheelDatePicker.js
+END
+RadioButton.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/RadioButton.js
+END
+ListItem.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/27348/branches/1.7/dojox/mobile/ListItem.js
+END
+FixedSplitterPane.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/FixedSplitterPane.js
+END
+IconContainer.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/IconContainer.js
+END
+ToolBarButton.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26994/branches/1.7/dojox/mobile/ToolBarButton.js
+END
+SpinWheelSlot.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/SpinWheelSlot.js
+END
+ProgressIndicator.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/ProgressIndicator.js
+END
+ComboBox.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/ComboBox.js
+END
+PageIndicator.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/PageIndicator.js
+END
+_DataListMixin.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/_DataListMixin.js
+END
+SpinWheelTimePicker.js
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/SpinWheelTimePicker.js
+END
+ScrollableView.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/ScrollableView.js
+END

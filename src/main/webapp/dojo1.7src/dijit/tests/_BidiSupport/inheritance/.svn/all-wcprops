@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/src/!svn/ver/26914/branches/1.7/dijit/tests/_BidiSupport/inheritance
+END
+runTests.html
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/src/!svn/ver/26914/branches/1.7/dijit/tests/_BidiSupport/inheritance/runTests.html
+END
+Inher-MarkupContainers.html
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/src/!svn/ver/26914/branches/1.7/dijit/tests/_BidiSupport/inheritance/Inher-MarkupContainers.html
+END
+Inher-Simple.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/src/!svn/ver/26914/branches/1.7/dijit/tests/_BidiSupport/inheritance/Inher-Simple.html
+END
+module.js
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/src/!svn/ver/26914/branches/1.7/dijit/tests/_BidiSupport/inheritance/module.js
+END
+Inher-ComplexMarkupContainers.html
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/src/!svn/ver/26914/branches/1.7/dijit/tests/_BidiSupport/inheritance/Inher-ComplexMarkupContainers.html
+END

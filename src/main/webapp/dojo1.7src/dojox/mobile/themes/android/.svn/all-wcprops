@@ -1,0 +1,479 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/src/!svn/ver/28079/branches/1.7/dojox/mobile/themes/android
+END
+PageIndicator.less
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/PageIndicator.less
+END
+common.css
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/common.css
+END
+ComboBox-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/src/!svn/ver/26927/branches/1.7/dojox/mobile/themes/android/ComboBox-compat.css
+END
+Button.less
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Button.less
+END
+RadioButton.css
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/src/!svn/ver/26927/branches/1.7/dojox/mobile/themes/android/RadioButton.css
+END
+Carousel.less
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Carousel.less
+END
+TextBox.css
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/src/!svn/ver/26927/branches/1.7/dojox/mobile/themes/android/TextBox.css
+END
+ToolBarButton.css
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/ToolBarButton.css
+END
+Overlay.less
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Overlay.less
+END
+Heading.css
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Heading.css
+END
+Slider.less
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Slider.less
+END
+RoundRect.css
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/RoundRect.css
+END
+View.css
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/src/!svn/ver/26996/branches/1.7/dojox/mobile/themes/android/View.css
+END
+TextBox.less
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/TextBox.less
+END
+IconContainer-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/IconContainer-compat.css
+END
+android-app-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/android-app-compat.css
+END
+RoundRectCategory.less
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/RoundRectCategory.less
+END
+Switch-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Switch-compat.css
+END
+RoundRect.less
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/RoundRect.less
+END
+CheckBox.css
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/src/!svn/ver/26927/branches/1.7/dojox/mobile/themes/android/CheckBox.css
+END
+Tooltip.css
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/src/!svn/ver/28079/branches/1.7/dojox/mobile/themes/android/Tooltip.css
+END
+ListItem.css
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/ListItem.css
+END
+base-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/base-compat.css
+END
+TabBar.css
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/TabBar.css
+END
+ToggleButton-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/src/!svn/ver/26927/branches/1.7/dojox/mobile/themes/android/ToggleButton-compat.css
+END
+TextArea-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/src/!svn/ver/26927/branches/1.7/dojox/mobile/themes/android/TextArea-compat.css
+END
+Switch.css
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Switch.css
+END
+Slider-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/src/!svn/ver/26927/branches/1.7/dojox/mobile/themes/android/Slider-compat.css
+END
+EdgeToEdgeList.less
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/EdgeToEdgeList.less
+END
+RadioButton.less
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/RadioButton.less
+END
+IconContainer.less
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/IconContainer.less
+END
+Button.css
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/src/!svn/ver/26927/branches/1.7/dojox/mobile/themes/android/Button.css
+END
+ToolBarButton.less
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/ToolBarButton.less
+END
+ToggleButton.css
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/src/!svn/ver/26927/branches/1.7/dojox/mobile/themes/android/ToggleButton.css
+END
+TextArea.css
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/src/!svn/ver/26927/branches/1.7/dojox/mobile/themes/android/TextArea.css
+END
+Switch.less
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Switch.less
+END
+android.css
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/android.css
+END
+Heading-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Heading-compat.css
+END
+RoundRectList-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/RoundRectList-compat.css
+END
+EdgeToEdgeList.css
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/EdgeToEdgeList.css
+END
+View.less
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/View.less
+END
+EdgeToEdgeCategory.css
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/EdgeToEdgeCategory.css
+END
+ToggleButton.less
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/ToggleButton.less
+END
+TextArea.less
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/TextArea.less
+END
+android-app.css
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/android-app.css
+END
+android-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/android-compat.css
+END
+RoundRectList.css
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/RoundRectList.css
+END
+RoundRectCategory.css
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/RoundRectCategory.css
+END
+CheckBox.less
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/CheckBox.less
+END
+Tooltip.less
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Tooltip.less
+END
+ListItem.less
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/ListItem.less
+END
+base.css
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/base.css
+END
+RadioButton-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/src/!svn/ver/26927/branches/1.7/dojox/mobile/themes/android/RadioButton-compat.css
+END
+TabBar-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/TabBar-compat.css
+END
+Heading.less
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Heading.less
+END
+RoundRectList.less
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/RoundRectList.less
+END
+ProgressIndicator-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/ProgressIndicator-compat.css
+END
+Slider.css
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/src/!svn/ver/26927/branches/1.7/dojox/mobile/themes/android/Slider.css
+END
+ComboBox.less
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/ComboBox.less
+END
+Opener.css
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Opener.css
+END
+IconContainer.css
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/IconContainer.css
+END
+Button-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/src/!svn/ver/26927/branches/1.7/dojox/mobile/themes/android/Button-compat.css
+END
+ProgressIndicator.css
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/ProgressIndicator.css
+END
+Overlay-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Overlay-compat.css
+END
+common.less
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/common.less
+END
+CheckBox-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/src/!svn/ver/26927/branches/1.7/dojox/mobile/themes/android/CheckBox-compat.css
+END
+EdgeToEdgeCategory.less
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/EdgeToEdgeCategory.less
+END
+ComboBox.css
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/src/!svn/ver/26927/branches/1.7/dojox/mobile/themes/android/ComboBox.css
+END
+Opener-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Opener-compat.css
+END
+PageIndicator.css
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/PageIndicator.css
+END
+TabBar.less
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/TabBar.less
+END
+Tooltip-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Tooltip-compat.css
+END
+ListItem-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/ListItem-compat.css
+END
+Carousel.css
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Carousel.css
+END
+TextBox-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/src/!svn/ver/26927/branches/1.7/dojox/mobile/themes/android/TextBox-compat.css
+END
+ProgressIndicator.less
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/ProgressIndicator.less
+END
+Overlay.css
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/Overlay.css
+END
+variables.less
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/variables.less
+END
+RoundRect-compat.css
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/src/!svn/ver/26915/branches/1.7/dojox/mobile/themes/android/RoundRect-compat.css
+END

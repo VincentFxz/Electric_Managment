@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/src/!svn/ver/26914/branches/1.7/dijit/tests/_BidiSupport/dynamicallyChangeTextDir
+END
+module.js
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/src/!svn/ver/26914/branches/1.7/dijit/tests/_BidiSupport/dynamicallyChangeTextDir/module.js
+END
+DynamicChangeTextDir.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/src/!svn/ver/26914/branches/1.7/dijit/tests/_BidiSupport/dynamicallyChangeTextDir/DynamicChangeTextDir.html
+END
+runTests.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/src/!svn/ver/26914/branches/1.7/dijit/tests/_BidiSupport/dynamicallyChangeTextDir/runTests.html
+END
