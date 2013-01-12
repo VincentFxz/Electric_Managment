@@ -13,16 +13,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.zju.electric_factory.entity.Ammeter;
+import org.zju.electric_factory.entity.AmmeterRecord;
 import org.zju.electric_factory.entity.Company;
 import org.zju.electric_factory.entity.Project;
 import org.zju.electric_factory.entity.ProjectAmmeterLink;
 import org.zju.electric_factory.entity.Role;
 import org.zju.electric_factory.entity.User;
 import org.zju.electric_factory.service.AmmeterManager;
+import org.zju.electric_factory.service.AmmeterRecordManager;
 import org.zju.electric_factory.service.CompanyManager;
 import org.zju.electric_factory.service.ProjectAmmeterManager;
 import org.zju.electric_factory.service.ProjectManager;
 import org.zju.electric_factory.service.UserManager;
+import org.zju.electric_factory.vo.LastAmmeterStatusVo;
 /**
  * 
  * @author vincent
@@ -44,6 +47,9 @@ public class AmmeterController {
 	
 	@Autowired
 	private ProjectManager projectManager;
+	
+	@Autowired
+	private AmmeterRecordManager ammeterRecordManager;
 	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/list", headers = "Accept=application/json")
@@ -298,11 +304,9 @@ public class AmmeterController {
 	@RequestMapping(method = RequestMethod.DELETE, value = "/list/{id}", headers = "Accept=application/json")
 	public @ResponseBody
 	boolean deleteAmmeterbyId(@PathVariable String id) {
-		List<ProjectAmmeterLink> projectAmmeterLinks = projectAmmeterManager.getProjectAmmeterLinkByAmmeterId(id);
-		if(null != projectAmmeterLinks){
-			for(ProjectAmmeterLink projectAmmeterLink : projectAmmeterLinks){
-				projectAmmeterManager.deleteProjectAmmeterLink(projectAmmeterLink.getId());
-			}
+		ProjectAmmeterLink projectAmmeterLink = projectAmmeterManager.getProjectAmmeterLinkByAmmeterId(id);
+		if(null != projectAmmeterLink){
+			projectAmmeterManager.deleteProjectAmmeterLink(projectAmmeterLink.getId());
 		}
 		ammeterManager.deleteAmmeterbyId(id);
 		return true;
@@ -342,5 +346,42 @@ public class AmmeterController {
 		}
 		
 		return ammeter;
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/currstatus/list", headers = "Accept=application/json" )
+	public @ResponseBody List<LastAmmeterStatusVo> getCurrentUserAmmetersStatus(){
+		boolean userHasAdminRole = false;
+		
+		User currentUser = userManager.getCurrentUser();
+		Set<Role> userRoles = currentUser.getRoles();
+		if (null != userRoles) {
+			for (Role role : userRoles) {
+				if ("admin".equals(role.getName())) {
+					userHasAdminRole = true;
+				}
+			}
+			if (userHasAdminRole) {
+				ammeterManager.getAllAmmeter();
+			}
+		}
+		List<Ammeter> ammeters = ammeterManager.getAmmetersOwnByUser(currentUser.getId());
+		List<LastAmmeterStatusVo> lastAmmeterStatusVos = null;
+		if(null != ammeters){
+			lastAmmeterStatusVos = new ArrayList<LastAmmeterStatusVo>();
+			for(Ammeter ammeter : ammeters){
+				List<AmmeterRecord> ammeterRecords = ammeterRecordManager.getAllAmmeterRecordsByAmmeterId(ammeter.getId());
+				if(null != ammeterRecords){
+					LastAmmeterStatusVo lastAmmeterStatusVo = new LastAmmeterStatusVo();
+					lastAmmeterStatusVo.setAmmeterName(ammeter.getName());
+					lastAmmeterStatusVo.setAmmeterValue(ammeterRecords.get(0).getAmmeterValue());
+					lastAmmeterStatusVo.setCostPerHour(1.0f);
+					lastAmmeterStatusVo.setTimeSum(ammeterRecords.get(0).getTimeSum());
+					
+				}
+			}
+		}
+		
+		return null;
+		
 	}
 }

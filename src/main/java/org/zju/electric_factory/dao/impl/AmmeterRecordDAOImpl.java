@@ -12,6 +12,7 @@ import org.zju.electric_factory.entity.AmmeterRecord;
 public class AmmeterRecordDAOImpl extends HibernateDAO<AmmeterRecord, Long> implements AmmeterRecordDAO {
     private final String FIND_BY_PERIOD_HQL="from "+this.entityClass.getName()+
             " ammeterRecord where ammeterRecord.recordDate>=? and ammeterRecord.recordDate<=?";
+    private final String FIND_BY_AMMETERID_IN_PERIOD_HQL = "from " + this.entityClass.getName() + " ammeterRecord where ammeterRecord.ammeterId = ? and ammeterRecord.recordDate>=? and ammeterRecord.recordDate<=? ";
 
     /**
      * get record by id
@@ -51,5 +52,13 @@ public class AmmeterRecordDAOImpl extends HibernateDAO<AmmeterRecord, Long> impl
 	@Override
 	public List<AmmeterRecord> getByOrder(String columnToSort, boolean isAsc) {
 		return super.getAll(columnToSort,isAsc);
+	}
+
+	@Override
+	public List<AmmeterRecord> getByAmmeterIdInPeriod(Long ammeterId,
+			Date startDate, Date endDate) {
+		// TODO Auto-generated method stub
+		System.out.println(FIND_BY_AMMETERID_IN_PERIOD_HQL);
+		return find(FIND_BY_AMMETERID_IN_PERIOD_HQL, ammeterId, startDate, endDate);
 	}
 }

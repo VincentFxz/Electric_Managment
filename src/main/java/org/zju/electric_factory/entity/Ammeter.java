@@ -37,8 +37,53 @@ public class Ammeter {
      */
     @Column(name="COMPANY_NAME")
     private String companyName;
+    
+    @Column(name = "SENSOR_RATE")
+    private Float sensorRate;
+    
+    @Column(name = "FORMER_COST")
+    private Float formerCost;
+    
+    @Column(name = "UPPER_LIMIT")
+    private Float upperLimit;
+    
+    @Column(name = "LOWER_LIMIT")
+    private Float lowerLimit;
 
-    public Long getId() {
+    public Float getSensorRate() {
+		return sensorRate;
+	}
+
+	public void setSensorRate(Float sensorRate) {
+		this.sensorRate = sensorRate;
+	}
+
+	public Float getFormerCost() {
+		return formerCost;
+	}
+
+	public void setFormerCost(Float formerCost) {
+		this.formerCost = formerCost;
+	}
+
+
+	public Float getUpperLimit() {
+		return upperLimit;
+	}
+
+	public void setUpperLimit(Float upperLimit) {
+		this.upperLimit = upperLimit;
+	}
+
+	public Float getLowerLimit() {
+		return lowerLimit;
+	}
+
+	public void setLowerLimit(Float lowerLimit) {
+		this.lowerLimit = lowerLimit;
+	}
+
+	public Long getId() {
         return id;
     }
 

@@ -1,5 +1,6 @@
 package org.zju.electric_factory.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -39,6 +40,8 @@ public interface AmmeterRecordManager {
     public List<AmmeterRecord> getAllAmmeterRecordAscById();
 
     public List<AmmeterRecord> getAllAmmeterRecordDescById();
+    
+    public List<AmmeterRecord> getAllAmmeterRecordsByAmmeterId(Long ammeterId);
 
     public List<AmmeterRecord> getAllAmmeterRecordAscByAmmeterName();
 
@@ -51,6 +54,10 @@ public interface AmmeterRecordManager {
     public List<AmmeterRecord> getAllAmmeterRecordAscByAmmeterValue();
 
     public List<AmmeterRecord> getAllAmmeterRecordDescByAmmeterValue();
+    
+    public List<AmmeterRecord> getAmmeterRecordsByPeriod(Date startDate, Date endDate);
+    
+    public List<AmmeterRecord> getAmmeterRecordByAmmeterIdInPeriod(Long ammeterId, Date startDate, Date endDate);
     
 
 }

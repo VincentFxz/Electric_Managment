@@ -27,8 +27,30 @@ public class Project {
     
     @Column(name="END_DATE")
     private Date endDate;
+    
+    @Column(name="ELECTRICITY_CHARGE")
+    private Float electricityCharge;
+    
+    @Column(name="PARTS_RATIO")
+    private Float partsRatio;
+    
+    public Float getPartsRatio() {
+		return partsRatio;
+	}
 
-    public Long getId() {
+	public void setPartsRatio(Float partsRatio) {
+		this.partsRatio = partsRatio;
+	}
+
+	public Float getElectricityCharge() {
+		return electricityCharge;
+	}
+
+	public void setElectricityCharge(Float electricityCharge) {
+		this.electricityCharge = electricityCharge;
+	}
+
+	public Long getId() {
         return id;
     }
 

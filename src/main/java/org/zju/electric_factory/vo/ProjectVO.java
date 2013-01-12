@@ -2,6 +2,8 @@ package org.zju.electric_factory.vo;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+
 
 public class ProjectVO {
 
@@ -14,12 +16,32 @@ public class ProjectVO {
     private Date startDate;
     
     private Date endDate;
-
+    
+    private Float electricityCharge;
+    
+    private Float partsRatio;
+    
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public Float getElectricityCharge() {
+		return electricityCharge;
+	}
+
+	public void setElectricityCharge(Float electricityCharge) {
+		this.electricityCharge = electricityCharge;
+	}
+
+	public Float getPartsRatio() {
+		return partsRatio;
+	}
+
+	public void setPartsRatio(Float partsRatio) {
+		this.partsRatio = partsRatio;
+	}
+
+	public void setId(Long id) {
         this.id = id;
     }
 

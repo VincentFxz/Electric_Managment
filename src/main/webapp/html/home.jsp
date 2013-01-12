@@ -62,6 +62,24 @@
             width: 100%
         }
 
+        div#sel1 {
+            float: left; 
+        }
+
+        div#sel2 {
+            float:left;
+        }
+
+        div#leftRightButtons {
+            float: left;
+            padding: 10em 0.5em 0 0.5em;
+        }
+
+        .clear {
+          clear: both;
+        }
+
+
 
     </style>
 
@@ -124,16 +142,22 @@
                         <li class="nav-header">个人管理</li>
                         <li id="upMenuItemBtn"><a id="upMenuItem" href="#">我的项目</a></li>
                         <li id="uaMenuItemBtn"><a id="uaMenuItem" href="#">我的电表</a></li>
+                        <li id="LastAmmeterMenuItemBtn"><a id="LastAmmeterMenuItem" href="#">电表最新数据</a></li>
+                        <li id="saveComputationMenuItemBtn"><a id="saveComputationMenuItem" href="#">节能核算表</a></li>
+
+                        <shiro:hasRole name="admin">
+                        <li class="nav-header">项目管理</li>
+                        <li id="createProjectGuideBtn"><a id="createProjectGuideMenuItem" href="#" >新项目向导</a></li>
+                        <li id="projectMenuItemBtn"><a id="projectMenuItem" href="#" >项目管理</a></li>
+                        <li id = "paMenuItemBtn"><a id="paMenuItem" href="#" >项目电表管理</a></li>
+                        <li id="puMenuItemBtn" ><a id="puMenuItem" href="#" >项目用户管理</a></li>
+                        
                         <li class="nav-header">电表管理</li>
                         <shiro:hasRole name="admin">  
                         <li id="ammeterMenuItemBtn"><a id="ammeterMenuItem" href="#">电表管理</a></li>
                         </shiro:hasRole> 
                         <li id="ammeterRecordMenuItemBtn" ><a id="ammeterRecordMenuItem" href="#">电表记录管理</a></li>
-                        <shiro:hasRole name="admin">
-                        <li class="nav-header">项目管理</li>
-                        <li id="projectMenuItemBtn"><a id="projectMenuItem" href="#" >项目管理</a></li>
-                        <li id = "paMenuItemBtn"><a id="paMenuItem" href="#" >项目电表管理</a></li>
-                        <li id="puMenuItemBtn" ><a id="puMenuItem" href="#" >项目用户管理</a></li>
+
                         <li class="nav-header">公司管理</li>
                         <li id="companyMenuItemBtn"><a id="companyMenuItem" href="#">公司管理</a></li>
                         <li id="cpMenuItemBtn"><a id="cpMenuItem" href="#">公司项目管理</a></li>
@@ -148,6 +172,7 @@
                 <div class="claro">
                     <div id="tab_container" data-dojo-type="dijit.layout.TabContainer" doLayout="false" style="width:98%;height:85%;">
                         <div id = "ammeterRecordPane" data-dojo-type="dijit.layout.ContentPane" title="电表纪录管理" >
+                            <br />
                             <div id="ammeter_record_grid" class="claro" style="height:473px"></div>   
                         </div>
                         
@@ -176,6 +201,7 @@
                                     </div>
                                 </div>
                                 <!-- The Data Grid -->
+                                <br />
                                 <div id="cp_grid" class="claro" style="height:400px"></div>
                                 <!-- The Action Bar -->
                                 <div id="modify_bar" class="claro">
@@ -209,6 +235,7 @@
                                     </div>
                                 </shiro:hasRole>    
                                 <!-- The Data Grid -->
+                                <br />
                                 <div id="pa_grid" class="claro" style="height:400px"></div>
                                 <!-- The Action Bar -->
                                 <div id="modify_bar" class="claro">
@@ -242,6 +269,7 @@
                                     </div>
                                 </shiro:hasRole>    
                                 <!-- The Data Grid -->
+                                <br />
                                 <div id="up_grid" class="claro" style="height:400px"></div>
                                 <!-- The Action Bar -->
                                 <div id="modify_bar" class="claro">
@@ -286,6 +314,7 @@
                                 </div>
                             </div>
                             <!-- The Data Grid -->
+                            <br />
                             <div id="user_grid" class="claro" style="height:400px"></div>
                             <!-- The Action Bar -->
                             <div id="user_modify_bar" class="claro">
@@ -314,6 +343,7 @@
                             </div>
                             </shiro:hasRole>
                             <!-- The Data Grid -->
+                            <br />
                             <div id="company_grid" class="claro" style="height:400px"></div>
                             <!-- The Action Bar -->
                             <div id="company_modify_bar" class="claro">
@@ -340,21 +370,70 @@
                                     </form>
                                 </div>
                             </div>
+                            </shiro:hasRole>
                             <!-- The Data Grid -->
+                            <br />
                             <div id="project_grid" class="claro" style="height:400px"></div>
+                            <shiro:hasRole name="admin">
                             <!-- The Action Bar -->
                             <div id="project_modify_bar" class="claro">
                                 <button id="project_save_button"></button>
                                 <button id="project_delete_button"></button>
                             </div>
-                        </shiro:hasRole>
+                            </shiro:hasRole>
                         </div> 
                         <!--project Pane-->
+                        <div id = "saveComputationPane" data-dojo-type="dijit.layout.ContentPane" title = "节能核算表" style="overflow:auto;">
+                            <div class="dijitDialogPaneActionBar" style ="text-align: left;">
+                                <div style="float: left;">
+                                    <label class="dialogLabel"  for="saveComputationStartDate">结算开始时间:</label>
+                                    <input id="saveComputationStartDate" dojoType="dijit.form.DateTextBox" required=true/>
+                                </div>
+                                <div style="float: left;">
+                                    <label class="dialogLabel" for="saveComputationEndDate">结算结束时间:</label>
+                                    <input id="saveComputationEndDate" dojoType="dijit.form.DateTextBox" required=true/>
+                                </div>
+                                <div style="float:left;">
+                                    <button id="saveComputationBtn" style="margin-left:1em;" data-dojo-type="dijit.form.Button">
+                                            开始结算
+                                    </button>
+                                </div>
+
+                                <div class="clear"></div>
+                            </div>
+                            <!-- The Data Grid -->
+                            <br />
+                            <div id="saveComputationGrid" class="claro" style="height:400px"></div>
+                            <!-- The Action Bar -->
+                        </div>
+
+                        <div id = "lastAmmeterStatusPane" data-dojo-type="dijit.layout.ContentPane" title = "电表最新数据" style="overflow:auto;">
+                            <!-- The Data Grid -->
+                            <br>
+                            <div id="lastAmmeterStatusGrid" class="claro" style="height:400px; margin-top:2em;"></div>
+                            <!-- The Action Bar -->
+                        </div> 
                         <!-- hiddens -->
                         <div class="dijitHidden">
-							<div data-dojo-type="dijit.Dialog" data-dojo-id="createProjectForCompanyDialog" id="createProjectForCompanyDialog" title="添加新项目到公司" style="width:600px;">
+							<div data-dojo-type="dijit.Dialog" data-dojo-id="createProjectForCompanyDialog" id="createProjectForCompanyDialog" title="添加新项目到公司" style="width:56em; ">
 								<form id="newProjectDialogForm" method="post" action="/project/add" >
                                     <ul class="nav">
+                                    	
+                                   		<fieldset id="hours" class="dijitInline">
+                                   			<li style="margin-bottom: 9px;">
+	                                            <label class="dialogLabel" for="createNewCompanyRadio">新建公司:</label>
+	                                            <input type="radio" id="createNewCompanyRadio"  value="full" dojoType="dijit.form.RadioButton" />
+                                            </li>
+                                            <li style="margin-bottom: 9px;">
+	                                            <label class="dialogLabel" for="selectExistingCompanyradio">选择已存在公司:</label>
+	                                            <input type="radio" id="selectExistingCompanyradio" checked value="full" dojoType="dijit.form.RadioButton" />
+                                            </li>
+                                        </fieldset>
+                                        <li style="margin-bottom: 9px;" id="projectCompanyLi">
+                                            <label class="dialogLabel" id="projectCompanyLabel" for="projectCompany">项目公司:</label>
+                                            <input class="medium dijitHidden" id="projectCompanyCombo" />
+                                            <input class="medium dijitHidden" id="projectCompanyTextBox" />
+                                        </li>
                                         <li style="margin-bottom: 9px;">
                                             <label class="dialogLabel" for="forCompanyProjectName">项目名称:</label>
                                             
@@ -373,9 +452,20 @@
                                             <input id="projectEndDate" name="projectEndDate" dojoType="dijit.form.DateTextBox" required=true/>
                                         </li>
                                         <li style="margin-bottom: 9px;">
-                                            <label class="dialogLabel" for="projectCompany">项目公司:</label>
-                                            <input class="medium" id="projectCompany" />
-
+                                            <label class="dialogLabel" for="electricityCharge">电费:</label>
+                                            <input type="text" id="electricityCharge" class="short"dojoType="dijit.form.ValidationTextBox" trim="true" required="true" regExp="^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$|^[1-9]\d*$"
+                                            invalidMessage="请输入正确的电费格式 (ex: 5.5)"/>
+                                        </li>
+                                        
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="partsRatio">分成比率:</label>
+                                            <input type="text" id="partsRatio" class="short"dojoType="dijit.form.ValidationTextBox" trim="true" required="true" regExp="^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$|^[1-9]\d*$"
+                                            invalidMessage="请输入正确的比率格式 (ex: 0.5)"/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="ammeterAdded">已经添加的电表:</label><br>
+                                    		<select id="ammeterAddedMultiSelect" multiple data-dojo-type="dijit.form.MultiSelect" data-dojo-props='name:"select", style:{height:"15em", width:"22em", border:"5px solid #ededed"}'>
+                                    		</select>
                                         </li>
                                     </ul>
 									
@@ -385,6 +475,11 @@
 								
 						
 								<div class="dijitDialogPaneActionBar">
+                                    <div style="display:none;" id="createProjectDialogHiddenBtn">
+                                        <button id="addExistingAmmeterForProjectBtn" data-dojo-type="dijit.form.Button">
+                                            继续添加电表
+                                        </button>
+                                    </div>
                                     <button id="newProjectDialogAddBtn" data-dojo-type="dijit.form.Button">
                                         添加
                                     </button>
@@ -393,7 +488,7 @@
                                     </button>
 								</div>
 							</div>
-                            <div data-dojo-type="dijit.Dialog" data-dojo-id="createAmmeterDialog" id="createAmmeterDialog" title="添加电表" style="width:600px;">
+                            <div data-dojo-type="dijit.Dialog" data-dojo-id="createAmmeterDialog" id="createAmmeterDialog" title="添加电表" style="width:56em;">
                                 <form id="createAmmeterDialogForm" method="post" action="/ammeter/add" >
                                     <ul class="nav">
                                         <li style="margin-bottom: 9px;">
@@ -406,21 +501,34 @@
                                         <li style="margin-bottom: 9px;">
                                             <label for="pumpName" class="dialogLabel">泵名称:</label>
                                             <input id="pumpName" type="text" dojoType="dijit.form.ValidationTextBox" class="long"
-                                                required="true" 
+                                                required="false" 
                                                 ucfirst="true" invalidMessage="">
                                             </input>
                                         </li>
-                                        <!--
-                                        <li style="margin-bottom: 9px;">
-                                           <li style="margin-bottom: 9px;">
-                                            <label class="dialogLabel" for="ammeterCompany">电表公司:</label>
-                                            <input class="medium" id="ammeterCompany" />
                                         </li>
-                                        `-->
-                                        </li>
-                                        <li style="margin-bottom: 9px;">
+                                        <li id="ammeterProjectLi" style="margin-bottom: 9px; display:none;">
                                             <label class="dialogLabel" for="ammeterProject">电表项目:</label>
                                             <input class="medium" id="ammeterProject" />
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="sensorRate">互感器倍率:</label>
+                                            <input type="text" id="sensorRate" class="short"dojoType="dijit.form.ValidationTextBox" trim="true" required="true" regExp="^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$|^[1-9]\d*$"
+                                            invalidMessage="请输入正确的互感器倍率格式 (ex: 5.5)"/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="formerCost">技改前能耗:</label>
+                                            <input type="text" id="formerCost" class="short"dojoType="dijit.form.ValidationTextBox" trim="true" required="true" regExp="^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$|^[1-9]\d*$"
+                                            invalidMessage="请输入正确的能耗格式 (ex: 5.5)"/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="upperLimit">警报上限:</label>
+                                            <input type="text" id="upperLimit" class="short"dojoType="dijit.form.ValidationTextBox" trim="true" required="true" regExp="^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$|^[1-9]\d*$"
+                                            invalidMessage="请输入正确的警报上限格式 (ex: 5.5)"/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="lowerLimit">警报下限:</label>
+                                            <input type="text" id="lowerLimit" class="short"dojoType="dijit.form.ValidationTextBox" trim="true" required="true" regExp="^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$|^[1-9]\d*$"
+                                            invalidMessage="请输入正确的警报下限格式 (ex: 5.5)"/>
                                         </li>
                                     </ul>
                                 </form>
@@ -437,6 +545,44 @@
 
                             <div data-dojo-type="dijit.Dialog" data-dojo-id="ErrorDialog" id="ErrorDialog" title="错误" style="width:600px;">
                                 错误
+                            </div>
+
+                            <div data-dojo-type="dijit.Dialog" data-dojo-id="AddExistingAmmeterToProjectDialog" id="AddExistingAmmeterToProjectDialog" >
+                                <div>
+                                	<button id="addNewAmmeterForNewCreatingProjectBtn" data-dojo-type="dijit.form.Button">
+                                            添加新的电表到项目
+                                    </button>
+                                </div>
+                                <div id="sel1" role="presentation">
+                                    <label for="ExstingAmmeterMultiSelect">电表:</label><br>
+                                    <select id="ExstingAmmeterMultiSelect" multiple data-dojo-type="dijit.form.MultiSelect" data-dojo-props='name:"select", style:{height:"20em", width:"22em", border:"5px solid #ededed"}'>
+                                        <option class="clone" value="dojo._defaultEasing"></option>
+                                    </select>
+                                </div>
+                                <div id="leftRightButtons" role="presentation">
+                                    <span>
+                                        <button id="AmmeterMultiSelectLeftBtn" data-dojo-type="dijit.form.Button">
+                                            &lt;
+                                        </button>
+                                        <button id="AmmeterMultiSelectRightBtn" data-dojo-type="dijit.form.Button">
+                                            &gt;
+                                        </button>
+                                    </span>
+                                </div>
+                                <div id="sel2" role="presentation">
+                                    <label for="AddedAmmeterMultiSelect">已添加的电表:</label><br>
+                                    <select id="AddedAmmeterMultiSelect" multiple data-dojo-type="dijit.form.MultiSelect" data-dojo-props='name:"select", style:{height:"20em", width:"22em", border:"5px solid #ededed"}'>
+                                    </select>
+                                </div>
+                                <div class="clear"></div>
+                                <div class="dijitDialogPaneActionBar">
+                                    <button id="addAmmeterForProjectSubmitBtn" data-dojo-type="dijit.form.Button">
+                                        完成
+                                    </button>
+                                    <button id="addAmmeterForProjectCancelBtn" data-dojo-type="dijit.form.Button">
+                                        取消
+                                    </button>
+                                </div>
                             </div>
 
 						</div>

@@ -11,7 +11,7 @@ public class ProjectDAOImpl extends HibernateDAO<Project, Long> implements Proje
 
     @Override
     public Project getById(Long projectId) {
-        return super.get(projectId);
+        return super.findUniqueBy("id", projectId);
     }
 
 	@Override
@@ -43,6 +43,12 @@ public class ProjectDAOImpl extends HibernateDAO<Project, Long> implements Proje
 	@Override
 	public Project getByProjectName(String projectName) {
 		return super.findUniqueBy("projectName", projectName);
+	}
+
+	@Override
+	public void init(Project project) {
+		super.initProxyObject(project);
+		
 	}
 
 }

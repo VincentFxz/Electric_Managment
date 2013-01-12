@@ -21,4 +21,5 @@ public interface ProjectManager {
 	public void editProject(Project project);
 	public void add(Project project);
 	public Project getById(Long id);
+	public Project getProjectByAmmeterId(Long ammeterId);
 }

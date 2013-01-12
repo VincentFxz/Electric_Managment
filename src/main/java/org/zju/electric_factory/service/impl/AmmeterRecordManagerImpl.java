@@ -1,11 +1,13 @@
 package org.zju.electric_factory.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.zju.electric_factory.dao.AmmeterDAO;
 import org.zju.electric_factory.dao.AmmeterRecordDAO;
 import org.zju.electric_factory.entity.Ammeter;
 import org.zju.electric_factory.entity.AmmeterRecord;
@@ -73,5 +75,24 @@ public class AmmeterRecordManagerImpl implements AmmeterRecordManager {
     public List<AmmeterRecord> getAllAmmeterRecordDescByAmmeterValue() {
         return ammeterRecordDAO.getByOrder("ammeterValue", false);
     }
+
+	@Override
+	public List<AmmeterRecord> getAllAmmeterRecordsByAmmeterId(Long ammeterId) {
+		return ammeterRecordDAO.getByAmmeter(ammeterId);
+	}
+
+	@Override
+	public List<AmmeterRecord> getAmmeterRecordsByPeriod(Date startDate,
+			Date endDate) {
+		List<AmmeterRecord> ammeterRecords = ammeterRecordDAO.getByPeriod(startDate, endDate);
+		return ammeterRecords;
+	}
+
+	@Override
+	public List<AmmeterRecord> getAmmeterRecordByAmmeterIdInPeriod(
+			Long ammeterId, Date startDate, Date endDate) {
+		
+		return ammeterRecordDAO.getByAmmeterIdInPeriod(ammeterId, startDate, endDate);
+	}
 
 }

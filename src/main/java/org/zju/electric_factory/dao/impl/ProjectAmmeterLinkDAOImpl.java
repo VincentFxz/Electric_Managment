@@ -15,8 +15,8 @@ public class ProjectAmmeterLinkDAOImpl extends HibernateDAO<ProjectAmmeterLink, 
     }
 
     @Override
-    public List<ProjectAmmeterLink> getByAmmeterId(Long ammeterId) {
-        return findBy("ammeterId", ammeterId);
+    public ProjectAmmeterLink getByAmmeterId(Long ammeterId) {
+        return findUniqueBy("ammeterId", ammeterId);
     }
 
     @Override

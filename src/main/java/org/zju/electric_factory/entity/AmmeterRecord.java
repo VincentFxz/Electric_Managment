@@ -38,8 +38,24 @@ public class AmmeterRecord {
     @Column(name = "AMMETER_VALUE")
     private float ammeterValue;
 
-    @Column(name="AMMETER_NAME")
+
+	public Float getTimeSum() {
+		return timeSum;
+	}
+
+	public void setTimeSum(Float timeSum) {
+		this.timeSum = timeSum;
+	}
+
+	@Column(name="AMMETER_NAME")
     private String ammeterName;
+    
+    /**
+     * 累时器值
+     * @return
+     */
+    @Column(name = "TIME_SUM")
+    private Float timeSum;
     
     public String getAmmeterName() {
         return ammeterName;

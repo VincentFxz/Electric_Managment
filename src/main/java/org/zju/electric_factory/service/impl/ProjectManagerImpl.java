@@ -20,6 +20,7 @@ import org.zju.electric_factory.entity.UserCompanyLink;
 import org.zju.electric_factory.entity.UserProjectLink;
 import org.zju.electric_factory.service.AmmeterManager;
 import org.zju.electric_factory.service.CompanyProjectManager;
+import org.zju.electric_factory.service.ProjectAmmeterManager;
 import org.zju.electric_factory.service.ProjectManager;
 
 @Service
@@ -38,6 +39,9 @@ public class ProjectManagerImpl implements ProjectManager {
     @Autowired 
     private CompanyProjectManager companyProjectManager;
     
+    @Autowired
+    private ProjectAmmeterManager projectAmmeterManager; 
+    
 
     @Override
     public List<Project> getProjectsOwnByUser(Long userId) {
@@ -48,6 +52,7 @@ public class ProjectManagerImpl implements ProjectManager {
             projectsOwnByUser=new ArrayList<Project>();
             for(UserProjectLink userProjectLink: userProjectLinks){
                 Project project=projectDAO.getById(userProjectLink.getProjectId());
+                projectDAO.init(project);
                 projectsOwnByUser.add(project);
             }
         }
@@ -58,10 +63,10 @@ public class ProjectManagerImpl implements ProjectManager {
     @Override
     @SuppressWarnings("null")
     public List<Project> getProjectsOwnByCompany(String companyId) {
-    	List<Project> projectForCompanyList = null;
+    	List<Project> projectForCompanyList = new ArrayList<Project>();
 		List<CompanyProjectLink> cpLinksForCompany = companyProjectManager.getCompanyProjectLinksByCompanyId(companyId);
 		if(null != cpLinksForCompany){
-			projectForCompanyList = new ArrayList<Project>();
+			
 			for(CompanyProjectLink cpLink : cpLinksForCompany){
 				Project project = projectDAO.getById(cpLink.getProjectId());
 				projectForCompanyList.add(project);
@@ -154,6 +159,16 @@ public class ProjectManagerImpl implements ProjectManager {
 	@Override
 	public Project getProjectByProjectName(String projectName) {
 		return projectDAO.getByProjectName(projectName);
+	}
+
+	@Override
+	public Project getProjectByAmmeterId(Long ammeterId) {
+		// TODO Auto-generated method stub
+		ProjectAmmeterLink projectAmmeterLink = projectAmmeterManager.getProjectAmmeterLinkByAmmeterId(String.valueOf(ammeterId));
+		if(null != projectAmmeterLink){
+			return projectDAO.getById(projectAmmeterLink.getProjectId());
+		}
+		return null;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -19,10 +20,13 @@ import org.zju.electric_factory.entity.Company;
 import org.zju.electric_factory.entity.CompanyProjectLink;
 import org.zju.electric_factory.entity.Project;
 import org.zju.electric_factory.entity.ProjectAmmeterLink;
+import org.zju.electric_factory.entity.Role;
+import org.zju.electric_factory.entity.User;
 import org.zju.electric_factory.service.CompanyManager;
 import org.zju.electric_factory.service.CompanyProjectManager;
 import org.zju.electric_factory.service.ProjectAmmeterManager;
 import org.zju.electric_factory.service.ProjectManager;
+import org.zju.electric_factory.service.UserManager;
 import org.zju.electric_factory.vo.ProjectVO;
 
 @Controller
@@ -40,6 +44,9 @@ public class ProjectController {
 	
 	@Autowired
 	private CompanyManager companyManager;
+	
+	@Autowired
+	private UserManager userManager;
 	
 	
 	@InitBinder
@@ -62,6 +69,8 @@ public class ProjectController {
 				projectVO.setProjectDescription(project.getProjectDescription());
 				projectVO.setProjectName(project.getProjectName());
 				projectVO.setStartDate(project.getStartDate());
+				projectVO.setPartsRatio(project.getPartsRatio());
+				projectVO.setElectricityCharge(project.getElectricityCharge());
 				projectVOs.add(projectVO);
 			}
 		}
@@ -85,7 +94,21 @@ public class ProjectController {
 	
 	@RequestMapping(method=RequestMethod.GET,value="/list",headers="Accept=application/json")
 	public @ResponseBody List<Project> listProjects(){
-		return projectManager.getProjects();
+		boolean userHasAdminRole = false;
+		User currentUser = userManager.getCurrentUser();
+		Set<Role> userRoles = currentUser.getRoles();
+		if (null != userRoles) {
+			for (Role role : userRoles) {
+				if ("admin".equals(role.getName())) {
+					userHasAdminRole = true;
+				}
+			}
+			if (userHasAdminRole) {
+				return projectManager.getProjects();
+			}
+		}
+		
+		return projectManager.getProjectsOwnByUser(currentUser.getId());
 	}
 	
 	@RequestMapping(method=RequestMethod.GET,value="/list/",headers="Accept=application/json", params="sort(+id)")

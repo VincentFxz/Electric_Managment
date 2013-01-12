@@ -359,7 +359,7 @@ public class ProjectAmmeterManagerImpl implements ProjectAmmeterManager {
 	}
 
 	@Override
-	public List<ProjectAmmeterLink> getProjectAmmeterLinkByAmmeterId(
+	public ProjectAmmeterLink getProjectAmmeterLinkByAmmeterId(
 			String ammeterId) {
 		if(null != ammeterId){
 			return projectAmmeterLinkDAO.getByAmmeterId(Long.parseLong(ammeterId));

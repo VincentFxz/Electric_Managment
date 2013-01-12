@@ -19,6 +19,8 @@ public interface AmmeterRecordDAO {
 	 */
 	public List<AmmeterRecord> getByPeriod(Date startDate,Date endDate);
 	
+	public List<AmmeterRecord> getByAmmeterIdInPeriod(Long ammeterId, Date startDate, Date endDate);
+	
 	/*
 	 *add a record 
 	 */

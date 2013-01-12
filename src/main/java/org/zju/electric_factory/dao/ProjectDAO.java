@@ -21,4 +21,6 @@ public interface ProjectDAO {
 	
 	public void add(Project project);
 	
+	public void init(Project project);
+	
 }
