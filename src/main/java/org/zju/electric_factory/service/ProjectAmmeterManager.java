@@ -12,6 +12,7 @@ public interface ProjectAmmeterManager {
 	public void edit(ProjectAmmeterLink companyProjectLink);
 	public ProjectAmmeterLink getProjectAmmeterLinkById(String id);
 	public ProjectAmmeterLink getProjectAmmeterLinkByAmmeterId(String ammeterId);
+	public ProjectAmmeterLink getProjectAmmeterLinkByAmmeterId(Long ammeterId);
 	public List<ProjectAmmeterLink> getProjectAmmeterLinkByProjectId(String projectId);
 	
 	public List<ProjectAmmeterVO> getAllProjectAmmeterAscByAmmeterIdForView();

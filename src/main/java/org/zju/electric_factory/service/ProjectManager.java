@@ -8,6 +8,7 @@ public interface ProjectManager {
     public List<Project> getProjectsOwnByUser(Long userId);
     public Project getProjectByProjectName(String projectName);
     List<Project> getProjectsOwnByCompany(String companyId);
+    List<Project> getProjectsOwnByCompany(Long companyId);
 	public List<Project> getProjects();
 	public List<Project> getProjectsAscById();
 	public List<Project> getProjectsDescById();

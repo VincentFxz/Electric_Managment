@@ -326,29 +326,21 @@
 
                         <div id = "companyPane" data-dojo-type="dijit.layout.ContentPane" title = "公司管理">
                             <shiro:hasRole name="admin">
-                            <div data-dojo-type="dijit.form.DropDownButton">
-                                <span>新建</span>
-                                <div data-dojo-type="dijit.TooltipDialog" id="new_company_dialog">
-                                    
-                                    <form id="add_company_form" method="post" action="/company/add">
-                                        <div>
-                                            <strong><label class="add_form_label" for="addCompanyName">公司名称</label></strong>
-                                            <div data-dojo-type="dijit.form.TextBox" id="addCompanyName"></div>
-                                        </div>
-                                        <div>
-                                            <button id="add_company_btn"></button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                            <button id="showCreateCompanyDialogBtn" style="margin-left:1em;" data-dojo-type="dijit.form.Button">
+                                            新建公司
+                            </button>
                             </shiro:hasRole>
                             <!-- The Data Grid -->
                             <br />
                             <div id="company_grid" class="claro" style="height:400px"></div>
                             <!-- The Action Bar -->
                             <div id="company_modify_bar" class="claro">
-                                <button id="company_save_button"></button>
-                                <button id="company_delete_button"></button>
+                                <button id="saveCompanyBtn" data-dojo-type="dijit.form.Button">
+                                        保存
+                                </button>
+                                <button id="deleteCompanyBtn" data-dojo-type="dijit.form.Button">
+                                        删除
+                                </button>
                             </div>
                         </div>    
                         <!--/company pane-->
@@ -415,6 +407,30 @@
                         </div> 
                         <!-- hiddens -->
                         <div class="dijitHidden">
+
+                            <div data-dojo-type="dijit.Dialog" data-dojo-id="createCompanyDialog" id="createCompanyDialog" title="添加公司" style="width:56em;">
+                                <form id="createCompanyDialogForm" method="post" action="/company/add" >
+                                    <ul class="nav">
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="companyName">公司名称:</label>
+                                            <input id="companyName" type="text" dojoType="dijit.form.ValidationTextBox" class="long"
+                                                required="true" 
+                                                ucfirst="true" invalidMessage="">
+                                            </input>
+                                        </li>
+                                    </ul>
+                                </form>
+                                
+                                <div class="dijitDialogPaneActionBar">
+                                    <button id="createCompanyDialogAddBtn" data-dojo-type="dijit.form.Button">
+                                        添加
+                                    </button>
+                                    <button id="createCompanyDialogCancelBtn" data-dojo-type="dijit.form.Button">
+                                        取消
+                                    </button>
+                                </div>
+                            </div>
+
 							<div data-dojo-type="dijit.Dialog" data-dojo-id="createProjectForCompanyDialog" id="createProjectForCompanyDialog" title="添加新项目到公司" style="width:56em; ">
 								<form id="newProjectDialogForm" method="post" action="/project/add" >
                                     <ul class="nav">

@@ -48,7 +48,6 @@ require([
         "dojo/on",
         "dojo/topic",
         "dojox/data/JsonRestStore", 
-        // "dojo/store/JsonRest",
         "dojo/store/Memory", 
         "dojo/store/Cache", 
         "dojox/grid/EnhancedGrid", 
@@ -84,6 +83,24 @@ require([
         "dojo/domReady!"], function(registry, on, topic, JsonRestStore, Memory, Cache, EnhancedGrid, ObjectStore, query, ready, RadioButton, MultiSelect, TextBox, Button, Menu, MenuItem, ComboButton, ComboBox, FilteringSelect, domStyle, domClass, domConstruct, dom, xhr, ContentPane, Dialog, i18n) {
 
     ready(function() {
+
+        dojox.grid.DataGrid.prototype.setQueryAfterLoading = function(query) { 
+            if (this._isLoading === true) { 
+                if (this._queryAfterLoadingHandle !== undefined) { 
+                    dojo.disconnect(this, '_onFetchComplete', this._queryAfterLoadingHandle); 
+                } 
+                this._queryAfterLoadingHandle = dojo.connect(this, '_onFetchComplete', function() { 
+                    if (this._queryAfterLoadingHandle !== undefined) { 
+                        dojo.disconnect(this._queryAfterLoadingHandle); 
+                        delete this._queryAfterLoadingHandle; 
+                    } 
+                    this.setQuery(query); 
+                }); 
+            } 
+            else { 
+                this.setQuery(query); 
+            } 
+        }
     	
         //hidden the user ContentPane
         var tabContainer = dijit.byId("tab_container");
@@ -115,11 +132,560 @@ require([
         var ammeter_record_width = main_container_width * 0.24;
         var user_cell_width = main_container_width * 0.17;
         var company_cell_width = main_container_width / 3;
-        var project_cell_width = (main_container_width - 100) / 7;
+        // var project_cell_width = (main_container_width - 100) / 7;
+        var project_cell_width = "10em";
+
         var cp_cell_width = main_container_width * 0.20;
         var pa_cell_width = main_container_width * 0.20;
         var up_cell_width = main_container_width * 0.20;
         var last_cell_width = "5em";
+
+        var ammeterManager = {
+            store : new JsonRestStore({
+                target : "/ammeter/list/"
+            }),
+            deleteAmmeter : function (ammeter, callBack, errorCallBack){
+                this.store.deleteItem(ammeter);
+                this.store.save({
+                    onComplete : function () {
+                        
+                        callBack();
+                        topic.publish("updateAmmeter", "delete ammeter" );
+                    },
+                    onError : function () {
+                        errorCallBack();
+                    }
+                });
+            },
+            addAmmeter : function (ammeter, callBack, errorCallBack) {
+                this.store.newItem(ammeter);
+                this.store.save({
+                    onComplete : function () {
+                        callBack();
+                        topic.publish("updateAmmeter", "add ammeter");
+                    },
+                    onError : function () {
+                        errorCallBack();
+                    }
+                });
+            },
+            getStore : function () {
+                return this.store;
+            }
+        }
+
+        var companyManager = {
+
+            store: new JsonRestStore({
+                target:"/company/list"
+            }),
+            getCompanyName : function (companyId, callBack){
+
+                this.store.fetch({
+                    "query" : {
+                        "companyId" : companyId
+                    }, 
+                    onComplete: function(company){
+                        callBack(company.companyName);
+                    }
+                });
+            },
+            addCompany : function(company, callBack, errorCallBack){
+                console.log("start add company");
+                console.log("add" + company);
+                this.store.newItem(company);
+                this.store.save({
+                    onComplete: function(company){
+                        callBack(company);
+                        topic.publish("updateCompany", "add company");
+                    }, 
+                    onError: function (error){
+                        errorCallBack(error);
+                    }
+                });
+            },
+            deleteCompany : function(company, callBack, errorCallBack){
+                this.store.deleteItem(company);
+                this.store.save({
+                    onComplete : function(){
+                        console.log("company delete");
+                        callBack();
+                        topic.publish("updateCompany", "delete company");
+                    },
+                    onError : function(){
+                        errorCallBack();
+                    }
+                });
+            },
+            getStore : function (){
+                return this.store;
+            },
+            saveCompany : function(callBack,errorCallBack){
+                this.store.save({
+                    onComplete : function(){
+                        callBack();
+                        topic.publish("updateCompany", "delete company");
+                    },
+                    onError : function(){
+                        errorCallBack();
+                    }
+                });
+            } 
+        };
+
+        var companyProjectManager = {
+
+            store : new JsonRestStore({
+                target : "/cp/list"
+            }),
+
+            addCompanyProject: function(companyProject, callBack, errorCallBack){
+                this.store.newItem(companyProject);
+                this.store.save({
+                    onComplete : function () {
+                        callBack();
+                        topic.publish("updateCompanyProject", "add company project");
+                    },
+                    onError : function () {
+                        errorCallBack();
+                    }
+                });
+
+            },
+
+        };
+
+        var projectAmmeterManager = {
+            store : new JsonRestStore({
+                target : "/pa/list"
+            }),
+            addProjectAmmeter : function (projectAmmeter, callBack, errorCallBack) {
+                this.store.newItem(projectAmmeter);
+                this.store.save({
+                    onComplete : function () {
+                        callBack();
+                        topic.publish("updateProjectAmmeter", "add project ammeter");
+                    },
+                    onError : function () {
+                        errorCallBack();
+                    }
+                });
+            }
+        };
+
+        var projectManager = {
+
+            store : new JsonRestStore({
+                target: "/project/list/"
+            }),
+
+            getStore: function () {
+                return this.store;
+            },
+
+            getProjectName : function (projectId, callBack){
+
+                var projectName;
+
+                this.store.fetch({
+                    "query" : {
+                        "projectId" : projectId
+                    }, 
+                    onComplete: function(project){
+                        callBack(project.projectName);
+                    }
+                });
+            },
+
+            saveProject : function (callBack, errorCallBack){
+                this.store.save({
+                    onComplete : function(){
+                        callBack();
+                        topic.publish("updateProject", "projectUpdated");
+                    },
+                    onError : function(){
+                        errorCallBack();
+                    }
+                });
+            },
+
+            deleteProject : function (project, callBack, errorCallBack){
+                this.store.deleteItem(project);
+                this.store.save({
+                    onComplete : function(){
+                        callBack();
+                        topic.publish("updateProject", "projectUpdated");
+                    },
+                    onError : function(){
+                        errorCallBack();
+                    }
+                });
+                
+            },
+            addProject : function(project, callBack, errorCallBack){
+                this.store.newItem(project);
+                this.store.save({
+                    onComplete : function () {
+                        callBack();
+                        topic.publish("updateProject", "projectUpdated");
+                    },
+                    onError : function () {
+                        errorCallBack();
+                    }
+                });
+            },
+
+            getProjectNameCallBack : function (){
+
+            }
+        }
+
+        var constructors = {
+
+            CompanyPaneConstructor : function(){
+                var construtCompanyGrid = function construtCompanyGrid() {
+                    
+                    companyGrid = new EnhancedGrid({
+                        store: companyManager.getStore(),
+                        autoWidth: true,
+                        structure: layouts.companyGridLayout,
+                        plugins: {
+                            search: true,
+                            filter: true,
+                            printer: true,
+                            indirectSelection: {
+                                headerSelector: true,
+                                width: "40px",
+                                styles: "text-align: center;"
+                            }
+                        }
+                    }, "company_grid");
+                    companyGrid.startup();
+                    topic.subscribe("updateCompany", function(){
+                        companyGrid.setQueryAfterLoading({
+                            "id" : "*"
+                        });
+                    });
+
+                }
+
+                if (!companyPaneConstruted) {
+                    if (typeof companyPane != "undefined") {
+                        tabContainer.addChild(companyPane, 0);
+                        tabContainer.selectChild(companyPane);
+                        construtCompanyGrid();
+                        companyPaneConstruted = true;
+                    }
+                } else {
+                    tabContainer.selectChild(companyPane);
+                }
+            },
+
+            CreateProjectDialogConstructor : function (companyName){
+                if(request){
+                    request.ammetersForProject = [];
+                }
+               
+                var projectCompanyCombo = registry.byId("projectCompany");
+                
+                if(registry.byId("createNewCompanyRadio").checked){
+                    var projectCompanyCombo = registry.byId("projectCompanyCombo");
+                    var projectCompanyTextBox = registry.byId("projectCompanyTextBox");
+                    
+                    if(projectCompanyCombo){
+                        registry.remove("projectCompanyCombo");
+                        domConstruct.destroy("widget_projectCompanyCombo");
+                    }
+                    
+                    if(projectCompanyTextBox){
+                        
+                        registry.remove("projectCompanyTextBox");
+                        domConstruct.destroy("widget_projectCompanyTextBox");
+                    }
+                    
+                    var projectCompanyTextBox = document.getElementById("projectCompanyTextBox")||document.createElement("input");
+                    projectCompanyTextBox.setAttribute("id", "projectCompanyTextBox");
+                    document.getElementById("projectCompanyLi").appendChild(projectCompanyTextBox);
+                    
+                    
+                    var companyForProjectTextBox = new TextBox({
+                        placeHolder: "输入公司名称"
+                    },"projectCompanyTextBox");
+                }
+                
+                if(registry.byId("selectExistingCompanyradio").checked){
+                    var projectCompanyCombo = registry.byId("projectCompanyCombo")
+                    var projectCompanyTextBox = registry.byId("projectCompanyTextBox");
+                    if(projectCompanyTextBox){
+                        registry.remove("projectCompanyTextBox");
+                        domConstruct.destroy("widget_projectCompanyTextBox");
+                    }
+                    
+                    if(projectCompanyCombo){
+                        registry.remove("projectCompanyCombo");
+                        domConstruct.destroy("widget_projectCompanyCombo");
+                    }
+            
+                    var projectCompanyCombo = document.getElementById("projectCompanyCombo")||document.createElement("input");
+                    projectCompanyCombo.setAttribute("id", "projectCompanyCombo");
+                    document.getElementById("projectCompanyLi").appendChild(projectCompanyCombo);
+                    
+                    if(stores&&(!stores.companyStore)){
+                        stores.companyStore = new JsonRestStore({
+                            target: "/company/list/"
+                        });
+                    }
+
+
+                    var projectCompanyCombo = new ComboBox({
+                        id: "projectCompanyCombo",
+                        name: "company",
+                        value: companyName,
+                        store: stores.companyStore,
+                        searchAttr: "companyName"
+                    }, "projectCompanyCombo");
+                }
+                var createProjectForCompanyDialog = registry.byId("createProjectForCompanyDialog");
+                if(createProjectForCompanyDialog){
+                    dojo.byId("createProjectDialogHiddenBtn").style.display="inline";                
+                    createProjectForCompanyDialog.show();
+                }
+            },
+
+            ProjectPaneConstructor : function (projectPaneName, companyId){
+
+                projectPaneName = projectPaneName || "项目管理";
+
+                var paneNode = dijit.byId(projectPaneName);
+                if(paneNode){
+                    paneGrid = dijit.byId(projectPaneName + "Grid");
+                    if(paneGrid){
+                        paneGrid.setQueryAfterLoading({"id" : "*"}); 
+                    //tabContainer.addChild(paneNode);
+                    tabContainer.selectChild(dijit.byId(paneNode));
+                    return ;
+                    }
+                }else{
+                    paneNode = constructNewPane(projectPaneName, projectPaneName, "width: 100%;",tabContainer);
+                    //create button node
+                    var addButtonNodeId = paneNode + "AddButton";
+                    var newAddButtonNode = document.createElement("div");
+                    newAddButtonNode.setAttribute("id", addButtonNodeId);
+                    document.getElementById(paneNode).appendChild(newAddButtonNode);
+                    //construt add button
+                    var add_project_btn = new Button({
+
+                        label: "新建",
+                        onClick: function() {
+                            constructors.CreateProjectDialogConstructor(companyId);                                                                                    
+                        }
+                    }, addButtonNodeId);
+                    add_project_btn.startup();
+                    
+                    //create addFromExistButton
+                    var addFromExistButtonNodeId = paneNode + "AddFromExsitButton";
+                    var addFromExitAddButtonNode = document.createElement("div");
+                    addFromExitAddButtonNode.setAttribute("id", addFromExistButtonNodeId);
+                    document.getElementById(paneNode).appendChild(addFromExitAddButtonNode);
+                    var addProjectFromExistBtn = new Button({
+                        label: "从已存在的项目中添加",
+                        onClick: function(){
+                            
+                        }
+                    },addFromExistButtonNodeId);
+                    
+                    //create close tab button
+                    constructCloseTabBtn(paneNode);
+
+                    //create grid node
+                    var gridNodeId = paneNode + "Grid";
+                    var newGridNode = document.createElement("div");
+                    document.getElementById(paneNode).appendChild(newGridNode);
+                    newGridNode.setAttribute("id", gridNodeId);
+                    newGridNode.setAttribute("style", "height:400px;");
+                    var newGridLayout = layouts.projectGridLayout;
+                    var newGrid = constructNewGridForPane(gridNodeId, newGridLayout, projectManager.getStore()); 
+                    if(companyId){
+                        
+                        newGrid.setQueryAfterLoading({
+                            "companyId" : companyId
+                        });  
+                    }
+
+                    //save btn
+                    var saveButtonNodeId = paneNode + "SaveButton";
+                    var newSaveButtonNode = document.createElement("div");
+                    newSaveButtonNode.setAttribute("id", saveButtonNodeId);
+                    document.getElementById(paneNode).appendChild(newSaveButtonNode);
+
+                    var saveProjectBtn = new Button({
+
+                        label: "保存",
+                        onClick: function() {
+                            var saveProjectSuccessCallBack = function () {
+
+                            };
+
+                            var saveProjectErrorCallBack = function() {
+
+                            };
+
+                            projectManager.saveProject(saveProjectSuccessCallBack, saveProjectErrorCallBack);                                                                                    
+                        }
+                    }, saveButtonNodeId);
+                    saveProjectBtn.startup();
+
+                    //delete btn
+                    var deleteButtonNodeId = paneNode + "DeleteButton";
+                    var newDeleteButtonNode = document.createElement("div");
+                    newDeleteButtonNode.setAttribute("id", deleteButtonNodeId);
+                    document.getElementById(paneNode).appendChild(newDeleteButtonNode);
+
+                    var deleteProjectBtn = new Button({
+
+                        label: "删除",
+                        onClick: function() {
+                            var deleteProjectSuccessCallBack = function () {
+
+                            };
+
+                            var deleteProjectErrorCallBack = function() {
+
+                            };
+
+                            var projectGrid = registry.byId(gridNodeId);
+                            var projectSelected = projectGrid.selection.getSelected();
+                            if (projectSelected.length) {
+                                for (key in projectSelected) {
+                                    projectManager.deleteProject(projectSelected[key], deleteProjectSuccessCallBack, deleteProjectErrorCallBack);
+                                }
+                            };
+                        }
+                    }, deleteButtonNodeId);
+                    saveProjectBtn.startup();
+
+                    topic.subscribe("updateProject", function(text){
+                        newGrid.setQueryAfterLoading({"id" : "*"}); 
+                    });
+
+                }
+            },
+
+            AmmeterPaneConstructor : function (ammeterPaneName, projectId){
+
+                ammeterPaneName = ammeterPaneName || "电表管理";
+
+                var paneNode = dijit.byId(ammeterPaneName);
+                if(paneNode){
+                    paneGrid = dijit.byId(ammeterPaneName+"Grid");
+                    paneGrid.setQueryAfterLoading({"id" : "*"}); 
+                    //tabContainer.addChild(paneNode);
+                    tabContainer.selectChild(dijit.byId(paneNode));
+                    return ;
+                }else{
+                    paneNode = constructNewPane(ammeterPaneName, ammeterPaneName,"width: 100%;",tabContainer);
+                    //create button node
+                    var addButtonNodeId = paneNode + "AddButton";
+                    var newAddButtonNode = document.createElement("div");
+                    newAddButtonNode.setAttribute("id", addButtonNodeId);
+                    document.getElementById(paneNode).appendChild(newAddButtonNode);
+                    //construt add button
+                    var add_ammeter_btn = new Button({
+
+                        label: "新建",
+                        onClick: function() {
+                            dojo.byId("ammeterProjectLi").style.display="list-item";
+                            var ammeterProjectCombo = registry.byId("ammeterProject");
+                            if(!ammeterProjectCombo){
+
+                                var getProjectNameCallBack = function(projectName) {
+
+                                    var projectForAmmeterCombo = new ComboBox({
+                                        id: "ammeterProject",
+                                        name: "project",
+                                        value: projectName,
+                                        store: stores.projectStore,
+                                        searchAttr: "projectName"
+                                    }, "ammeterProject");
+
+                                    registry.byId("createAmmeterDialog").show();
+                                };
+
+                                projectManager.getProjectName(projectId, getProjectNameCallBack);
+
+
+                            }else{
+
+                                registry.byId("createAmmeterDialog").show();
+                            }
+                        }
+                    }, addButtonNodeId);
+                    add_ammeter_btn.startup();
+                    
+                    //create addFromExistButton
+                    var addFromExistButtonNodeId = paneNode + "AddFromExsitButton";
+                    var addFromExitAddButtonNode = document.createElement("div");
+                    addFromExitAddButtonNode.setAttribute("id", addFromExistButtonNodeId);
+                    document.getElementById(paneNode).appendChild(addFromExitAddButtonNode);
+                    var addProjectFromExistBtn = new Button({
+                        label: "从已存在的项目中添加",
+                        onClick: function(){
+                            
+                        }
+                    },addFromExistButtonNodeId);
+                    
+                    //create close tab button
+                    constructCloseTabBtn(paneNode);
+
+                    //create grid node
+                    var gridNodeId = paneNode + "Grid";
+                    var newGridNode = document.createElement("div");
+                    document.getElementById(paneNode).appendChild(newGridNode);
+                    newGridNode.setAttribute("id", gridNodeId);
+                    newGridNode.setAttribute("style", "height:400px;");
+                    var newGridLayout = layouts.ammeterGridLayout;
+                    var newGrid = constructNewGridForPane(gridNodeId, newGridLayout, ammeterManager.getStore());
+                    if(projectId){
+                        newGrid.setQueryAfterLoading({
+                            "projectId" : projectId
+                        });
+                    }
+
+                    topic.subscribe("updateAmmeter", function(text){
+                        newGrid.setQueryAfterLoading({"id" : "*"}); 
+                    });
+
+                    //delete btn
+                    var deleteButtonNodeId = paneNode + "DeleteButton";
+                    var newDeleteButtonNode = document.createElement("div");
+                    newDeleteButtonNode.setAttribute("id", deleteButtonNodeId);
+                    document.getElementById(paneNode).appendChild(newDeleteButtonNode);
+
+                    var deleteAmmeterBtn = new Button({
+
+                        label: "删除",
+                        onClick: function() {
+                            var deleteAmmeterSuccessCallBack = function () {
+
+                            };
+
+                            var deleteAmmeterErrorCallBack = function() {
+
+                            };
+
+                            var ammeterGrid = registry.byId(gridNodeId);
+                            var ammeterSelected = ammeterGrid.selection.getSelected();
+                            if (ammeterSelected.length) {
+                                for (key in ammeterSelected) {
+                                    console.log(ammeterSelected[key]);
+                                    ammeterManager.deleteAmmeter(ammeterSelected[key], deleteAmmeterSuccessCallBack, deleteAmmeterErrorCallBack);
+                                }
+                            };
+                        }
+                    }, deleteButtonNodeId);
+                }
+            }
+        }
 
         var request = {
 
@@ -128,125 +694,6 @@ require([
         var stores = {
 
         };
-
-        var constructor = {
-            projectConstructor : function (name){
-                paneNode = constructNewPane("公司" + id + "的项目", "公司" + id + "的项目","width: 100%;",tabContainer);
-                //create button node
-                var addButtonNodeId = paneNode + "AddButton";
-                var newAddButtonNode = document.createElement("div");
-                newAddButtonNode.setAttribute("id", addButtonNodeId);
-                document.getElementById(paneNode).appendChild(newAddButtonNode);
-                //construt add button
-                var add_project_btn = new Button({
-
-                    label: "新建",
-                    onClick: function() {
-
-                        if(request){
-                            request.ammetersForProject = [];
-                        }
-
-                        var projectCompanyCombo = registry.byId("projectCompany");
-                        
-                        if(registry.byId("createNewCompanyRadio").checked){
-                            var projectCompanyCombo = registry.byId("projectCompanyCombo");
-                            var projectCompanyTextBox = registry.byId("projectCompanyTextBox");
-                            
-                            if(projectCompanyCombo){
-                                registry.remove("projectCompanyCombo");
-                                domConstruct.destroy("widget_projectCompanyCombo");
-                            }
-                            
-                            if(projectCompanyTextBox){
-                                
-                                registry.remove("projectCompanyTextBox");
-                                domConstruct.destroy("widget_projectCompanyTextBox");
-                            }
-                            
-                            var projectCompanyTextBox = document.getElementById("projectCompanyTextBox")||document.createElement("input");
-                            projectCompanyTextBox.setAttribute("id", "projectCompanyTextBox");
-                            document.getElementById("projectCompanyLi").appendChild(projectCompanyTextBox);
-                            
-                            
-                            var companyForProjectTextBox = new TextBox({
-                                placeHolder: "输入公司名称"
-                            },"projectCompanyTextBox");
-                        }
-                        
-                        if(registry.byId("selectExistingCompanyradio").checked){
-                            var projectCompanyCombo = registry.byId("projectCompanyCombo")
-                            var projectCompanyTextBox = registry.byId("projectCompanyTextBox");
-                            if(projectCompanyTextBox){
-                                registry.remove("projectCompanyTextBox");
-                                domConstruct.destroy("widget_projectCompanyTextBox");
-                            }
-                            
-                            if(projectCompanyCombo){
-                                registry.remove("projectCompanyCombo");
-                                domConstruct.destroy("widget_projectCompanyCombo");
-                            }
-                    
-                            var projectCompanyCombo = document.getElementById("projectCompanyCombo")||document.createElement("input");
-                            projectCompanyCombo.setAttribute("id", "projectCompanyCombo");
-                            document.getElementById("projectCompanyLi").appendChild(projectCompanyCombo);
-                            
-                            if(stores&&(!stores.companyStore)){
-                                stores.companyStore = new JsonRestStore({
-                                    target: "/company/list/"
-                                });
-                            }
-
-                            var companyName = stores.companyStore.fetchItemByIdentity({"identity" : id}).companyName;
-
-                            var projectCompanyCombo = new ComboBox({
-                                id: "projectCompanyCombo",
-                                name: "company",
-                                value: companyName,
-                                store: stores.companyStore,
-                                searchAttr: "companyName"
-                            }, "projectCompanyCombo");
-                        }
-                        var createProjectForCompanyDialog = registry.byId("createProjectForCompanyDialog");
-                        if(createProjectForCompanyDialog){
-                            dojo.byId("createProjectDialogHiddenBtn").style.display="inline";                
-                            createProjectForCompanyDialog.show();
-                        }
-                                                                        
-                    }
-                }, addButtonNodeId);
-                add_project_btn.startup();
-                
-                //create addFromExistButton
-                var addFromExistButtonNodeId = paneNode + "AddFromExsitButton";
-                var addFromExitAddButtonNode = document.createElement("div");
-                addFromExitAddButtonNode.setAttribute("id", addFromExistButtonNodeId);
-                document.getElementById(paneNode).appendChild(addFromExitAddButtonNode);
-                var addProjectFromExistBtn = new Button({
-                    label: "从已存在的项目中添加",
-                    onClick: function(){
-                        
-                    }
-                },addFromExistButtonNodeId);
-                
-                //create close tab button
-                constructCloseTabBtn(paneNode);
-
-                //create grid node
-                var gridNodeId = paneNode + "Grid";
-                var newGridNode = document.createElement("div");
-                document.getElementById(paneNode).appendChild(newGridNode);
-                newGridNode.setAttribute("id", gridNodeId);
-                newGridNode.setAttribute("style", "height:400px;");
-                var newGridLayout = layouts.projectGridLayout;
-                var newGrid = constructNewGridForPane(gridNodeId, newGridLayout, "/project/list/company/" + id);
-
-                topic.subscribe("updateProject", function(text){
-                    newGrid.setQuery({"id" : "*"}); 
-                });
-
-            }
-        }
 
         var formatters = {
             dateFormatter : function(inDatum){
@@ -262,142 +709,31 @@ require([
                 });
             },
 
-            projectGridOptFormatter : function(id){
+            projectGridOptFormatter : function(projectId){
                 return new Button({
                     label:"查看电表",
                     onClick: function() {
-                        var paneName = "项目" + id + "的电表";
-                        var paneNode = dijit.byId(paneName);
-                        if(paneNode){
-                            paneGrid = dijit.byId(paneName+"Grid");
-                            paneGrid.setQuery({"id" : "*"}); 
-                            //tabContainer.addChild(paneNode);
-                            tabContainer.selectChild(dijit.byId(paneNode));
-                            return ;
-                        }else{
-                            paneNode = constructNewPane(paneName, paneName,"width: 100%;",tabContainer);
-                            //create button node
-                            var addButtonNodeId = paneNode + "AddButton";
-                            var newAddButtonNode = document.createElement("div");
-                            newAddButtonNode.setAttribute("id", addButtonNodeId);
-                            document.getElementById(paneNode).appendChild(newAddButtonNode);
-                            //construt add button
-                            var add_ammeter_btn = new Button({
 
-                                label: "新建",
-                                onClick: function() {
-                                	dojo.byId("ammeterProjectLi").style.display="inline";
-                                    var ammeterProjectCombo = registry.byId("ammeterProject");
-                                    if(!ammeterProjectCombo){
-                                        if(stores&&(!stores.projectStore)){
-                                            stores.projectStore = new JsonRestStore({
-                                                target: "/project/list/"
-                                            });
-                                        }
-
-                                        //console.log(stores.projectStore.byId({"identity" : id}));
-                                        if(!stores.projectStore.byId({"identity":id})){
-                                            stores.projectStore.byId({
-                                                "identity": id,
-                                                onItem: function(){
-                                                    var projectName = stores.projectStore.byId({"identity": id}).projectName;
-                                                    var projectForAmmeterCombo = new ComboBox({
-                                                        id: "ammeterProject",
-                                                        name: "project",
-                                                        value: projectName,
-                                                        store: stores.projectStore,
-                                                        searchAttr: "projectName"
-                                                    }, "ammeterProject");
-
-                                                    registry.byId("createAmmeterDialog").show();
-                                                },
-                                                onError: function(){
-
-                                                }
-                                            });
-                                        }else{
-                                            var projectName = stores.projectStore.byId({"identity": id}).projectName;
-                                            var projectForAmmeterCombo = new ComboBox({
-                                                id: "ammeterProject",
-                                                name: "project",
-                                                value: projectName,
-                                                store: stores.projectStore,
-                                                searchAttr: "projectName"
-                                            }, "ammeterProject");
-
-                                            registry.byId("createAmmeterDialog").show();
-                                        }
-
-                                    }else{
-                                        if(!stores.projectStore.byId({"identity":id})){
-                                            stores.projectStore.byId({
-                                                "identity": id,
-                                                onItem: function(){
-                                                    var projectName = stores.projectStore.byId({"identity": id}).projectName;
-                                                    ammeterProjectCombo.setValue(projectName);
-                                                    registry.byId("createAmmeterDialog").show();
-                                                },
-                                                onError: function(){
-
-                                                }
-                                            });
-                                        }else{
-                                            var projectName = stores.projectStore.byId({"identity": id}).projectName;
-                                            ammeterProjectCombo.setValue(projectName);
-                                            console.log(registry.byId("ammeterProject"));
-                                            registry.byId("createAmmeterDialog").show();
-                                        }
-                                        registry.byId("createAmmeterDialog").show();
-                                    }
-                                }
-                            }, addButtonNodeId);
-                            add_ammeter_btn.startup();
-                            
-                            //create addFromExistButton
-                            var addFromExistButtonNodeId = paneNode + "AddFromExsitButton";
-                            var addFromExitAddButtonNode = document.createElement("div");
-                            addFromExitAddButtonNode.setAttribute("id", addFromExistButtonNodeId);
-                            document.getElementById(paneNode).appendChild(addFromExitAddButtonNode);
-                            var addProjectFromExistBtn = new Button({
-                                label: "从已存在的项目中添加",
-                                onClick: function(){
-                                    
-                                }
-                            },addFromExistButtonNodeId);
-                            
-                            //create close tab button
-                            constructCloseTabBtn(paneNode);
-
-                            //create grid node
-                            var gridNodeId = paneNode + "Grid";
-                            var newGridNode = document.createElement("div");
-                            document.getElementById(paneNode).appendChild(newGridNode);
-                            newGridNode.setAttribute("id", gridNodeId);
-                            newGridNode.setAttribute("style", "height:400px;");
-                            var newGridLayout = layouts.ammeterGridLayout;
-                            var newGrid = constructNewGridForPane(gridNodeId, newGridLayout, "/ammeter/list/project/" + id);
-                            topic.subscribe("updateAmmeter", function(text){
-                                newGrid.setQuery({"id" : "*"}); 
-                            });
-                        }   
+                        var callBack = function (projectName){
+                            var ammeterPaneName = "项目" + projectName + "的电表";
+                            constructors.AmmeterPaneConstructor(ammeterPaneName, projectId);
+                        };
+                        projectManager.getProjectName(projectId, callBack);
+                        
                     }
                 });
             },
 
-            companyGridOptFormatter : function(id, name){
+            companyGridOptFormatter : function(companyId){
                 return new Button({
                     label:"查看项目",
                     onClick: function() {
-                        var paneNode = dijit.byId("公司" + id + "的项目");
-                        if(paneNode){
-                            paneGrid = dijit.byId("公司" + id + "的项目Grid")
-                            paneGrid.setQuery({"id" : "*"}); 
-                            //tabContainer.addChild(paneNode);
-                            tabContainer.selectChild(dijit.byId(paneNode));
-                            return ;
-                        }else{
-                            
-                        }                                       
+                        var callBack = function(companyName){
+                            var projectPaneName = "公司" + companyName + "的项目";
+                            constructors.ProjectPaneConstructor(projectPaneName, companyId);
+                        };
+                        companyManager.getCompanyName(companyId, callBack);
+                        
                     }
                 });
             }
@@ -553,39 +889,39 @@ require([
             projectGridLayout : [{
                 name: "项目编号",
                 field: "id",
-                width: project_cell_width + "px",
+                width: project_cell_width,
                 canSort: true
             }, {
                 name: "项目名称",
                 field: "projectName",
-                width: project_cell_width + "px",
+                width: project_cell_width,
                 editable: true
             }, {
                 name: "项目开始日期",
                 field: "startDate",
-                width: project_cell_width + "px",
+                width: project_cell_width,
                 formatter: formatters.dateFormatter, 
                 canSort: true
             }, {
                 name: "项目结束日期",
                 field: "endDate",
-                width: project_cell_width + "px",
+                width: project_cell_width,
                 formatter: formatters.dateFormatter, 
                 canSort: true
             }, {
                 name: "当前电费",
                 field: "electricityCharge",
-                width: project_cell_width + "px",
+                width: project_cell_width,
                 canSort: true
             }, {
                 name: "分成比率",
                 field: "partsRatio",
-                width: project_cell_width + "px",
+                width: project_cell_width,
                 canSort: true
             }, {
                 name: "操作",
                 field: "id",
-                 width: project_cell_width / 2 + "px",
+                 width: project_cell_width,
                 type: dojox.grid.cells._Widget,
                 editable: false,
                 formatter: formatters.projectGridOptFormatter
@@ -989,99 +1325,6 @@ require([
                 tabContainer.selectChild(cpPane);
             }
         };
-
-        //project pane
-        construtProjectPane = function construtProjectPane(id) {
-
-            var construtProjectGrid = function construtProjectGrid() {
-            		
-            		var targetUrl = "/project/list/";
-            		
-            		if(id){
-            			targetUrl = targetUrl + id;
-            		}
-            		
-                    projectStore = new JsonRestStore({
-                        target: targetUrl
-                    });
-                    projectGrid = new EnhancedGrid({
-                        store: projectDataStore = projectStore,
-                        autoWidth: true,
-                        structure: layouts.projectGridLayout,
-                        plugins: {
-                            search: true,
-                            filter: true,
-                            printer: true,
-                            indirectSelection: {
-                                headerSelector: true,
-                                width: "40px",
-                                styles: "text-align: center;"
-                            }
-                        }
-                    }, "project_grid");
-                    projectGrid.startup();
-
-                    //construt add button
-                    var add_project_btn = new Button({
-
-                        label: "新建",
-                        onClick: function() {
-                            var form_content = {
-                                projectName: dom.byId("addProjectName").value,
-                            };
-                            xhr.post({
-                                form: "add_project_form",
-                                // read the url: from the action="" of the <form>
-                                timeout: 3000,
-                                // give up after 3 seconds
-                                content: form_content,
-                                handleAs: "json",
-                                load: function(new_project) {
-                                    projectDataStore.newItem(new_project);
-                                    projectdataStore.save();
-                                }
-                            });
-                        }
-                    }, "add_project_btn");
-                    add_project_btn.startup();
-
-                    //construt save button
-                    var save_button = new Button({
-                        label: "保存",
-                        onClick: function() {
-                            projectDataStore.save();
-
-                        }
-                    }, "project_save_button");
-                    save_button.startup();
-
-                    //construt delete button
-                    var delete_button = new Button({
-                        label: "删除",
-                        onClick: function() {
-                            var project_selected = projectGrid.selection.getSelected();
-                            if (project_selected.length) {
-                                for (key in project_selected) {
-                                    projectDataStore.deleteItem(project_selected[key]);
-                                    projectDataStore.save();
-                                }
-                            }
-                        }
-                    }, "project_delete_button");
-                    delete_button.startup();
-                }
-
-            if (!projectPaneConstruted) {
-                if (typeof projectPane != "undefined") {
-                    tabContainer.addChild(projectPane, 0);
-                    tabContainer.selectChild(projectPane);
-                    construtProjectGrid();
-                    projectPaneConstruted = true;
-                }
-            } else {
-                tabContainer.selectChild(projectPane);
-            }
-        };
         
         //save computation pane
         constructSaveComputationPane = function constructSaveComputationPane(id) {
@@ -1098,11 +1341,6 @@ require([
                     target: targetUrl,
                     
                 });
-
-                // stores.constructSaveComputationStore.query({
-                //     "startDate" : "2013-01-01",
-                //     "endDate": "2013-01-10"
-                // });
 
                 saveComputationGrid = new EnhancedGrid({
                     store: stores.constructSaveComputationStore,
@@ -1176,94 +1414,6 @@ require([
                 }
             } else {
                 tabContainer.selectChild(lastAmmeterStatusPane);
-            }
-        };
-
-        
-
-        //company pane
-        construtCompanyPane = function construtCompanyPane() {
-            var construtCompanyGrid = function construtCompanyGrid() {
-                    companyStore = new JsonRestStore({
-                        target: "/company/list/"
-                    });
-                    
-                    companyGrid = new EnhancedGrid({
-                        store: companyDataStore = companyStore,
-                        autoWidth: true,
-                        structure: layouts.companyGridLayout,
-                        plugins: {
-                            search: true,
-                            filter: true,
-                            printer: true,
-                            indirectSelection: {
-                                headerSelector: true,
-                                width: "40px",
-                                styles: "text-align: center;"
-                            }
-                        }
-                    }, "company_grid");
-                    companyGrid.startup();
-
-                    //construt add button
-                    var add_company_btn = new Button({
-
-                        label: "新建",
-                        onClick: function() {
-                            var form_content = {
-                                companyName: dom.byId("addCompanyName").value,
-                            };
-                            xhr.post({
-                                form: "add_company_form",
-                                // read the url: from the action="" of the <form>
-                                timeout: 3000,
-                                // give up after 3 seconds
-                                content: form_content,
-                                handleAs: "json",
-                                load: function(new_company) {
-                                    companyDataStore.newItem(new_company);
-                                    companydataStore.save();
-                                }
-                            });
-                        }
-                    }, "add_company_btn");
-                    add_company_btn.startup();
-
-                    //construt save button
-                    var save_button = new Button({
-                        label: "保存",
-                        onClick: function() {
-                            companyDataStore.save();
-
-                        }
-                    }, "company_save_button");
-                    save_button.startup();
-
-                    //construt delete button
-                    var delete_button = new Button({
-                        label: "删除",
-                        onClick: function() {
-                            var company_selected = companyGrid.selection.getSelected();
-                            if (company_selected.length) {
-                                for (key in company_selected) {
-                                    companyDataStore.deleteItem(company_selected[key]);
-                                    companyDataStore.save();
-                                }
-                            }
-                        }
-                    }, "company_delete_button");
-                    delete_button.startup();
-                }
-
-            if (!companyPaneConstruted) {
-                if (typeof companyPane != "undefined") {
-                    tabContainer.addChild(companyPane, 0);
-                    tabContainer.selectChild(companyPane);
-                    construtCompanyGrid();
-                    companyPaneConstruted = true;
-                }
-            } else {
-                tabContainer.selectChild(companyPane);
             }
         };
         
@@ -1343,31 +1493,12 @@ require([
 
             if(paneNode){
                 paneGrid = dijit.byId(title + "Grid")
-                paneGrid.setQuery({"id" : "*"}); 
+                paneGrid.setQueryAfterLoading({"id" : "*"}); 
                 //tabContainer.addChild(paneNode);
                 tabContainer.selectChild(dijit.byId(paneNode));
                 return ;
             }else{
-                paneNode = constructNewPane(id, title, "width: 100%;", tabContainer);
-                //create button node
-                var addButtonNodeId = paneNode + "AddButton";
-                domConstruct.place('<div id="' + addButtonNodeId + '">', paneNode, "first");
-
-
-                var ammeterAddBtn = new Button({
-                    label: "添加",
-                    onClick: function(){
-                        registry.byId("createAmmeterDialog").show();
-                    }
-                },addButtonNodeId);
-                newProjectDialogAddBtn.startup();
-
-
-                var ammeterGridId = paneNode + "Grid";
-                domConstruct.place('<div id="' + ammeterGridId + '">', paneNode, "last");
-                domStyle.set(dojo.byId(ammeterGridId), "height", "400px");
-                constructNewGridForPane(ammeterGridId, layouts.ammeterGridLayout, "/ammeter/list/");
-
+                constructors.AmmeterPaneConstructor();
             }
 
             // var constructAmmeterOperBtns = function constructAmmeterOperBtns(){
@@ -1632,14 +1763,10 @@ require([
         };
         
         //constuctNewGrid
-        constructNewGridForPane = function constructNewGridForPane(contentNode, layout, targetUrl){
-        	
-        	 var newStore = new JsonRestStore({
-                 target: targetUrl
-             });
+        constructNewGridForPane = function constructNewGridForPane(contentNode, layout, store){
         	 
              var newGrid = new EnhancedGrid({
-                 store: newStore,
+                 store: store,
                  autoWidth: true,
                  structure: layout,
                  plugins: {
@@ -1656,6 +1783,72 @@ require([
              newGrid.startup();
              return newGrid;
         };
+        //Company Pane Events
+        var saveCompanyBtn = registry.byId("saveCompanyBtn");
+        if(saveCompanyBtn){
+            on(saveCompanyBtn, "click", function(){
+                var saveSuccessCallBack = function(){
+
+                };
+
+                var errorCallBack = function() {
+
+                };
+                companyManager.saveCompany(saveSuccessCallBack, errorCallBack);
+            });
+        }
+
+        var deleteCompanyBtn = registry.byId("deleteCompanyBtn");
+        if(deleteCompanyBtn){
+            on(deleteCompanyBtn, "click", function(){
+                var deleteCOmpanySuccessCallBack = function(){
+
+                };
+
+                var deleteCompanyErrorCallBack = function(){
+
+                };
+
+                var companyGrid = registry.byId("company_grid");
+                var companySelected = companyGrid.selection.getSelected();
+                if (companySelected.length) {
+                    for (key in companySelected) {
+                        companyManager.deleteCompany(companySelected[key], deleteCOmpanySuccessCallBack, deleteCompanyErrorCallBack);
+                    }
+                };
+            });
+        }
+
+        //Company Creation Dialog Events
+        var showCreateCompanyDialogBtn = registry.byId("showCreateCompanyDialogBtn");
+        if(showCreateCompanyDialogBtn){
+            on(showCreateCompanyDialogBtn, "click", function(){
+                var createCompanyDialog = registry.byId("createCompanyDialog");
+                if(createCompanyDialog){
+                    createCompanyDialog.show();
+                }
+            });
+        }
+
+        var createCompanyDialogAddBtn = registry.byId("createCompanyDialogAddBtn");
+        if(createCompanyDialogAddBtn){
+            on(createCompanyDialogAddBtn, "click", function(){
+                var companyName = registry.byId("companyName").value;
+                var company = {
+                    companyName : companyName
+                };
+                var addCompanySuccessCallBack = function(company){
+                    topic.publish("updateCompany", company.companyName);
+                    var createCompanyDialog = registry.byId("createCompanyDialog");
+                    createCompanyDialog.hide();
+                }
+                var addCompanyErrorCallBack = function (error){
+                    console.log(error);
+                }
+                companyManager.addCompany(company, addCompanySuccessCallBack, addCompanyErrorCallBack);
+            });
+
+        }
 
         //Projects Creation Dialog Events
         var selectExistingCompanyradio = dijit.byId("selectExistingCompanyradio");
@@ -1712,11 +1905,6 @@ require([
             	projectCompanyTextBox.setAttribute("id", "projectCompanyTextBox");
             	document.getElementById("projectCompanyLi").appendChild(projectCompanyTextBox);
                 
-//            	domConstruct.create("input", {
-//            		innerHTML: "Seven",
-//            		className: "seven",
-//            		style: {fontWeight: "bold"}
-//        		}, list);
             	
             	var companyForProjectTextBox = new TextBox({
         			placeHolder: "输入公司名称"
@@ -1731,80 +1919,74 @@ require([
             	
             	if(registry.byId("createNewCompanyRadio").checked){
             		var companyName = registry.byId(projectCompanyTextBox).value;
-            		var form_content = {
-                        companyName: companyName,
+                    var company = {"companyName" : companyName};
+                    var addCompanySuccessCallBack = function (company) {
+                        addProject();
                     };
-                    xhr.post({
-                        form: "add_company_form",
-                        // read the url: from the action="" of the <form>
-                        timeout: 3000,
-                        // give up after 3 seconds
-                        content: form_content,
-                        handleAs: "json",
-                        load: function(new_company) {
-//                                companyDataStore.newItem(new_company);
-//                                companydataStore.save();
-                        }
-                    });
-            	}
+                    var addCompanyErrorCallBack = function (error) {
+
+                    };
+                    companyManager.addCompany(company, addCompanySuccessCallBack, addCompanyErrorCallBack);
+            	}else{
+                    addProject();
+                }
             	
             	if(registry.byId("selectExistingCompanyradio").checked){
             		var companyName = registry.byId("projectCompanyCombo").value;            		
             	}
-            	
-                var form_content = {
-                    projectName: dom.byId("forCompanyProjectName").value,
-                    startDate: dom.byId("projectStartDate").value,
-                    endDate: dom.byId("projectEndDate").value,
-                    companyName: companyName,
-                    electricityCharge: dom.byId("electricityCharge").value,
-                    partsRatio: dom.byId("partsRatio").value
-                };
-                xhr.post({
-                    form: "newProjectDialogForm",
-                    // read the url: from the action="" of the <form>
-                    timeout: 3000,
-                    // give up after 3 seconds
-                    content: form_content,
-                    handleAs: "json",
-                    load: function(new_project) {
-                        console.log(new_project);
+                var projectName = dom.byId("forCompanyProjectName").value;
+                var addProject = function(){
+                    var addProjectSuccessCallBack = function () {
+                        addCompanyProject();
+                        addProjectAmmeter();
+                    };
+                    var addProjectErrorCallBack = function () {
 
-                        topic.publish("updateProject", "update");
-
-                        if(new_project){
-                            registry.byId("createProjectForCompanyDialog").hide();
-                        }
-                        if(projectDataStore){
-                            projectDataStore.newItem(new_project);
-                            projectdataStore.save();
-                        }
-                    }
-                });
-                //add ammeter if there is any ammeter to add
-                if(request&&request.ammetersForProject){
-                    console.log(request.ammetersForProject);
-                    for(var i=0; i < request.ammetersForProject.length; i++){
-                        xhr.post({
-                            url: "/pa/add",
-                            // read the url: from the action="" of the <form>
-                            timeout: 3000,
-                            // give up after 3 seconds
-                            content: {
-                                "projectName": dom.byId("forCompanyProjectName").value,
-                                "ammeterName": request.ammetersForProject[i]
-                            },
-                            handleAs: "json",
-                            load: function(new_project) {
-                                console.log("ammeter project link added");
-                                console.log(new_project);
-                            }
-                        });
-                        
-                    }
+                    };
+                    var project = {
+                        projectName: projectName,
+                        startDate: dom.byId("projectStartDate").value,
+                        endDate: dom.byId("projectEndDate").value,
+                        electricityCharge: dom.byId("electricityCharge").value,
+                        partsRatio: dom.byId("partsRatio").value
+                    };
+                    projectManager.addProject(project, addProjectSuccessCallBack, addProjectErrorCallBack);
                 }
-                
-                request.ammetersForProject = [];
+                var addCompanyProjectSuccCallBack = function () {
+
+                };
+                var addCompanyProjectErrorCallBack = function () {
+
+                };
+                var addCompanyProject = function(){
+                    var companyProject = {
+                        "companyName" : companyName,
+                        "projectName" : projectName,
+                    };
+                    companyProjectManager.addCompanyProject(companyProject, addCompanyProjectSuccCallBack, addCompanyProjectErrorCallBack);
+                }
+                //add ammeter if there is any ammeter to add
+
+                var addProjectAmmeter = function () {
+                    if(request&&request.ammetersForProject){
+                        for(var i=0; i < request.ammetersForProject.length; i++){
+
+                            var ammeterProject = {
+                                "projectName" : projectName,
+                                "ammeterName" : request.ammetersForProject[i]
+                            }
+                            var addProjectAmmeterSuccCallBack = function () {
+
+                            };
+                            var addProjectAmmeterErrorCallBack = function () {
+
+                            };
+                            projectAmmeterManager.addProjectAmmeter(ammeterProject, addProjectAmmeterSuccCallBack, addProjectAmmeterErrorCallBack);
+                            request.ammetersForProject = [];
+                        }
+                    }
+                };
+    
                 registry.byId("createProjectForCompanyDialog").hide();
             });
         }
@@ -1963,7 +2145,7 @@ require([
                     target: targetUrl
                 });
 
-                saveComputationGrid.setQuery({
+                saveComputationGrid.setQueryAfterLoading({
                     "startDate" : saveComputationStartDate,
                     "endDate": saveComputationEndDate
                 }); 
@@ -1996,7 +2178,7 @@ require([
             on(upMenuItem, "click", function(){
                 var upMenuItemBtn = dojo.byId("upMenuItemBtn");
                 activeMenuItem(upMenuItemBtn);
-                construtProjectPane();
+                constructors.ProjectPaneConstructor();
             });
         }
         
@@ -2024,7 +2206,7 @@ require([
             on(projectMenuItem, "click", function(){
                 var projectMenuItemBtn = dojo.byId("projectMenuItemBtn");
                 activeMenuItem(projectMenuItemBtn);
-                construtProjectPane();
+                constructors.ProjectPaneConstructor();
             });
 
         }
@@ -2032,73 +2214,9 @@ require([
         var createProjectGuideMenuItem = dojo.byId("createProjectGuideMenuItem");
         if(createProjectGuideMenuItem){
             on(createProjectGuideMenuItem, "click", function(){
-                if(request){
-                    request.ammetersForProject = [];
-                }
                 var createProjectGuideBtn = dojo.byId("createProjectGuideMenuItem");
                 activeMenuItem(createProjectGuideBtn);
-                var projectCompanyCombo = registry.byId("projectCompany");
-                
-                if(registry.byId("createNewCompanyRadio").checked){
-                    var projectCompanyCombo = registry.byId("projectCompanyCombo");
-                    var projectCompanyTextBox = registry.byId("projectCompanyTextBox");
-                    
-                    if(projectCompanyCombo){
-                        registry.remove("projectCompanyCombo");
-                        domConstruct.destroy("widget_projectCompanyCombo");
-                    }
-                    
-                    if(projectCompanyTextBox){
-                        
-                        registry.remove("projectCompanyTextBox");
-                        domConstruct.destroy("widget_projectCompanyTextBox");
-                    }
-                    
-                    var projectCompanyTextBox = document.getElementById("projectCompanyTextBox")||document.createElement("input");
-                    projectCompanyTextBox.setAttribute("id", "projectCompanyTextBox");
-                    document.getElementById("projectCompanyLi").appendChild(projectCompanyTextBox);
-                    
-                    
-                    var companyForProjectTextBox = new TextBox({
-                        placeHolder: "输入公司名称"
-                    },"projectCompanyTextBox");
-                }
-                
-                if(registry.byId("selectExistingCompanyradio").checked){
-                    var projectCompanyCombo = registry.byId("projectCompanyCombo")
-                    var projectCompanyTextBox = registry.byId("projectCompanyTextBox");
-                    if(projectCompanyTextBox){
-                        registry.remove("projectCompanyTextBox");
-                        domConstruct.destroy("widget_projectCompanyTextBox");
-                    }
-                    
-                    if(projectCompanyCombo){
-                        registry.remove("projectCompanyCombo");
-                        domConstruct.destroy("widget_projectCompanyCombo");
-                    }
-            
-                    var projectCompanyCombo = document.getElementById("projectCompanyCombo")||document.createElement("input");
-                    projectCompanyCombo.setAttribute("id", "projectCompanyCombo");
-                    document.getElementById("projectCompanyLi").appendChild(projectCompanyCombo);
-                    
-                    if(stores&&(!stores.companyStore)){
-                        stores.companyStore = new JsonRestStore({
-                            target: "/company/list/"
-                        });
-                    }
-                    var projectCompanyCombo = new ComboBox({
-                        id: "projectCompanyCombo",
-                        name: "company",
-                        value: "",
-                        store: stores.companyStore,
-                        searchAttr: "companyName"
-                    }, "projectCompanyCombo");
-                }
-                var createProjectForCompanyDialog = registry.byId("createProjectForCompanyDialog");
-                if(createProjectForCompanyDialog){
-                    dojo.byId("createProjectDialogHiddenBtn").style.display="inline";                
-                    createProjectForCompanyDialog.show();
-                }
+                constructors.CreateProjectDialogConstructor();
             });
         }
 
@@ -2135,7 +2253,7 @@ require([
             on(companyMenuItem, "click", function(){
                 var companyMenuItemBtn = dojo.byId("companyMenuItemBtn");
                 activeMenuItem(companyMenuItemBtn);
-                construtCompanyPane();
+                constructors.CompanyPaneConstructor();
             });
         }
         

@@ -86,6 +86,21 @@ public class ProjectManagerImpl implements ProjectManager {
 //        return projectsOwnByCompany;
     }
 
+    @Override
+    @SuppressWarnings("null")
+    public List<Project> getProjectsOwnByCompany(Long companyId) {
+    	List<Project> projectForCompanyList = new ArrayList<Project>();
+		List<CompanyProjectLink> cpLinksForCompany = companyProjectManager.getCompanyProjectLinksByCompanyId(companyId);
+		if(null != cpLinksForCompany){
+			
+			for(CompanyProjectLink cpLink : cpLinksForCompany){
+				Project project = projectDAO.getById(cpLink.getProjectId());
+				projectForCompanyList.add(project);
+			}
+		}
+		return projectForCompanyList;
+    }
+    
 
 	@Override
 	public List<Project> getProjects() {

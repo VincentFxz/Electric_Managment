@@ -230,6 +230,7 @@ var DataGrid = declare("dojox.grid.DataGrid", _Grid, {
 		this._refresh(true);
 	},
 	
+	
 	setItems: function(items){
 		this.items = items;
 		this._setStore(this.store);

@@ -98,6 +98,8 @@ public interface AmmeterManager {
 
     public void deleteAmmeterbyId(String id);
     
+    public void deleteAmmeterbyId(Long id);
+    
     public List<Ammeter> getAmmetersOwnByUser(Long userId);
     
     public List<Ammeter> getAmmetersOwnByProject(Long projectId);

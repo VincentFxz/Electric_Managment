@@ -162,6 +162,11 @@ public class AmmeterManagerImpl implements AmmeterManager{
         }
         return ammeterOwnByCompany;
     }
+
+	@Override
+	public void deleteAmmeterbyId(Long id) {
+		ammeterDAO.delete(id);
+	}
 	
 
 }

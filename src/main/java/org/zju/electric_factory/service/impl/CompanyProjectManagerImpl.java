@@ -346,4 +346,13 @@ public class CompanyProjectManagerImpl implements CompanyProjectManager{
 		
 	}
 
+	@Override
+	public List<CompanyProjectLink> getCompanyProjectLinksByCompanyId(
+			Long companyId) {
+		if(null != companyId){
+			return companyProjectLinkDAO.getByCompanyId(companyId);
+		}
+		return null;
+	}
+
 }

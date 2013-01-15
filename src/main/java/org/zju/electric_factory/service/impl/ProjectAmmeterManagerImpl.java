@@ -367,6 +367,16 @@ public class ProjectAmmeterManagerImpl implements ProjectAmmeterManager {
 		return null;
 		
 	}
+	
+	@Override
+	public ProjectAmmeterLink getProjectAmmeterLinkByAmmeterId(
+			Long ammeterId) {
+		if(null != ammeterId){
+			return projectAmmeterLinkDAO.getByAmmeterId(ammeterId);
+		}
+		return null;
+		
+	}
 
 	@Override
 	public List<ProjectAmmeterLink> getProjectAmmeterLinkByProjectId(

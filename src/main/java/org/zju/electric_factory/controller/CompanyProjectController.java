@@ -6,6 +6,7 @@ import org.omg.CORBA.PRIVATE_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -96,6 +97,21 @@ public class CompanyProjectController {
     
     @RequestMapping(method=RequestMethod.POST,value="/add",headers="Accept=application/json")
     public @ResponseBody CompanyProjectVO addAmmeter(CompanyProjectVO companyProjectVO ){
+    	CompanyProjectLink companyProjectLink = new CompanyProjectLink();
+    	Company company = companyManager.getCompanyByCompanyName(companyProjectVO.getCompanyName());
+    	Project project = projectManager.getProjectByProjectName(companyProjectVO.getProjectName());
+    	if((null != company)&&(null != project)){
+    		companyProjectLink.setCompanyId(company.getId());
+        	companyProjectLink.setProjectId(project.getId());
+            companyProjectManager.addCompanyProjectLink(companyProjectLink);
+            return companyProjectVO;
+    	}
+    	return null;
+    	
+    }
+    
+    @RequestMapping(method=RequestMethod.POST,value="/list",headers="Accept=application/json")
+    public @ResponseBody CompanyProjectVO addCompanyProject(@RequestBody CompanyProjectVO companyProjectVO ){
     	CompanyProjectLink companyProjectLink = new CompanyProjectLink();
     	Company company = companyManager.getCompanyByCompanyName(companyProjectVO.getCompanyName());
     	Project project = projectManager.getProjectByProjectName(companyProjectVO.getProjectName());

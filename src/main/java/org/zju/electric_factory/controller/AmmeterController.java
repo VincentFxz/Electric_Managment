@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -292,8 +293,8 @@ public class AmmeterController {
 		return ammeter;
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/list/project/{projectId}", headers = "Accept=application/json")
-	public @ResponseBody List<Ammeter> listAmmetersByProjectId(@PathVariable String projectId){
+	@RequestMapping(method = RequestMethod.GET, value = "/list/", headers = "Accept=application/json", params="projectId")
+	public @ResponseBody List<Ammeter> listAmmetersByProjectId(@RequestParam String projectId){
 		List<Ammeter> ammeters = new ArrayList<Ammeter>();
 		if(null != projectId){
 			ammeters = ammeterManager.getAmmetersOwnByProject(Long.parseLong(projectId));
@@ -320,15 +321,16 @@ public class AmmeterController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/list")
-	public @ResponseBody
-	Ammeter addAmmeterByPost(Ammeter ammeter) {
-		Project project = projectManager.getProjectByProjectName(ammeter.getProjectName());
+	public @ResponseBody Ammeter addAmmeterByPost(@RequestBody Ammeter ammeter) {
 		ammeterManager.add(ammeter);
-		if(null != project){
-			ProjectAmmeterLink projectAmmeterLink = new ProjectAmmeterLink();
-			projectAmmeterLink.setAmmeterId(ammeter.getId());
-			projectAmmeterLink.setProjectId(project.getId());
-			projectAmmeterManager.addProjectAmmeterLink(projectAmmeterLink);
+		if(null != ammeter.getProjectName()){
+			Project project = projectManager.getProjectByProjectName(ammeter.getProjectName());
+			if(null != project){
+				ProjectAmmeterLink projectAmmeterLink = new ProjectAmmeterLink();
+				projectAmmeterLink.setAmmeterId(ammeter.getId());
+				projectAmmeterLink.setProjectId(project.getId());
+				projectAmmeterManager.addProjectAmmeterLink(projectAmmeterLink);
+			}	
 		}
 		return ammeter;
 	}
@@ -383,5 +385,15 @@ public class AmmeterController {
 		
 		return null;
 		
+	}
+	@RequestMapping(method = RequestMethod.DELETE, value = "/list/", headers = "Accept=application/json")
+	public @ResponseBody
+	boolean deleteAmmeter(@RequestBody Ammeter ammeter) {
+		ProjectAmmeterLink projectAmmeterLink = projectAmmeterManager.getProjectAmmeterLinkByAmmeterId(ammeter.getId());
+		if(null != projectAmmeterLink){
+			projectAmmeterManager.deleteProjectAmmeterLink(projectAmmeterLink.getId());
+		}
+		ammeterManager.deleteAmmeterbyId(ammeter.getId());
+		return true;
 	}
 }

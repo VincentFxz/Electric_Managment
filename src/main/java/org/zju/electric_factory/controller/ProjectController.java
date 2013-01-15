@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.zju.electric_factory.entity.Company;
 import org.zju.electric_factory.entity.CompanyProjectLink;
@@ -56,26 +57,13 @@ public class ProjectController {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/list/company/{companyId}", headers = "Accept=application/json")
-	public @ResponseBody List<ProjectVO> listProjectsByCompanyId(@PathVariable String companyId){
-		List<Project> projects = projectManager.getProjectsOwnByCompany(companyId);
-		List<ProjectVO> projectVOs = null;
-		if(null != projects){
-			projectVOs = new ArrayList<ProjectVO>();
-			for(Project project : projects){
-				ProjectVO projectVO = new ProjectVO();
-				projectVO.setId(project.getId());
-				projectVO.setEndDate(project.getEndDate());
-				projectVO.setProjectDescription(project.getProjectDescription());
-				projectVO.setProjectName(project.getProjectName());
-				projectVO.setStartDate(project.getStartDate());
-				projectVO.setPartsRatio(project.getPartsRatio());
-				projectVO.setElectricityCharge(project.getElectricityCharge());
-				projectVOs.add(projectVO);
-			}
-		}
-		return projectVOs;
+	@RequestMapping(method = RequestMethod.GET, value = "/list/", headers = "Accept=application/json", params="companyId")
+	public @ResponseBody List<Project> listProjectsByCompanyId(@RequestParam Long companyId){
+		return projectManager.getProjectsOwnByCompany(companyId);
+
 	}
+	
+	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/list/{id}", headers = "Accept=application/json")
 	public @ResponseBody ProjectVO getProjectById(@PathVariable String id){
@@ -90,6 +78,13 @@ public class ProjectController {
 			return projectVO;
 		}
 		return null;
+	}
+	
+	
+	
+	@RequestMapping(method=RequestMethod.GET,value="/list",headers="Accept=application/json", params="projectId")
+	public @ResponseBody Project getProject(@RequestParam("projectId") Long projectId){
+		return projectManager.getById(projectId);
 	}
 	
 	@RequestMapping(method=RequestMethod.GET,value="/list",headers="Accept=application/json")
@@ -184,6 +179,22 @@ public class ProjectController {
     			companyProjectManager.addCompanyProjectLink(companyProjectLink);
     		}
     	}
+        return project;
+    }
+    
+    @RequestMapping(method=RequestMethod.POST,value="/list",headers="Accept=application/json")
+    public @ResponseBody Project addProject(@RequestBody Project project){
+    	projectManager.add(project);
+//    	if(null != companyName){
+//    		CompanyProjectLink companyProjectLink = new CompanyProjectLink();
+//    		Company company = companyManager.getCompanyByCompanyName(companyName);
+//    	
+//    		if(null != company){
+//    			companyProjectLink.setCompanyId(company.getId());
+//    			companyProjectLink.setProjectId(project.getId());
+//    			companyProjectManager.addCompanyProjectLink(companyProjectLink);
+//    		}
+//    	}
         return project;
     }
 
