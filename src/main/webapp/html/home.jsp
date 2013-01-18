@@ -273,7 +273,6 @@
                                 <div id="up_grid" class="claro" style="height:400px"></div>
                                 <!-- The Action Bar -->
                                 <div id="modify_bar" class="claro">
-                                    <button id="up_save_button"></button>
                                     <button id="up_delete_button"></button>
                                 </div>
                             </div>
@@ -652,7 +651,7 @@
                                     </button>
                                 </div>
                             </div>
-                            
+
                             <div data-dojo-type="dijit.Dialog" data-dojo-id="AddExistingAmmeterToProjectDialog" id="AddExistingAmmeterToProjectDialog" >
                                 <div>
                                     <button id="addNewAmmeterForNewCreatingProjectBtn" data-dojo-type="dijit.form.Button">

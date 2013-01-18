@@ -286,6 +286,19 @@ require([
                         errorCallBack();
                     }
                 });
+            },
+
+            deleteProjectUser : function (projectUser, callBack, errorCallBack) {
+                this.store.deleteItem(projectUser);
+                this.store.save({
+                    onComplete : function () {
+                        callBack();
+                        topic.publish("updateProjectUser", "delete Project user");
+                    },
+                    onError : function () {
+                        errorCallBack();
+                    }
+                });
             }
         }
 
@@ -783,8 +796,10 @@ require([
             },
             ProjectUserPaneConstructor : function () {
 
+                var upGrid;
+
                 var construtUPGrid = function construtUPGrid() {
-                    constructNewGridForPane("up_grid", layouts.upGridLayout, projectUserManager.getStore());
+                    upGrid = constructNewGridForPane("up_grid", layouts.upGridLayout, projectUserManager.getStore());
                 };
 
                 var constructUPBtns = function constructUPBtns(){
@@ -793,35 +808,32 @@ require([
 
                         label: "新建",
                         onClick: function() {
-                            var form_content = {
+                            var userProject = {
                                 userName: dijit.byId("userForUPCombo").get("value"),
                                 projectName: dijit.byId("projectForUPCombo").get("value")
                             };
-                            xhr.post({
-                                form: "add_up_form",
-                                // read the url: from the action="" of the <form>
-                                timeout: 3000,
-                                // give up after 3 seconds
-                                content: form_content,
-                                handleAs: "json",
-                                load: function(new_up) {
-                                    upDataStore.newItem(new_up);
-                                    updataStore.save();
-                                }
-                            });
+
+                            var addUserProjectSuccCallBack = function () {
+
+                            };
+                            var addUserProjectErrorCallBack = function () {
+
+                            };
+                            projectUserManager.addProjectUser(userProject, addUserProjectSuccCallBack, addUserProjectErrorCallBack);
+                            
                         }
                     }, "add_up_btn");
                     add_up_btn.startup();
 
-                    //construt save button
-                    var up_save_button = new Button({
-                        label: "保存",
-                        onClick: function() {
-                            upDataStore.save();
+                    // //construt save button
+                    // var up_save_button = new Button({
+                    //     label: "保存",
+                    //     onClick: function() {
+                    //         upDataStore.save();
 
-                        }
-                    }, "up_save_button");
-                    up_save_button.startup();
+                    //     }
+                    // }, "up_save_button");
+                    // up_save_button.startup();
 
                     //construt delete button
                     var up_delete_button = new Button({
@@ -829,9 +841,14 @@ require([
                         onClick: function() {
                             var up_selected = upGrid.selection.getSelected();
                             if (up_selected.length) {
-                                for (key in up_selected) {
-                                    upDataStore.deleteItem(up_selected[key]);
-                                    upDataStore.save();
+                                for (var i = 0; i < up_selected.length; i++) {
+                                    var deleteUserProjectSuccCallBack = function () {
+
+                                    };
+                                    var deleteUserProjectErrorCallBack = function () {
+
+                                    };
+                                    projectUserManager.deleteProjectUser(up_selected[i], deleteUserProjectSuccCallBack, deleteUserProjectErrorCallBack);
                                 }
                             }
                         }
@@ -840,14 +857,6 @@ require([
                 };
             
                 var constructUserProjectForUPCombo = function constructUserProjectForUPCombo() {
-
-                    // projectForUPStore = new JsonRestStore({
-                    //     target: "/project/list/"
-                    // });
-
-                    // userForUPStore = new JsonRestStore({
-                    //     target: "/user/list/"
-                    // });
                     
                     var projectForUPCombo = new ComboBox({
                         id: "projectForUPCombo",
@@ -1175,107 +1184,7 @@ require([
                 formatter: formatters.companyGridOptFormatter
             }]
         };
-        
-        //user project pane
-        construtUPPane = function construtUPPane() {
-            // var construtUPGrid = function construtUPGrid() {
-            //     constructNewGridForPane("up_grid", layouts.upGridLayout, "/up/list/")
-            // };
-
-            // var constructUPBtns = function constructUPBtns(){
-            //     //construt add button
-            //     var add_up_btn = new Button({
-
-            //         label: "新建",
-            //         onClick: function() {
-            //             var form_content = {
-            //                 userName: dijit.byId("userForUPCombo").get("value"),
-            //                 projectName: dijit.byId("projectForUPCombo").get("value")
-            //             };
-            //             xhr.post({
-            //                 form: "add_up_form",
-            //                 // read the url: from the action="" of the <form>
-            //                 timeout: 3000,
-            //                 // give up after 3 seconds
-            //                 content: form_content,
-            //                 handleAs: "json",
-            //                 load: function(new_up) {
-            //                     upDataStore.newItem(new_up);
-            //                     updataStore.save();
-            //                 }
-            //             });
-            //         }
-            //     }, "add_up_btn");
-            //     add_up_btn.startup();
-
-            //     //construt save button
-            //     var up_save_button = new Button({
-            //         label: "保存",
-            //         onClick: function() {
-            //             upDataStore.save();
-
-            //         }
-            //     }, "up_save_button");
-            //     up_save_button.startup();
-
-            //     //construt delete button
-            //     var up_delete_button = new Button({
-            //         label: "删除",
-            //         onClick: function() {
-            //             var up_selected = upGrid.selection.getSelected();
-            //             if (up_selected.length) {
-            //                 for (key in up_selected) {
-            //                     upDataStore.deleteItem(up_selected[key]);
-            //                     upDataStore.save();
-            //                 }
-            //             }
-            //         }
-            //     }, "up_delete_button");
-            //     up_delete_button.startup();
-            // };
-            
-            // var constructUserProjectForUPCombo = function constructUserProjectForUPCombo() {
-
-            //         projectForUPStore = new JsonRestStore({
-            //             target: "/project/list/"
-            //         });
-
-            //         userForUPStore = new JsonRestStore({
-            //             target: "/user/list/"
-            //         });
-                    
-            //         var projectForUPCombo = new ComboBox({
-            //             id: "projectForUPCombo",
-            //             name: "project",
-            //             value: "",
-            //             store: projectForUPStore,
-            //             searchAttr: "projectName"
-            //         }, "projectForUPCombo");
-
-            //         var userForUPCombo = new ComboBox({
-            //             id: "userForUPCombo",
-            //             name: "user",
-            //             value: "",
-            //             store: userForUPStore,
-            //             searchAttr: "username"
-            //         }, "userForUPCombo");
-            //     };
-
-            // if (!upPaneConstruted) {
-            //     if (typeof upPane != "undefined") {
-            //         tabContainer.addChild(upPane, 0);
-            //         tabContainer.selectChild(upPane);
-            //         construtUPGrid();
-            //         constructUPBtns();
-            //         constructUserProjectForUPCombo();
-            //         upPaneConstruted = true;
-            //     }
-            // } else {
-            //     tabContainer.selectChild(upPane);
-            // }
-        };
-        
-        
+                
         //project ammeter pane
         construtPAPane = function construtPAPane() {
             var construtPAGrid = function construtPAGrid() {
