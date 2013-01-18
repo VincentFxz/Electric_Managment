@@ -162,12 +162,23 @@ require([
                 this.store.save({
                     onComplete : function () {
                         callBack();
-                        topic.publish("updateAmmeter", "add ammeter");
+                        topic.publish("updateAmmeter", ammeter.name);
                     },
                     onError : function () {
                         errorCallBack();
                     }
                 });
+            },
+            saveAmmeter: function (callBack, errorCallBack){
+                this.store.save({
+                    onComplete : function () {
+                        callBack();
+                        topic.publish("updateAmmeter");
+                    },
+                    onError : function () {
+                        errorCallBack();
+                    }
+                })
             },
             getStore : function () {
                 return this.store;
@@ -255,6 +266,29 @@ require([
 
         };
 
+        projectUserManager = {
+            store : new JsonRestStore({
+                target : "/up/list"
+            }),
+
+            getStore : function () {
+                return this.store;
+            },
+
+            addProjectUser : function (projectUser, callBack, errorCallBack){
+                this.store.newItem(projectUser);
+                this.store.save({
+                    onComplete : function () {
+                        callBack();
+                        topic.publish("updateProjectUser", "add project user");
+                    },
+                    onError : function () {
+                        errorCallBack();
+                    }
+                });
+            }
+        }
+
         var projectAmmeterManager = {
             store : new JsonRestStore({
                 target : "/pa/list"
@@ -338,6 +372,51 @@ require([
             getProjectNameCallBack : function (){
 
             }
+        };
+
+        var userManager = {
+            store : new JsonRestStore({
+                target : "/user/list"
+            }),
+            getStore : function () {
+                return this.store;
+            },
+            saveUser : function (callBack, errorCallBack) {
+                this.store.save({
+                    onComplete : function () {
+                        callBack();
+                        topic.publish("updateUser" , "save User");
+                    },
+                    onError : function () {
+                        errorCallBack();
+                    }
+                });
+            },
+            addUser : function (user, callBack, errorCallBack){
+                this.store.newItem(user);
+                this.store.save({
+                    onComplete : function () {
+                        callBack();
+                        topic.publish("updateUser", user.username);
+                    },
+                    onError : function () {
+                        errorCallBack();
+                    }
+                });
+            },
+            deleteUser : function (user, callBack, errorCallBack){
+                this.store.deleteItem(user);
+                this.store.save({
+                    onComplete : function () {
+                        callBack();
+                        topic.publish("updateUser", "delete user");
+                    },
+                    onError : function () {
+                        errorCallBack();
+                    }
+                });
+            }
+ 
         }
 
         var constructors = {
@@ -384,6 +463,7 @@ require([
             CreateProjectDialogConstructor : function (companyName){
                 if(request){
                     request.ammetersForProject = [];
+                    request.usersForProject = [];
                 }
                
                 var projectCompanyCombo = registry.byId("projectCompany");
@@ -429,19 +509,12 @@ require([
                     var projectCompanyCombo = document.getElementById("projectCompanyCombo")||document.createElement("input");
                     projectCompanyCombo.setAttribute("id", "projectCompanyCombo");
                     document.getElementById("projectCompanyLi").appendChild(projectCompanyCombo);
-                    
-                    if(stores&&(!stores.companyStore)){
-                        stores.companyStore = new JsonRestStore({
-                            target: "/company/list/"
-                        });
-                    }
-
 
                     var projectCompanyCombo = new ComboBox({
                         id: "projectCompanyCombo",
                         name: "company",
                         value: companyName,
-                        store: stores.companyStore,
+                        store: companyManager.getStore(),
                         searchAttr: "companyName"
                     }, "projectCompanyCombo");
                 }
@@ -655,6 +728,29 @@ require([
                         newGrid.setQueryAfterLoading({"id" : "*"}); 
                     });
 
+                    //save btn
+                    var saveButtonNodeId = paneNode + "SaveButton";
+                    var newSaveButtonNode = document.createElement("div");
+                    newSaveButtonNode.setAttribute("id", saveButtonNodeId);
+                    document.getElementById(paneNode).appendChild(newSaveButtonNode);
+
+                    var saveAmmeterBtn = new Button({
+
+                        label: "保存",
+                        onClick: function() {
+                            var saveAmmeterSuccessCallBack = function () {
+
+                            };
+
+                            var saveAmmeterErrorCallBack = function() {
+
+                            };
+
+                            ammeterManager.saveAmmeter(saveAmmeterSuccessCallBack, saveAmmeterErrorCallBack);                                                                                    
+                        }
+                    }, saveButtonNodeId);
+                    saveAmmeterBtn.startup();
+
                     //delete btn
                     var deleteButtonNodeId = paneNode + "DeleteButton";
                     var newDeleteButtonNode = document.createElement("div");
@@ -684,8 +780,106 @@ require([
                         }
                     }, deleteButtonNodeId);
                 }
+            },
+            ProjectUserPaneConstructor : function () {
+
+                var construtUPGrid = function construtUPGrid() {
+                    constructNewGridForPane("up_grid", layouts.upGridLayout, projectUserManager.getStore());
+                };
+
+                var constructUPBtns = function constructUPBtns(){
+                    //construt add button
+                    var add_up_btn = new Button({
+
+                        label: "新建",
+                        onClick: function() {
+                            var form_content = {
+                                userName: dijit.byId("userForUPCombo").get("value"),
+                                projectName: dijit.byId("projectForUPCombo").get("value")
+                            };
+                            xhr.post({
+                                form: "add_up_form",
+                                // read the url: from the action="" of the <form>
+                                timeout: 3000,
+                                // give up after 3 seconds
+                                content: form_content,
+                                handleAs: "json",
+                                load: function(new_up) {
+                                    upDataStore.newItem(new_up);
+                                    updataStore.save();
+                                }
+                            });
+                        }
+                    }, "add_up_btn");
+                    add_up_btn.startup();
+
+                    //construt save button
+                    var up_save_button = new Button({
+                        label: "保存",
+                        onClick: function() {
+                            upDataStore.save();
+
+                        }
+                    }, "up_save_button");
+                    up_save_button.startup();
+
+                    //construt delete button
+                    var up_delete_button = new Button({
+                        label: "删除",
+                        onClick: function() {
+                            var up_selected = upGrid.selection.getSelected();
+                            if (up_selected.length) {
+                                for (key in up_selected) {
+                                    upDataStore.deleteItem(up_selected[key]);
+                                    upDataStore.save();
+                                }
+                            }
+                        }
+                    }, "up_delete_button");
+                    up_delete_button.startup();
+                };
+            
+                var constructUserProjectForUPCombo = function constructUserProjectForUPCombo() {
+
+                    // projectForUPStore = new JsonRestStore({
+                    //     target: "/project/list/"
+                    // });
+
+                    // userForUPStore = new JsonRestStore({
+                    //     target: "/user/list/"
+                    // });
+                    
+                    var projectForUPCombo = new ComboBox({
+                        id: "projectForUPCombo",
+                        name: "project",
+                        value: "",
+                        store: projectManager.getStore(),
+                        searchAttr: "projectName"
+                    }, "projectForUPCombo");
+
+                    var userForUPCombo = new ComboBox({
+                        id: "userForUPCombo",
+                        name: "user",
+                        value: "",
+                        store: userManager.getStore(),
+                        searchAttr: "username"
+                    }, "userForUPCombo");
+                };
+
+                if (!upPaneConstruted) {
+                    if (typeof upPane != "undefined") {
+                        tabContainer.addChild(upPane, 0);
+                        tabContainer.selectChild(upPane);
+                        construtUPGrid();
+                        constructUPBtns();
+                        constructUserProjectForUPCombo();
+                        upPaneConstruted = true;
+                    }
+                } else {
+                    tabContainer.selectChild(upPane);
+                }
             }
-        }
+        };
 
         var request = {
 
@@ -740,6 +934,41 @@ require([
         };
 
         var layouts = {
+
+            userLayout : [{
+                name: "用户编号",
+                field: "id",
+                height: "24px",
+                width: user_cell_width * 0.5 + "px",
+                canSort: true
+            }, {
+                name: "用户名称",
+                field: "username",
+                width: user_cell_width * 0.5 + "px",
+                editable: true
+            }, {
+                name: "用户邮箱",
+                field: "email",
+                width: user_cell_width + "px",
+                editable: true
+            }, {
+                name: "用户角色",
+                field: "roles",
+                width: user_cell_width + "px",
+                editable: true
+            }, {
+                name: "用户公司",
+                field: "company",
+                width: user_cell_width + "px",
+                editable: false
+            }, {
+                name: "用户项目",
+                field: "project",
+                width: user_cell_width + "px",
+                editable: false
+            }
+
+            ],
     		
             lastAmmeterStatusGridLayout: [{
                 name: "电表名",
@@ -949,101 +1178,101 @@ require([
         
         //user project pane
         construtUPPane = function construtUPPane() {
-            var construtUPGrid = function construtUPGrid() {
-                constructNewGridForPane("up_grid", layouts.upGridLayout, "/up/list/")
-            };
+            // var construtUPGrid = function construtUPGrid() {
+            //     constructNewGridForPane("up_grid", layouts.upGridLayout, "/up/list/")
+            // };
 
-            var constructUPBtns = function constructUPBtns(){
-                //construt add button
-                var add_up_btn = new Button({
+            // var constructUPBtns = function constructUPBtns(){
+            //     //construt add button
+            //     var add_up_btn = new Button({
 
-                    label: "新建",
-                    onClick: function() {
-                        var form_content = {
-                            userName: dijit.byId("userForUPCombo").get("value"),
-                            projectName: dijit.byId("projectForUPCombo").get("value")
-                        };
-                        xhr.post({
-                            form: "add_up_form",
-                            // read the url: from the action="" of the <form>
-                            timeout: 3000,
-                            // give up after 3 seconds
-                            content: form_content,
-                            handleAs: "json",
-                            load: function(new_up) {
-                                upDataStore.newItem(new_up);
-                                updataStore.save();
-                            }
-                        });
-                    }
-                }, "add_up_btn");
-                add_up_btn.startup();
+            //         label: "新建",
+            //         onClick: function() {
+            //             var form_content = {
+            //                 userName: dijit.byId("userForUPCombo").get("value"),
+            //                 projectName: dijit.byId("projectForUPCombo").get("value")
+            //             };
+            //             xhr.post({
+            //                 form: "add_up_form",
+            //                 // read the url: from the action="" of the <form>
+            //                 timeout: 3000,
+            //                 // give up after 3 seconds
+            //                 content: form_content,
+            //                 handleAs: "json",
+            //                 load: function(new_up) {
+            //                     upDataStore.newItem(new_up);
+            //                     updataStore.save();
+            //                 }
+            //             });
+            //         }
+            //     }, "add_up_btn");
+            //     add_up_btn.startup();
 
-                //construt save button
-                var up_save_button = new Button({
-                    label: "保存",
-                    onClick: function() {
-                        upDataStore.save();
+            //     //construt save button
+            //     var up_save_button = new Button({
+            //         label: "保存",
+            //         onClick: function() {
+            //             upDataStore.save();
 
-                    }
-                }, "up_save_button");
-                up_save_button.startup();
+            //         }
+            //     }, "up_save_button");
+            //     up_save_button.startup();
 
-                //construt delete button
-                var up_delete_button = new Button({
-                    label: "删除",
-                    onClick: function() {
-                        var up_selected = upGrid.selection.getSelected();
-                        if (up_selected.length) {
-                            for (key in up_selected) {
-                                upDataStore.deleteItem(up_selected[key]);
-                                upDataStore.save();
-                            }
-                        }
-                    }
-                }, "up_delete_button");
-                up_delete_button.startup();
-            };
+            //     //construt delete button
+            //     var up_delete_button = new Button({
+            //         label: "删除",
+            //         onClick: function() {
+            //             var up_selected = upGrid.selection.getSelected();
+            //             if (up_selected.length) {
+            //                 for (key in up_selected) {
+            //                     upDataStore.deleteItem(up_selected[key]);
+            //                     upDataStore.save();
+            //                 }
+            //             }
+            //         }
+            //     }, "up_delete_button");
+            //     up_delete_button.startup();
+            // };
             
-            var constructUserProjectForUPCombo = function constructUserProjectForUPCombo() {
+            // var constructUserProjectForUPCombo = function constructUserProjectForUPCombo() {
 
-                    projectForUPStore = new JsonRestStore({
-                        target: "/project/list/"
-                    });
+            //         projectForUPStore = new JsonRestStore({
+            //             target: "/project/list/"
+            //         });
 
-                    userForUPStore = new JsonRestStore({
-                        target: "/user/list/"
-                    });
+            //         userForUPStore = new JsonRestStore({
+            //             target: "/user/list/"
+            //         });
                     
-                    var projectForUPCombo = new ComboBox({
-                        id: "projectForUPCombo",
-                        name: "project",
-                        value: "",
-                        store: projectForUPStore,
-                        searchAttr: "projectName"
-                    }, "projectForUPCombo");
+            //         var projectForUPCombo = new ComboBox({
+            //             id: "projectForUPCombo",
+            //             name: "project",
+            //             value: "",
+            //             store: projectForUPStore,
+            //             searchAttr: "projectName"
+            //         }, "projectForUPCombo");
 
-                    var userForUPCombo = new ComboBox({
-                        id: "userForUPCombo",
-                        name: "user",
-                        value: "",
-                        store: userForUPStore,
-                        searchAttr: "username"
-                    }, "userForUPCombo");
-                };
+            //         var userForUPCombo = new ComboBox({
+            //             id: "userForUPCombo",
+            //             name: "user",
+            //             value: "",
+            //             store: userForUPStore,
+            //             searchAttr: "username"
+            //         }, "userForUPCombo");
+            //     };
 
-            if (!upPaneConstruted) {
-                if (typeof upPane != "undefined") {
-                    tabContainer.addChild(upPane, 0);
-                    tabContainer.selectChild(upPane);
-                    construtUPGrid();
-                    constructUPBtns();
-                    constructUserProjectForUPCombo();
-                    upPaneConstruted = true;
-                }
-            } else {
-                tabContainer.selectChild(upPane);
-            }
+            // if (!upPaneConstruted) {
+            //     if (typeof upPane != "undefined") {
+            //         tabContainer.addChild(upPane, 0);
+            //         tabContainer.selectChild(upPane);
+            //         construtUPGrid();
+            //         constructUPBtns();
+            //         constructUserProjectForUPCombo();
+            //         upPaneConstruted = true;
+            //     }
+            // } else {
+            //     tabContainer.selectChild(upPane);
+            // }
         };
         
         
@@ -1592,40 +1821,7 @@ require([
                     });
                     userGrid = new EnhancedGrid({
                         store: userDataStore = userStore,
-                        structure: [{
-                            name: "用户编号",
-                            field: "id",
-                            height: "24px",
-                            width: user_cell_width * 0.5 + "px",
-                            canSort: true
-                        }, {
-                            name: "用户名称",
-                            field: "username",
-                            width: user_cell_width * 0.5 + "px",
-                            editable: true
-                        }, {
-                            name: "用户邮箱",
-                            field: "email",
-                            width: user_cell_width + "px",
-                            editable: true
-                        }, {
-                            name: "用户角色",
-                            field: "roles",
-                            width: user_cell_width + "px",
-                            editable: true
-                        }, {
-                            name: "用户公司",
-                            field: "company",
-                            width: user_cell_width + "px",
-                            editable: false
-                        }, {
-                            name: "用户项目",
-                            field: "project",
-                            width: user_cell_width + "px",
-                            editable: false
-                        }
-
-                        ],
+                        structure: layouts.userLayout,
                         plugins: {
                             search: true,
                             filter: true,
@@ -1639,30 +1835,30 @@ require([
                     }, "user_grid");
                     userGrid.startup();
 
-                    //construt add button
-                    var add_user_btn = new Button({
-                        label: "新建",
-                        onClick: function() {
-                            var form_content = {
-                                username: dom.byId("username").value,
-                                email: dom.byId("userEmail").value,
-                                password: dom.byId("password").value,
-                            };
-                            xhr.post({
-                                form: "add_user_form",
-                                // read the url: from the action="" of the <form>
-                                timeout: 3000,
-                                // give up after 3 seconds
-                                content: form_content,
-                                handleAs: "json",
-                                load: function(new_user) {
-                                    userDataStore.newItem(new_user);
-                                    userDataStore.save();
-                                }
-                            });
-                        }
-                    }, "add_user_btn");
-                    add_user_btn.startup();
+                    // //construt add button
+                    // var add_user_btn = new Button({
+                    //     label: "新建",
+                    //     onClick: function() {
+                    //         var form_content = {
+                    //             username: dom.byId("username").value,
+                    //             email: dom.byId("userEmail").value,
+                    //             password: dom.byId("password").value,
+                    //         };
+                    //         xhr.post({
+                    //             form: "add_user_form",
+                    //             // read the url: from the action="" of the <form>
+                    //             timeout: 3000,
+                    //             // give up after 3 seconds
+                    //             content: form_content,
+                    //             handleAs: "json",
+                    //             load: function(new_user) {
+                    //                 userDataStore.newItem(new_user);
+                    //                 userDataStore.save();
+                    //             }
+                    //         });
+                    //     }
+                    // }, "add_user_btn");
+                    // add_user_btn.startup();
 
                     //construt save button
                     var save_button = new Button({
@@ -1939,6 +2135,7 @@ require([
                     var addProjectSuccessCallBack = function () {
                         addCompanyProject();
                         addProjectAmmeter();
+                        addProjectUser();
                     };
                     var addProjectErrorCallBack = function () {
 
@@ -1982,8 +2179,30 @@ require([
 
                             };
                             projectAmmeterManager.addProjectAmmeter(ammeterProject, addProjectAmmeterSuccCallBack, addProjectAmmeterErrorCallBack);
-                            request.ammetersForProject = [];
                         }
+                        request.ammetersForProject = [];
+                    }
+                };
+
+                //add usersif thereis any ammeter to add
+
+                var addProjectUser = function () {
+                    if(request&&request.usersForProject){
+                        for(var i=0; i < request.usersForProject.length; i++){
+
+                            var userProject = {
+                                "projectName" : projectName,
+                                "userName" : request.usersForProject[i]
+                            }
+                            var addProjectUserSuccCallBack = function () {
+
+                            };
+                            var addProjectUserErrorCallBack = function () {
+
+                            };
+                            projectUserManager.addProjectUser(userProject, addProjectUserSuccCallBack, addProjectUserErrorCallBack);
+                        }
+                        request.usersForProject = [];
                     }
                 };
     
@@ -2074,13 +2293,9 @@ require([
         if(addAmmeterForProjectSubmitBtn){
             on(addAmmeterForProjectSubmitBtn, "click", function(){
             	request.ammetersForProject = [];
-                console.log(dom.byId("AddedAmmeterMultiSelect").childNodes);
                 var ammetersToAddOptions = dom.byId("AddedAmmeterMultiSelect").childNodes;
-                console.log(ammetersToAddOptions);
                 if(ammetersToAddOptions&&(ammetersToAddOptions.length > 0)){
                     for(var i = 0; i < ammetersToAddOptions.length; i++){
-                        console.log(ammetersToAddOptions[i])
-                        console.log(ammetersToAddOptions[i].innerHTML);
                         request = request || {};
                         request.ammetersForProject = request.ammetersForProject || [];
                         if(ammetersToAddOptions[i].innerHTML){
@@ -2093,12 +2308,44 @@ require([
                 registry.byId("AddExistingAmmeterToProjectDialog").hide();
             });
         }
+
+        var addUsersForProjectBtn = registry.byId("addUsersForProjectBtn");
+        if(addUsersForProjectBtn){
+            on(addUsersForProjectBtn, "click", function () {
+                registry.byId("addUsersToProjectDialog").show();
+            });
+        }
+
+        var addNewUserForNewCreatingProjectBtn = registry.byId("addNewUserForNewCreatingProjectBtn");
+        if(addNewUserForNewCreatingProjectBtn){
+            on(addNewUserForNewCreatingProjectBtn, "click", function () {
+                registry.byId("createUserDialog").show();
+            });
+        }
+
+        var addUsersForProjectSubmitBtn = registry.byId("addUsersForProjectSubmitBtn");
+        if("addUsersForProjectSubmitBtn"){
+            on(addUsersForProjectSubmitBtn, "click", function () {
+                request.usersForProject = [];
+                var usersToAddOptions  =  dom.byId("addedUsersMultiSelect").childNodes;
+                if(usersToAddOptions&&(usersToAddOptions.length > 0)){
+                    for(var i =0; i < usersToAddOptions.length; i++){
+                        request.usersForProject = request.usersForProject || [];
+                        if(usersToAddOptions[i].innerHTML){
+                            request.usersForProject.push(usersToAddOptions[i].innerHTML);
+                        }
+                    }
+                }
+                topic.publish("updateProjectUser", "update");
+                registry.byId("addUsersToProjectDialog").hide();
+            });
+        }
+
         //Ammeter Creation Dialog Events
         var createAmmeterDialogAddBtn = registry.byId("createAmmeterDialogAddBtn");
         if(createAmmeterDialogAddBtn){
             on(createAmmeterDialogAddBtn, "click", function(){
-            	var ammeterName = dom.byId("ammeterName").value;
-                var form_content = {
+                var ammeter = {
                     name: dom.byId("ammeterName").value,
                     pumpName: dom.byId("pumpName").value,
                     projectName: dom.byId("ammeterProject").value,
@@ -2107,29 +2354,34 @@ require([
                     upperLimit: dom.byId("upperLimit").value,
                     lowerLimit: dom.byId("lowerLimit").value
                 };
-                xhr.post({
-                    form: "createAmmeterDialogForm",
-                    // read the url: from the action="" of the <form>
-                    timeout: 3000,
-                    // give up after 3 seconds
-                    content: form_content,
-                    handleAs: "json",
-                    load: function(newAmmeter) {
+                var addAmmeterSuccCallBack = function () {
+                    registry.byId("createAmmeterDialog").hide();
+                };
+                var addAmmeterErrorCallBack = function () {
 
-                        topic.publish("updateAmmeter", newAmmeter.name);
+                }
+                ammeterManager.addAmmeter(ammeter, addAmmeterSuccCallBack, addAmmeterErrorCallBack);
+            });
+        }
 
-                        if(newAmmeter){
-                            registry.byId("createAmmeterDialog").hide();
-                        }
-                        if(projectDataStore){
-                            if(stores.ammeterStore){
-                                stores.ammeterStore.newItem(newAmmeter);
-                                stores.ammeterStore.save();
-                            }
-                        }
-                        registry.byId(createAmmeterDialog).hide();
-                    }
-                });
+        //User Creation Dialog Event
+        var createUserDialogAddBtn = registry.byId("createUserDialogAddBtn");
+        if(createUserDialogAddBtn){
+            on(createUserDialogAddBtn, "click", function () {
+                console.log("click");
+                var user = {
+                    username : dom.byId("userName").value,
+                    email : dom.byId("userEmail").value,
+                    password : dom.byId("userPassword").value
+                };
+                var addUserSuccCallBack = function () {
+                    registry.byId("createUserDialog").hide();
+                    
+                };
+                var addUserErrorCallBack = function () {
+
+                };
+                userManager.addUser(user, addUserSuccCallBack, addUserErrorCallBack);
             });
         }
 
@@ -2234,7 +2486,7 @@ require([
             on(puMenuItem, "click", function(){
                 var puMenuItemBtn = dojo.byId("puMenuItemBtn");
                 activeMenuItem(puMenuItemBtn);
-                construtUPPane();
+                constructors.ProjectUserPaneConstructor();
             });
         }
         
@@ -2294,6 +2546,17 @@ require([
 
             dom.byId("AddedAmmeterMultiSelect").appendChild(option);
         });
+
+        topic.subscribe("updateUser", function(text){
+            console.log(text);
+            var option = domConstruct.create("option", {
+                innerHTML: text,
+                className: "seven",
+                style: {fontWeight: "bold"}
+            });
+
+            dom.byId("addedUsersMultiSelect").appendChild(option);
+        });
         
         topic.subscribe("updateProjectAmmeter", function(text){
         	console.log("start updateProjectAmmeter");
@@ -2312,6 +2575,20 @@ require([
         	}
         	
         	
+        });
+
+        topic.subscribe("updateProjectUser", function (text) {
+            var userAddedMultiSelect = dom.byId("userAddedMultiSelect");
+            domConstruct.empty(userAddedMultiSelect);
+            for(var i = 0; i < request.usersForProject.length; i++){
+                var option = domConstruct.create("option",{
+                    innerHTML : request.usersForProject[i],
+                    className : "seven",
+                    style : {fontWeight : "bold"}
+                });
+                userAddedMultiSelect.appendChild(option);
+            }
+
         });
 
         constructLastAmmeterStatusPane();
