@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -95,8 +96,23 @@ public class ProjectUserController {
 //        return user;
 //    }
     
-    @RequestMapping(method=RequestMethod.POST,value="/add",headers="Accept=application/json")
-    public @ResponseBody UserProjectVO addAmmeter(UserProjectVO userProjectVO ){
+//    @RequestMapping(method=RequestMethod.POST,value="/add",headers="Accept=application/json")
+//    public @ResponseBody UserProjectVO addAmmeter(UserProjectVO userProjectVO ){
+//    	UserProjectLink userProjectLink = new UserProjectLink();
+//    	User user = userManager.getUserByUserName(userProjectVO.getUserName());
+//    	Project project = projectManager.getProjectByProjectName(userProjectVO.getProjectName());
+//    	if((null != user)&&(null != project)){
+//    		userProjectLink.setUserId(user.getId());
+//        	userProjectLink.setProjectId(project.getId());
+//            userProjectManager.addUserProjectLink(userProjectLink);
+//            return userProjectVO;
+//    	}
+//    	return null;
+//    	
+//    }
+    
+    @RequestMapping(method=RequestMethod.POST,value="/list",headers="Accept=application/json")
+    public @ResponseBody UserProjectVO addAmmeter(@RequestBody UserProjectVO userProjectVO ){
     	UserProjectLink userProjectLink = new UserProjectLink();
     	User user = userManager.getUserByUserName(userProjectVO.getUserName());
     	Project project = projectManager.getProjectByProjectName(userProjectVO.getProjectName());

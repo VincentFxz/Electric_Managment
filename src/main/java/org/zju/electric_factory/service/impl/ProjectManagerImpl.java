@@ -48,7 +48,7 @@ public class ProjectManagerImpl implements ProjectManager {
         List<Project> projectsOwnByUser=null;
         List<UserProjectLink> userProjectLinks = userProjectLinkDAO
                 .getByUserId(userId);
-        if(null!=userProjectLinks){
+        if(null!=userProjectLinks&&(userProjectLinks.size() > 0)){
             projectsOwnByUser=new ArrayList<Project>();
             for(UserProjectLink userProjectLink: userProjectLinks){
                 Project project=projectDAO.getById(userProjectLink.getProjectId());

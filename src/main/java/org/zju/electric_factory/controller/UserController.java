@@ -66,14 +66,16 @@ public class UserController {
 			
 			List<Project> projectOwnByUserList = projectManager.getProjectsOwnByUser(user.getId());
 			sb = new StringBuilder();
-			for(Project project : projectOwnByUserList){
-				sb.append(project.getProjectName());
-				sb.append(" ");
+			if(null != projectOwnByUserList&&(projectOwnByUserList.size()> 0)){
+				for(Project project : projectOwnByUserList){
+					sb.append(project.getProjectName());
+					sb.append(" ");
+				}
+				userVo.setProject(sb.toString());
+				
+				
 			}
-			userVo.setProject(sb.toString());
-			
 			userVOs.add(userVo);
-			
 		}
 		return userVOs;
 	}
@@ -112,6 +114,12 @@ public class UserController {
 			userCompanyLinkManager.add(userCompanyLink);
 		}
 		return userVO;
+    }
+	
+	@RequestMapping(method=RequestMethod.POST,value="/list",headers="Accept=application/json")
+    public @ResponseBody User addUser(@RequestBody User user){
+		userManager.createUser(user);
+		return user;
     }
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/list/{id}", headers="Accept=application/json")
