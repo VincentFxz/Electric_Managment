@@ -62,15 +62,15 @@
             width: 100%
         }
 
-        div#sel1 {
+        div .sel1 {
             float: left; 
         }
 
-        div#sel2 {
+        div .sel2 {
             float:left;
         }
 
-        div#leftRightButtons {
+        div .leftRightButtons {
             float: left;
             padding: 10em 0.5em 0 0.5em;
         }
@@ -282,8 +282,9 @@
 
                         <div id = "userPane" data-dojo-type="dijit.layout.ContentPane" title = "用户管理">
                             <div id="search_var">
-                                <div data-dojo-type="dijit.form.DropDownButton">
+                                <!-- <div data-dojo-type="dijit.form.DropDownButton">
                                     <span>新建</span>
+                                    
                                     <div data-dojo-type="dijit.TooltipDialog" id="new_user_dialog">
                                         <form id="add_user_form" method="post" action="/user/add">
                                         <div>
@@ -311,7 +312,8 @@
                                         </div>
                                         </form>
                                     </div>
-                                </div>
+                                    
+                                </div> -->
                             </div>
                             <!-- The Data Grid -->
                             <br />
@@ -483,6 +485,11 @@
                                     		<select id="ammeterAddedMultiSelect" multiple data-dojo-type="dijit.form.MultiSelect" data-dojo-props='name:"select", style:{height:"15em", width:"22em", border:"5px solid #ededed"}'>
                                     		</select>
                                         </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="userAddedMultiSelect">已经添加的用户:</label><br>
+                                            <select id="userAddedMultiSelect" multiple data-dojo-type="dijit.form.MultiSelect" data-dojo-props='name:"select", style:{height:"15em", width:"22em", border:"5px solid #ededed"}'>
+                                            </select>
+                                        </li>
                                     </ul>
 									
 								</form>
@@ -494,6 +501,9 @@
                                     <div style="display:none;" id="createProjectDialogHiddenBtn">
                                         <button id="addExistingAmmeterForProjectBtn" data-dojo-type="dijit.form.Button">
                                             继续添加电表
+                                        </button>
+                                        <button id="addUsersForProjectBtn" data-dojo-type="dijit.form.Button">
+                                            继续添加用户
                                         </button>
                                     </div>
                                     <button id="newProjectDialogAddBtn" data-dojo-type="dijit.form.Button">
@@ -559,23 +569,103 @@
                                 </div>
                             </div>
 
+                            <!-->Create User Dialog</!-->
+                            <div data-dojo-type="dijit.Dialog" data-dojo-id="createUserDialog" id="createUserDialog" title="添加电表" style="width:56em;">
+                                <form id="createUserDialogForm" method="post" action="/user/list" >
+                                    <ul class="nav">
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="userName">用户名称:</label>
+                                            <input id="userName" type="text" dojoType="dijit.form.ValidationTextBox" class="long"
+                                                required="true" 
+                                                ucfirst="true" invalidMessage="">
+                                            </input>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label for="userEmail" class="dialogLabel">用户邮箱:</label>
+                                            <input id="userEmail" type="text" dojoType="dijit.form.ValidationTextBox" class="long"
+                                                required="false" 
+                                                ucfirst="true" invalidMessage="">
+                                            </input>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label for="userPassword" class="dialogLabel">用户密码:</label>
+                                            <input id="userPassword" type="text" dojoType="dijit.form.ValidationTextBox" class="long"
+                                                required="false" 
+                                                ucfirst="true" invalidMessage="">
+                                            </input>
+                                        </li>
+                                        <li id="userProjectLi" style="margin-bottom: 9px; display:none;">
+                                            <label class="dialogLabel" for="userProject">用户项目:</label>
+                                            <input class="medium" id="userProject" />
+                                        </li>
+                                    </ul>
+                                </form>
+                                
+                                <div class="dijitDialogPaneActionBar">
+                                    <button id="createUserDialogAddBtn" data-dojo-type="dijit.form.Button">
+                                        添加
+                                    </button>
+                                    <button id="createUserDialogCancelBtn" data-dojo-type="dijit.form.Button">
+                                        取消
+                                    </button>
+                                </div>
+                            </div>
+
                             <div data-dojo-type="dijit.Dialog" data-dojo-id="ErrorDialog" id="ErrorDialog" title="错误" style="width:600px;">
                                 错误
                             </div>
 
+                            <div data-dojo-type="dijit.Dialog" data-dojo-id="addUsersToProjectDialog" id="addUsersToProjectDialog" >
+                                <div>
+                                	<button id="addNewUserForNewCreatingProjectBtn" data-dojo-type="dijit.form.Button">
+                                            添加新的用户到项目
+                                    </button>
+                                </div>
+                                <div class="sel1" role="presentation">
+                                    <label for="exstingAUsersMultiSelect">电表:</label><br>
+                                    <select id="exstingAUsersMultiSelect" multiple data-dojo-type="dijit.form.MultiSelect" data-dojo-props='name:"select", style:{height:"20em", width:"22em", border:"5px solid #ededed"}'>
+                                        <option class="clone" value="dojo._defaultEasing"></option>
+                                    </select>
+                                </div>
+                                <div class="leftRightButtons" role="presentation">
+                                    <span>
+                                        <button id="usersMultiSelectLeftBtn" data-dojo-type="dijit.form.Button">
+                                            &lt;
+                                        </button>
+                                        <button id="usersMultiSelectRightBtn" data-dojo-type="dijit.form.Button">
+                                            &gt;
+                                        </button>
+                                    </span>
+                                </div>
+                                <div class="sel2" role="presentation">
+                                    <label for="addedUsersMultiSelect">已添加的用户:</label><br>
+                                    <select id="addedUsersMultiSelect" multiple data-dojo-type="dijit.form.MultiSelect" data-dojo-props='name:"select", style:{height:"20em", width:"22em", border:"5px solid #ededed"}'>
+                                    </select>
+                                </div>
+                                <div class="clear"></div>
+                                <div class="dijitDialogPaneActionBar">
+                                    <button id="addUsersForProjectSubmitBtn" data-dojo-type="dijit.form.Button">
+                                        完成
+                                    </button>
+                                    <button id="addUsersForProjectCancelBtn" data-dojo-type="dijit.form.Button">
+                                        取消
+                                    </button>
+                                </div>
+                            </div>
+                            
                             <div data-dojo-type="dijit.Dialog" data-dojo-id="AddExistingAmmeterToProjectDialog" id="AddExistingAmmeterToProjectDialog" >
                                 <div>
-                                	<button id="addNewAmmeterForNewCreatingProjectBtn" data-dojo-type="dijit.form.Button">
+                                    <button id="addNewAmmeterForNewCreatingProjectBtn" data-dojo-type="dijit.form.Button">
                                             添加新的电表到项目
                                     </button>
                                 </div>
-                                <div id="sel1" role="presentation">
+                                <div class="sel1" role="presentation">
                                     <label for="ExstingAmmeterMultiSelect">电表:</label><br>
                                     <select id="ExstingAmmeterMultiSelect" multiple data-dojo-type="dijit.form.MultiSelect" data-dojo-props='name:"select", style:{height:"20em", width:"22em", border:"5px solid #ededed"}'>
                                         <option class="clone" value="dojo._defaultEasing"></option>
                                     </select>
                                 </div>
-                                <div id="leftRightButtons" role="presentation">
+                                <div class="leftRightButtons" role="presentation">
                                     <span>
                                         <button id="AmmeterMultiSelectLeftBtn" data-dojo-type="dijit.form.Button">
                                             &lt;
@@ -585,7 +675,7 @@
                                         </button>
                                     </span>
                                 </div>
-                                <div id="sel2" role="presentation">
+                                <div class="sel2" role="presentation">
                                     <label for="AddedAmmeterMultiSelect">已添加的电表:</label><br>
                                     <select id="AddedAmmeterMultiSelect" multiple data-dojo-type="dijit.form.MultiSelect" data-dojo-props='name:"select", style:{height:"20em", width:"22em", border:"5px solid #ededed"}'>
                                     </select>
