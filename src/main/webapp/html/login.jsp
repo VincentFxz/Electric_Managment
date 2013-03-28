@@ -24,7 +24,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
     <title>电表管理系统-管理员登录</title>
-    <link rel="stylesheet" type="text/css" href="<c:url value="/css/login.css"/>"/> 
+    <link rel="stylesheet" type="text/css" href="../css/login.css/> 
 </head>
 <body>
     <div id="box">

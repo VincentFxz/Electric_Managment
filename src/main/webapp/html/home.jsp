@@ -144,6 +144,7 @@
                         <li id="uaMenuItemBtn"><a id="uaMenuItem" href="#">我的电表</a></li>
                         <li id="LastAmmeterMenuItemBtn"><a id="LastAmmeterMenuItem" href="#">电表最新数据</a></li>
                         <li id="saveComputationMenuItemBtn"><a id="saveComputationMenuItem" href="#">节能核算表</a></li>
+                        <li id="saveComputationChartMenuItemBtn"><a id="saveComputationChartMenuItem" href="#">节能核算表(趋势图)</a></li>
 
                         <shiro:hasRole name="admin">
                         <li class="nav-header">项目管理</li>
@@ -386,6 +387,10 @@
                                     <label class="dialogLabel" for="saveComputationEndDate">结算结束时间:</label>
                                     <input id="saveComputationEndDate" dojoType="dijit.form.DateTextBox" required=true/>
                                 </div>
+                                <div style="float: left;">
+                                    <label class="dialogLabel" for="saveComputationAmmeter">电表:</label>
+                                    <input id="saveComputationAmmeter" required=true/>
+                                </div>
                                 <div style="float:left;">
                                     <button id="saveComputationBtn" style="margin-left:1em;" data-dojo-type="dijit.form.Button">
                                             开始结算
@@ -400,14 +405,136 @@
                             <!-- The Action Bar -->
                         </div>
 
+                        <div id = "saveComputationChartPane" data-dojo-type="dijit.layout.ContentPane" title = "节能核算表(趋势图)" style="overflow:auto;">
+                            
+                            <div class="dijitDialogPaneActionBar" style ="text-align: left;">
+                                <div style="float: left;">
+                                    <label class="dialogLabel"  for="realCostCheckBox">技改后能耗:</label>
+                                    <input type="checkbox" dojoType="dijit.form.CheckBox" checked="false" id="realCostCheckBox" >
+                                </div>
+                                <div style="float: left;">
+                                    <label class="dialogLabel" for="electricSaveCheckBox">节约电量:</label>
+                                    <input type="checkbox" dojoType="dijit.form.CheckBox" checked="false" id="electricSaveCheckBox" >
+                                </div>
+                                <div style="float: left;">
+                                    <label class="dialogLabel" for="coalSaveCheckBox">节约煤:</label>
+                                    <input type="checkbox" dojoType="dijit.form.CheckBox" checked="false" id="coalSaveCheckBox" >
+                                </div>
+                                <div style="float: left;">
+                                    <label class="dialogLabel" for="thePartyBonusCheckBox">用能方收益:</label>
+                                    <input type="checkbox" dojoType="dijit.form.CheckBox" checked="false" id="thePartyBonusCheckBox" >
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <br />
+
+                            <div id="saveComputationChart" class="claro" style="height:400px"></div>
+                            <div id="legend"></div>
+                            <!-- The Action Bar -->
+                        </div>
+
                         <div id = "lastAmmeterStatusPane" data-dojo-type="dijit.layout.ContentPane" title = "电表最新数据" style="overflow:auto;">
                             <!-- The Data Grid -->
                             <br>
                             <div id="lastAmmeterStatusGrid" class="claro" style="height:400px; margin-top:2em;"></div>
                             <!-- The Action Bar -->
                         </div> 
+
+
                         <!-- hiddens -->
                         <div class="dijitHidden">
+
+                            <div data-dojo-type="dijit.Dialog" data-dojo-id="saveComputationDialog" id="saveComputationDialog" title="节能核算信息" style="width:56em;">
+                                <form id="createSaveComputationForm" method="post" action="/company/add" >
+                                    <ul class="nav">
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogAmmeterName">电表名称:</label>
+                                            <input id="saveComputationDialogAmmeterName" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogProjectName">项目名称:</label>
+                                            <input id="saveComputationDialogProjectName" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogStartDate">开始时间:</label>
+                                            <input id="saveComputationDialogStartDate" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogStartTimeSum">开始累时器值:</label>
+                                            <input id="saveComputationDialogStartTimeSum" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogStartValue">开始电表值:</label>
+                                            <input id="saveComputationDialogStartValue" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogEndDate">结束时间:</label>
+                                            <input id="saveComputationDialogEndDate" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogEndTimeSum">结束累时器值:</label>
+                                            <input id="saveComputationDialogEndTimeSum" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogEndValue">结束电表值:</label>
+                                            <input id="saveComputationDialogEndValue" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogSensorRate">互感器倍率:</label>
+                                            <input id="saveComputationDialogSensorRate" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogRealCost">技改后能耗:</label>
+                                            <input id="saveComputationDialogRealCost" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogFormerCost">技改前能耗:</label>
+                                            <input id="saveComputationDialogFormerCost" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogEletricSave">节电量:</label>
+                                            <input id="saveComputationDialogEletricSave" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogEletricChargeSave">节电费:</label>
+                                            <input id="saveComputationDialogEletricChargeSave" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogStandardCoalRatio">折算煤系数:</label>
+                                            <input id="saveComputationDialogStandardCoalRatio" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogCoalSave">节约标煤:</label>
+                                            <input id="saveComputationDialogCoalSave" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogEletricCharge">标准电费:</label>
+                                            <input id="saveComputationDialogEletricCharge" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogPartsRatio">成分比率:</label>
+                                            <input id="saveComputationDialogPartsRatio" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogTheOtherPartyBouns">节能公司收益:</label>
+                                            <input id="saveComputationDialogTheOtherPartyBouns" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="saveComputationDialogThePartyBonus">用能公司收益:</label>
+                                            <input id="saveComputationDialogThePartyBonus" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                        </li>
+                                    </ul>
+                                </form>
+                                
+                                <div class="dijitDialogPaneActionBar">
+                                    <button id="saveComputationDialogAddBtn" data-dojo-type="dijit.form.Button">
+                                        保存核算信息
+                                    </button>
+                                    <button id="saveComputationDialogCancelBtn" data-dojo-type="dijit.form.Button">
+                                        取消
+                                    </button>
+                                </div>
+                            </div>
 
                             <div data-dojo-type="dijit.Dialog" data-dojo-id="createCompanyDialog" id="createCompanyDialog" title="添加公司" style="width:56em;">
                                 <form id="createCompanyDialogForm" method="post" action="/company/add" >
@@ -621,7 +748,7 @@
                                     </button>
                                 </div>
                                 <div class="sel1" role="presentation">
-                                    <label for="exstingAUsersMultiSelect">电表:</label><br>
+                                    <label for="exstingAUsersMultiSelect">用户:</label><br>
                                     <select id="exstingAUsersMultiSelect" multiple data-dojo-type="dijit.form.MultiSelect" data-dojo-props='name:"select", style:{height:"20em", width:"22em", border:"5px solid #ededed"}'>
                                         <option class="clone" value="dojo._defaultEasing"></option>
                                     </select>

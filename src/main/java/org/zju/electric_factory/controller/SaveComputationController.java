@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,13 +21,13 @@ import org.zju.electric_factory.entity.Ammeter;
 import org.zju.electric_factory.entity.AmmeterRecord;
 import org.zju.electric_factory.entity.Project;
 import org.zju.electric_factory.entity.Role;
+import org.zju.electric_factory.entity.SaveComputationRecord;
 import org.zju.electric_factory.entity.User;
 import org.zju.electric_factory.service.AmmeterManager;
 import org.zju.electric_factory.service.AmmeterRecordManager;
 import org.zju.electric_factory.service.ProjectAmmeterManager;
 import org.zju.electric_factory.service.ProjectManager;
 import org.zju.electric_factory.service.UserManager;
-import org.zju.electric_factory.vo.SaveComputationVO;
 
 @Controller
 @RequestMapping("/saveComputation")
@@ -48,78 +47,196 @@ public class SaveComputationController {
 
 	@Autowired
 	AmmeterRecordManager ammeterRecordManager;
-	
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		dateFormat.setLenient(false); 
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+		dateFormat.setLenient(false);
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(
+				dateFormat, false));
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/list/", headers = "Accept=application/json", params = "startDate")
 	public @ResponseBody
-	List<SaveComputationVO> getSaveComputation(@RequestParam("startDate") Date startDate, @RequestParam("endDate") Date endDate) {
-		System.out.println(startDate);
-		System.out.println(endDate);
+	SaveComputationRecord getSaveComputation(
+			@RequestParam("startDate") Date startDate,
+			@RequestParam("endDate") Date endDate,
+			@RequestParam("ammeterName") String ammeterName) {
 		boolean userHasAdminRole = false;
-		List<SaveComputationVO> saveComputationVOs = null;
-		List<Ammeter> ammeters = null;
+		SaveComputationRecord saveComputationRecord = null;
+		Ammeter ammeter = null;
 		User currentUser = userManager.getCurrentUser();
 		Set<Role> userRoles = currentUser.getRoles();
-		if (null != userRoles) {
-			for (Role role : userRoles) {
-				if ("admin".equals(role.getName())) {
-					userHasAdminRole = true;
+
+		if (null != startDate && null != endDate && null != ammeterName) {
+
+			if (null != userRoles) {
+				for (Role role : userRoles) {
+					if ("admin".equals(role.getName())) {
+						userHasAdminRole = true;
+					}
+				}
+				if (userHasAdminRole) {
+					ammeter = ammeterManager.getAmmeterByName(ammeterName);
+				} else {
+					ammeter = ammeterManager.getAmmeterByName(ammeterName);
 				}
 			}
-			if (userHasAdminRole) {
-				ammeters = ammeterManager.getAllAmmeter();
-			}else{
-				ammeters= ammeterManager.getAmmetersOwnByUser(currentUser.getId());
-			}
-		}
 
-		if (null != ammeters) {
-			saveComputationVOs = new ArrayList<SaveComputationVO>();
-			for (Ammeter ammeter : ammeters) {
+			if (null != ammeter) {
 				List<AmmeterRecord> ammeterRecords = ammeterRecordManager
 						.getAmmeterRecordByAmmeterIdInPeriod(ammeter.getId(),
 								startDate, endDate);
-				Project project = projectManager.getProjectByAmmeterId(ammeter.getId());
-				if(null != ammeterRecords && (0 != ammeterRecords.size())){
-					SaveComputationVO saveComputationVO = new SaveComputationVO();
-					saveComputationVO.setAmmeterName(ammeter.getName());
-					saveComputationVO.setStartDate(startDate);
-					saveComputationVO.setEndDate(endDate);
-					saveComputationVO.setStartTimeSum(ammeterRecords.get(0).getTimeSum());
-					saveComputationVO.setEndTimeSum(ammeterRecords.get(ammeterRecords.size() -1).getTimeSum());
-					saveComputationVO.setEletricCharge(project.getElectricityCharge());
-					saveComputationVO.setFormerCost(ammeter.getFormerCost());
-					saveComputationVO.setPartsRatio(project.getPartsRatio());
-					saveComputationVO.setStartValue(ammeterRecords.get(0).getAmmeterValue());
-					saveComputationVO.setEndValue(ammeterRecords.get(ammeterRecords.size() - 1).getAmmeterValue());
-					saveComputationVO.setSensorRate(ammeter.getSensorRate());
-					float timeSum = ammeterRecords.get(ammeterRecords.size() - 1).getTimeSum() - ammeterRecords.get(0).getTimeSum();
-					float realCost = (ammeterRecords.get(ammeterRecords.size() - 1).getAmmeterValue() - ammeterRecords.get(0).getAmmeterValue())*ammeter.getSensorRate()/(timeSum);
-					float eletricSave = (ammeter.getFormerCost() - realCost) * timeSum;
-					saveComputationVO.setEletricSave(eletricSave);
-					saveComputationVO.setRealCost(realCost);
-					saveComputationVO.setBonus(eletricSave * project.getElectricityCharge() * project.getPartsRatio());
-					
-					saveComputationVOs.add(saveComputationVO);
-					
+				Project project = projectManager.getProjectByAmmeterId(ammeter
+						.getId());
+				if (null != ammeterRecords && (0 != ammeterRecords.size())
+						&& (null != project)) {
+					saveComputationRecord = new SaveComputationRecord();
+					saveComputationRecord.setAmmeterName(ammeter.getName());
+					saveComputationRecord.setStartDate(startDate);
+					saveComputationRecord.setEndDate(endDate);
+					saveComputationRecord.setStartTimeSum(ammeterRecords.get(0)
+							.getTimeSum());
+					saveComputationRecord.setEndTimeSum(ammeterRecords.get(
+							ammeterRecords.size() - 1).getTimeSum());
+					saveComputationRecord.setEletricCharge(project
+							.getElectricityCharge());
+					saveComputationRecord
+							.setFormerCost(ammeter.getFormerCost());
+					saveComputationRecord
+							.setPartsRatio(project.getPartsRatio());
+					saveComputationRecord.setStartValue(ammeterRecords.get(0)
+							.getAmmeterValue());
+					saveComputationRecord.setEndValue(ammeterRecords.get(
+							ammeterRecords.size() - 1).getAmmeterValue());
+					saveComputationRecord
+							.setSensorRate(ammeter.getSensorRate());
+					saveComputationRecord.setProjectName(project
+							.getProjectName());
+
+					float timeSum = ammeterRecords.get(
+							ammeterRecords.size() - 1).getTimeSum()
+							- ammeterRecords.get(0).getTimeSum();
+					float realCost = (ammeterRecords.get(
+							ammeterRecords.size() - 1).getAmmeterValue() - ammeterRecords
+							.get(0).getAmmeterValue())
+							* ammeter.getSensorRate() / (timeSum);
+					float eletricSave = (ammeter.getFormerCost() - realCost)
+							* timeSum;
+					float theOtherPartyBonus = eletricSave
+							* project.getElectricityCharge()
+							* project.getPartsRatio();
+					float thePartyBonus = eletricSave
+							* project.getElectricityCharge()
+							* (1 - project.getPartsRatio());
+					float defaultCoalRatio = 0f;
+					float coalSave = eletricSave / 10000 * defaultCoalRatio;
+					float eletricChargeSave = eletricSave
+							* project.getElectricityCharge();
+
+					saveComputationRecord
+							.setEletricChargeSave(eletricChargeSave);
+					saveComputationRecord.setEletricSave(eletricSave);
+					saveComputationRecord.setRealCost(realCost);
+					saveComputationRecord
+							.setTheOtherPartyBouns(theOtherPartyBonus);
+					saveComputationRecord.setThePartyBonus(thePartyBonus);
+					saveComputationRecord
+							.setStandardCoalRatio(defaultCoalRatio);
+					saveComputationRecord.setCoalSave(coalSave);
 				}
+
 			}
 		}
-		return saveComputationVOs;
+		return saveComputationRecord;
 
 	}
-	
-	@RequestMapping(method = RequestMethod.GET, value ="/list", headers = "Accept=application/json")
+
+	// @RequestMapping(method = RequestMethod.GET, value = "/list/", headers =
+	// "Accept=application/json", params = "startDate")
+	// public @ResponseBody
+	// List<SaveComputationRecord> getSaveComputation(@RequestParam("startDate")
+	// Date startDate, @RequestParam("endDate") Date endDate) {
+	// boolean userHasAdminRole = false;
+	// List<SaveComputationRecord> SaveComputationRecords = null;
+	// List<Ammeter> ammeters = null;
+	// User currentUser = userManager.getCurrentUser();
+	// Set<Role> userRoles = currentUser.getRoles();
+	// if (null != userRoles) {
+	// for (Role role : userRoles) {
+	// if ("admin".equals(role.getName())) {
+	// userHasAdminRole = true;
+	// }
+	// }
+	// if (userHasAdminRole) {
+	// ammeters = ammeterManager.getAllAmmeter();
+	// }else{
+	// ammeters= ammeterManager.getAmmetersOwnByUser(currentUser.getId());
+	// }
+	// }
+	//
+	// if (null != ammeters) {
+	// SaveComputationRecords = new ArrayList<SaveComputationRecord>();
+	// for (Ammeter ammeter : ammeters) {
+	// List<AmmeterRecord> ammeterRecords = ammeterRecordManager
+	// .getAmmeterRecordByAmmeterIdInPeriod(ammeter.getId(),
+	// startDate, endDate);
+	// Project project = projectManager.getProjectByAmmeterId(ammeter.getId());
+	// if(null != ammeterRecords && (0 != ammeterRecords.size())&&(null !=
+	// project)){
+	// SaveComputationRecord saveComputationRecord = new
+	// SaveComputationRecord();
+	// saveComputationRecord.setAmmeterName(ammeter.getName());
+	// saveComputationRecord.setStartDate(startDate);
+	// saveComputationRecord.setEndDate(endDate);
+	// saveComputationRecord.setStartTimeSum(ammeterRecords.get(0).getTimeSum());
+	// saveComputationRecord.setEndTimeSum(ammeterRecords.get(ammeterRecords.size()
+	// -1).getTimeSum());
+	// saveComputationRecord.setEletricCharge(project.getElectricityCharge());
+	// saveComputationRecord.setFormerCost(ammeter.getFormerCost());
+	// saveComputationRecord.setPartsRatio(project.getPartsRatio());
+	// saveComputationRecord.setStartValue(ammeterRecords.get(0).getAmmeterValue());
+	// saveComputationRecord.setEndValue(ammeterRecords.get(ammeterRecords.size()
+	// - 1).getAmmeterValue());
+	// saveComputationRecord.setSensorRate(ammeter.getSensorRate());
+	// saveComputationRecord.setProjectName(project.getProjectName());
+	//
+	// float timeSum = ammeterRecords.get(ammeterRecords.size() -
+	// 1).getTimeSum() - ammeterRecords.get(0).getTimeSum();
+	// float realCost = (ammeterRecords.get(ammeterRecords.size() -
+	// 1).getAmmeterValue() -
+	// ammeterRecords.get(0).getAmmeterValue())*ammeter.getSensorRate()/(timeSum);
+	// float eletricSave = (ammeter.getFormerCost() - realCost) * timeSum;
+	// float theOtherPartyBonus = eletricSave * project.getElectricityCharge() *
+	// project.getPartsRatio();
+	// float thePartyBonus = eletricSave * project.getElectricityCharge() *(1 -
+	// project.getPartsRatio());
+	// float defaultCoalRatio = 0f;
+	// float coalSave = eletricSave/10000*defaultCoalRatio;
+	// float eletricChargeSave = eletricSave * project.getElectricityCharge();
+	//
+	// saveComputationRecord.setEletricChargeSave(eletricChargeSave);
+	// saveComputationRecord.setEletricSave(eletricSave);
+	// saveComputationRecord.setRealCost(realCost);
+	// saveComputationRecord.setTheOtherPartyBouns(theOtherPartyBonus);
+	// saveComputationRecord.setThePartyBonus(thePartyBonus);
+	// saveComputationRecord.setStandardCoalRatio(defaultCoalRatio);
+	// saveComputationRecord.setCoalSave(coalSave);
+	//
+	// SaveComputationRecords.add(saveComputationRecord);
+	//
+	// }
+	// }
+	// }
+	// return SaveComputationRecords;
+	//
+	// }
+
+	@RequestMapping(method = RequestMethod.GET, value = "/list", headers = "Accept=application/json")
 	public @ResponseBody
-	List<SaveComputationVO> getSaveComputationByPeriod() {
+	List<SaveComputationRecord> getSaveComputationByPeriod() {
 		boolean userHasAdminRole = false;
-		List<SaveComputationVO> saveComputationVOs = null;
+		List<SaveComputationRecord> SaveComputationRecords = null;
 		List<Ammeter> ammeters = null;
 		User currentUser = userManager.getCurrentUser();
 		Set<Role> userRoles = currentUser.getRoles();
@@ -131,8 +248,9 @@ public class SaveComputationController {
 			}
 			if (userHasAdminRole) {
 				ammeters = ammeterManager.getAllAmmeter();
-			}else{
-				ammeters= ammeterManager.getAmmetersOwnByUser(currentUser.getId());
+			} else {
+				ammeters = ammeterManager.getAmmetersOwnByUser(currentUser
+						.getId());
 			}
 		}
 		Date nowDate = new Date();
@@ -142,38 +260,70 @@ public class SaveComputationController {
 		Date monthAgoDate = calendar.getTime();
 
 		if (null != ammeters) {
-			saveComputationVOs = new ArrayList<SaveComputationVO>();
+			SaveComputationRecords = new ArrayList<SaveComputationRecord>();
 			for (Ammeter ammeter : ammeters) {
 				List<AmmeterRecord> ammeterRecords = ammeterRecordManager
 						.getAmmeterRecordByAmmeterIdInPeriod(ammeter.getId(),
 								monthAgoDate, nowDate);
-				Project project = projectManager.getProjectByAmmeterId(ammeter.getId());
-				if(null != ammeterRecords && (0 != ammeterRecords.size())&&(null != project)){
-					SaveComputationVO saveComputationVO = new SaveComputationVO();
-					saveComputationVO.setAmmeterName(ammeter.getName());
-					saveComputationVO.setStartDate(monthAgoDate);
-					saveComputationVO.setEndDate(nowDate);
-					saveComputationVO.setStartTimeSum(ammeterRecords.get(0).getTimeSum());
-					saveComputationVO.setEndTimeSum(ammeterRecords.get(ammeterRecords.size() -1).getTimeSum());
-					saveComputationVO.setEletricCharge(project.getElectricityCharge());
-					saveComputationVO.setFormerCost(ammeter.getFormerCost());
-					saveComputationVO.setPartsRatio(project.getPartsRatio());
-					saveComputationVO.setStartValue(ammeterRecords.get(0).getAmmeterValue());
-					saveComputationVO.setEndValue(ammeterRecords.get(ammeterRecords.size() - 1).getAmmeterValue());
-					saveComputationVO.setSensorRate(ammeter.getSensorRate());
-					float timeSum = ammeterRecords.get(ammeterRecords.size() - 1).getTimeSum() - ammeterRecords.get(0).getTimeSum();
-					float realCost = (ammeterRecords.get(ammeterRecords.size() - 1).getAmmeterValue() - ammeterRecords.get(0).getAmmeterValue())*ammeter.getSensorRate()/(timeSum);
-					float eletricSave = (ammeter.getFormerCost() - realCost) * timeSum;
-					saveComputationVO.setEletricSave(eletricSave);
-					saveComputationVO.setRealCost(realCost);
-					saveComputationVO.setBonus(eletricSave * project.getElectricityCharge() * project.getPartsRatio());
-					
-					saveComputationVOs.add(saveComputationVO);
-					
+				Project project = projectManager.getProjectByAmmeterId(ammeter
+						.getId());
+				if (null != ammeterRecords && (0 != ammeterRecords.size())
+						&& (null != project)) {
+					SaveComputationRecord saveComputationRecord = new SaveComputationRecord();
+					saveComputationRecord.setAmmeterName(ammeter.getName());
+					saveComputationRecord.setStartDate(monthAgoDate);
+					saveComputationRecord.setEndDate(nowDate);
+					saveComputationRecord.setStartTimeSum(ammeterRecords.get(0)
+							.getTimeSum());
+					saveComputationRecord.setEndTimeSum(ammeterRecords.get(
+							ammeterRecords.size() - 1).getTimeSum());
+					saveComputationRecord.setEletricCharge(project
+							.getElectricityCharge());
+					saveComputationRecord
+							.setFormerCost(ammeter.getFormerCost());
+					saveComputationRecord
+							.setPartsRatio(project.getPartsRatio());
+					saveComputationRecord.setStartValue(ammeterRecords.get(0)
+							.getAmmeterValue());
+					saveComputationRecord.setEndValue(ammeterRecords.get(
+							ammeterRecords.size() - 1).getAmmeterValue());
+					saveComputationRecord
+							.setSensorRate(ammeter.getSensorRate());
+					saveComputationRecord.setProjectName(project
+							.getProjectName());
+
+					float timeSum = ammeterRecords.get(
+							ammeterRecords.size() - 1).getTimeSum()
+							- ammeterRecords.get(0).getTimeSum();
+					float realCost = (ammeterRecords.get(
+							ammeterRecords.size() - 1).getAmmeterValue() - ammeterRecords
+							.get(0).getAmmeterValue())
+							* ammeter.getSensorRate() / (timeSum);
+					float eletricSave = (ammeter.getFormerCost() - realCost)
+							* timeSum;
+					float theOtherPartyBonus = eletricSave
+							* project.getElectricityCharge()
+							* project.getPartsRatio();
+					float thePartyBonus = eletricSave
+							* project.getElectricityCharge()
+							* (1 - project.getPartsRatio());
+					float defaultCoalRatio = 0f;
+					float coalSave = eletricSave / 10000 * defaultCoalRatio;
+
+					saveComputationRecord.setEletricSave(eletricSave);
+					saveComputationRecord.setRealCost(realCost);
+					saveComputationRecord
+							.setTheOtherPartyBouns(theOtherPartyBonus);
+					saveComputationRecord.setThePartyBonus(thePartyBonus);
+					saveComputationRecord
+							.setStandardCoalRatio(defaultCoalRatio);
+					saveComputationRecord.setCoalSave(coalSave);
+					SaveComputationRecords.add(saveComputationRecord);
+
 				}
 			}
 		}
-		return saveComputationVOs;
+		return SaveComputationRecords;
 
 	}
 

@@ -15,14 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.zju.electric_factory.entity.Ammeter;
 import org.zju.electric_factory.entity.AmmeterRecord;
-import org.zju.electric_factory.entity.Company;
 import org.zju.electric_factory.entity.Project;
 import org.zju.electric_factory.entity.ProjectAmmeterLink;
 import org.zju.electric_factory.entity.Role;
 import org.zju.electric_factory.entity.User;
 import org.zju.electric_factory.service.AmmeterManager;
 import org.zju.electric_factory.service.AmmeterRecordManager;
-import org.zju.electric_factory.service.CompanyManager;
 import org.zju.electric_factory.service.ProjectAmmeterManager;
 import org.zju.electric_factory.service.ProjectManager;
 import org.zju.electric_factory.service.UserManager;
@@ -30,6 +28,7 @@ import org.zju.electric_factory.vo.LastAmmeterStatusVo;
 /**
  * 
  * @author vincent
+ * Controller for ammeter
  * 
  */
 @Controller
