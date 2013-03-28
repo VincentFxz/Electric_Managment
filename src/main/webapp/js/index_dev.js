@@ -77,6 +77,10 @@ require([
         "dijit/Dialog", 
         "dojox/charting/themes/Claro",
         "dojox/charting/widget/Legend",
+        "dijit/form/VerticalRuleLabels",
+        "dijit/form/VerticalRule",
+        "dijit/form/VerticalSlider",
+        "dojox/charting/widget/SelectableLegend",
         "dojox/charting/action2d/Magnify",
         "dojox/charting/plot2d/Markers",
         "dojox/charting/Chart",
@@ -102,7 +106,8 @@ require([
         "dojox/grid/enhanced/plugins/Printer", 
         "dojo/domReady!"], function(registry, on, topic, JsonRestStore, JsonRest, Memory, Cache, EnhancedGrid, ObjectStore, query, 
             ready, RadioButton, MultiSelect, TextBox, Button, Menu, MenuItem, ComboButton, ComboBox, FilteringSelect, 
-            domStyle, domClass, domConstruct, dom, xhr, ContentPane, Dialog, Claro, Legend, Magnify, Markers, Chart, StoreSeries, Theme, PlotAction, 
+            domStyle, domClass, domConstruct, dom, xhr, ContentPane, Dialog, Claro, Legend, VerticalRuleLabels, VerticalRule, 
+            VerticalSlider, SelectableLegend, Magnify, Markers, Chart, StoreSeries, Theme, PlotAction, 
             Default, Columns, Lines, Pie, Grid, Tooltip, Highlight, i18nChart) {
 
     ready(function() {
@@ -1157,6 +1162,8 @@ require([
                         var electricSaves = [];
                         var thePartyBonuses = [];
                         var axisXLayout = [];
+
+                        var Y;
                         
 
                         var getMaxY = function (items) {
@@ -1165,7 +1172,7 @@ require([
 
                             for (var j = 0; j < items.length; j++){
                                 if(items[j]> maxY){
-                                    maxY = items[j] * 1.5;
+                                    maxY = items[j];
                                 }
                             }
 
@@ -1208,75 +1215,85 @@ require([
                             // thePartyBonuses.push(saveComputationRecords[i].thePartyBonus);
                         }
 
-
-
-                        var realCostCheckBox = registry.byId("realCostCheckBox");
-                        if(realCostCheckBox){
-                            on(realCostCheckBox, "change", function(){
-                                chart.removeAxis("y");
-                                chart.addAxis("y", { min: 0, max: getMaxY(realCosts), vertical: true, fixLower: "major", fixUpper: "major" });
-                                if(registry.byId("realCostCheckBox").get("checked")){
-                                    chart.addSeries("技改后能耗", realCosts);
-                                }else{
-                                    chart.removeSeries("技改后能耗");
-                                }
-                                
-                                chart.render();
-                                legend.refresh();
-                            });
-
-
+                        if(realCosts && electricSaves && coalSaves && thePartyBonuses){
+                            var maxCandidate = [];
+                            maxCandidate.push(getMaxY(realCosts));
+                            maxCandidate.push(getMaxY(electricSaves));
+                            maxCandidate.push(getMaxY(coalSaves));
+                            maxCandidate.push(getMaxY(thePartyBonuses));
+                            console.log(maxCandidate);
+                            Y = getMaxY(maxCandidate);
                         }
 
-                        var electricSaveCheckBox = registry.byId("electricSaveCheckBox");
-                        if(electricSaveCheckBox){
-                            on(electricSaveCheckBox, "change", function(){
-                                chart.removeAxis("y");
-                                chart.addAxis("y", { min: 0, max: getMaxY(electricSaves), vertical: true, fixLower: "major", fixUpper: "major" });
-                                if(registry.byId("electricSaveCheckBox").get("checked")){
-                                    chart.addSeries("节约电量", electricSaves);
-                                }else{
-                                    chart.removeSeries("节约电量");
-                                }
+                        // var realCostCheckBox = registry.byId("realCostCheckBox");
+                        // if(realCostCheckBox){
+                        //     on(realCostCheckBox, "change", function(){
+                        //         chart.removeAxis("y");
+                        //         chart.addAxis("y", { min: 0, max: getMaxY(realCosts), vertical: true, fixLower: "major", fixUpper: "major" });
+                        //         if(registry.byId("realCostCheckBox").get("checked")){
+                        //             chart.addSeries("技改后能耗", realCosts);
+                        //         }else{
+                        //             chart.removeSeries("技改后能耗");
+                        //         }
                                 
-                                chart.render();
-                                legend.refresh();
-                            });
-                        }
+                        //         chart.render();
+                        //         legend.refresh();
+                        //     });
 
-                        var coalSaveCheckBox = registry.byId("coalSaveCheckBox");
-                        if(coalSaveCheckBox){
-                            on(coalSaveCheckBox, "change", function(){
-                                chart.removeAxis("y");
-                                chart.addAxis("y", { min: 0, max: getMaxY(coalSaves), vertical: true, fixLower: "major", fixUpper: "major" });
-                                if(registry.byId("coalSaveCheckBox").get("checked")){
-                                    chart.addSeries("节约煤", coalSaves);
-                                }else{
-                                    chart.removeSeries("节约煤");
-                                }
+
+                        // }
+
+                        // var electricSaveCheckBox = registry.byId("electricSaveCheckBox");
+                        // if(electricSaveCheckBox){
+                        //     on(electricSaveCheckBox, "change", function(){
+                        //         Y = getMaxY(electricSaves);
+                        //         chart.removeAxis("y");
+                        //         chart.addAxis("y", { min: 0, max: Y , vertical: true, fixLower: "major", fixUpper: "major" });
                                 
-                                chart.render();
-                                legend.refresh();
-                            });
-                        }
-
-                        var thePartyBonusCheckBox = registry.byId("thePartyBonusCheckBox");
-                        if(thePartyBonusCheckBox){
-                            on(thePartyBonusCheckBox, "change", function(){
-                                chart.removeAxis("y");
-                                chart.addAxis("y", { min: 0, max: getMaxY(thePartyBonuses), vertical: true, fixLower: "major", fixUpper: "major" });
-                                if(registry.byId("thePartyBonusCheckBox").get("checked")){
-                                    chart.addSeries("用能方收益", thePartyBonuses);
-                                }else{
-                                    chart.removeSeries("用能方收益");
-                                }
+                        //         if(registry.byId("electricSaveCheckBox").get("checked")){
+                        //             chart.addSeries("节约电量", electricSaves);
+                        //         }else{
+                        //             chart.removeSeries("节约电量");
+                        //         }
                                 
-                                chart.render();
-                                legend.refresh();
-                            });
-                        }
+                        //         chart.render();
+                        //         legend.refresh();
+                        //     });
+                        // }
 
-                        console.log("getSaveComputationRecordSucc");
+                        // var coalSaveCheckBox = registry.byId("coalSaveCheckBox");
+                        // if(coalSaveCheckBox){
+                        //     on(coalSaveCheckBox, "change", function(){
+                        //         chart.removeAxis("y");
+                        //         chart.addAxis("y", { min: 0, max: getMaxY(coalSaves), vertical: true, fixLower: "major", fixUpper: "major" });
+                        //         if(registry.byId("coalSaveCheckBox").get("checked")){
+                        //             chart.addSeries("节约煤", coalSaves);
+                        //         }else{
+                        //             chart.removeSeries("节约煤");
+                        //         }
+                                
+                        //         chart.render();
+                        //         legend.refresh();
+                        //     });
+                        // }
+
+                        // var thePartyBonusCheckBox = registry.byId("thePartyBonusCheckBox");
+                        // if(thePartyBonusCheckBox){
+                        //     on(thePartyBonusCheckBox, "change", function(){
+                        //         chart.removeAxis("y");
+                        //         chart.addAxis("y", { min: 0, max: getMaxY(thePartyBonuses), vertical: true, fixLower: "major", fixUpper: "major" });
+                        //         if(registry.byId("thePartyBonusCheckBox").get("checked")){
+                        //             chart.addSeries("用能方收益", thePartyBonuses);
+                        //         }else{
+                        //             chart.removeSeries("用能方收益");
+                        //         }
+                                
+                        //         chart.render();
+                        //         legend.refresh();
+                        //     });
+                        // }
+
+                        // console.log("getSaveComputationRecordSucc");
 
                         
                         // Create the chart within it's "holding" node
@@ -1298,10 +1315,14 @@ require([
                             title : "结算日期",
                             labels : axisXLayout
                         });
+                        console.log(Y);
                        
-                        chart.addAxis("y", { min: 50, max: 600, vertical: true, fixLower: "major", fixUpper: "major" });
+                        chart.addAxis("y", { min: 0, max: Y * 1.5, vertical: true, fixLower: "major", fixUpper: "major" });
                         // Add the series of data
-
+                        chart.addSeries("节约煤", coalSaves);
+                        chart.addSeries("节约电量", electricSaves);
+                        chart.addSeries("技改后能耗", realCosts);
+                        chart.addSeries("用能方收益", thePartyBonuses);
                         // Create the tooltip
                         var tip = new Tooltip(chart,"default");
                         
@@ -1312,7 +1333,32 @@ require([
                         chart.render();
                         
                         // Create the legend
-                        var legend = new Legend({ chart: chart }, "legend");
+                        var legend = new SelectableLegend({ chart: chart }, "legend");
+
+                        var vertical = dojo.byId("vertical");
+                        var rulesNode = document.createElement('div');
+                        vertical.appendChild(rulesNode);
+                        var sliderRules = new dijit.form.VerticalRule({
+                            count:11,
+                            style:"width:5px;"
+                            }, rulesNode);  
+                        var slider = new dijit.form.VerticalSlider({
+                            name: "vertical",
+                            value: 10,
+                            minimum: 0,
+                            maximum: 10,
+                            intermediateChanges: true,
+                            style: "height:400px;"
+                            }, vertical);
+
+                        var zoomY = 1;
+
+                        on(slider, "change", function(value){
+                            zoomY = value/10 * Y *1.5;
+                            console.log(zoomY);
+                            // chart.setAxisWindow("y",2,100).render();
+                            chart.zoomIn("y",[0,zoomY]);
+                        });
                     };
 
                     var getSaveComputationRecordErr = function getSaveComputationRecordErr () {

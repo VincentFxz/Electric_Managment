@@ -42,8 +42,8 @@
 
         .dialogLabel{
             float:left;
-            width: 10em;
-            margin-left: 5em;
+            width: 8em;
+            margin-left: 3em;
             margin-right: 1em;
         }
 
@@ -407,28 +407,21 @@
 
                         <div id = "saveComputationChartPane" data-dojo-type="dijit.layout.ContentPane" title = "节能核算表(趋势图)" style="overflow:auto;">
                             
-                            <div class="dijitDialogPaneActionBar" style ="text-align: left;">
-                                <div style="float: left;">
-                                    <label class="dialogLabel"  for="realCostCheckBox">技改后能耗:</label>
-                                    <input type="checkbox" dojoType="dijit.form.CheckBox" checked="false" id="realCostCheckBox" >
+                            
+                            <br />
+                            <div style = "text-align : left";>
+                                <div style="float:left">
+                                    <div id="vertical" style="height:400px;float:left"></div>
                                 </div>
-                                <div style="float: left;">
-                                    <label class="dialogLabel" for="electricSaveCheckBox">节约电量:</label>
-                                    <input type="checkbox" dojoType="dijit.form.CheckBox" checked="false" id="electricSaveCheckBox" >
-                                </div>
-                                <div style="float: left;">
-                                    <label class="dialogLabel" for="coalSaveCheckBox">节约煤:</label>
-                                    <input type="checkbox" dojoType="dijit.form.CheckBox" checked="false" id="coalSaveCheckBox" >
-                                </div>
-                                <div style="float: left;">
-                                    <label class="dialogLabel" for="thePartyBonusCheckBox">用能方收益:</label>
-                                    <input type="checkbox" dojoType="dijit.form.CheckBox" checked="false" id="thePartyBonusCheckBox" >
+                                <div style="float:left">
+                                    <div id="saveComputationChart" class="claro" style="height:400px;width:800px"></div>
+                                    <div style="clear:both;"></div>
                                 </div>
                                 <div class="clear"></div>
-                            </div>
-                            <br />
 
-                            <div id="saveComputationChart" class="claro" style="height:400px"></div>
+
+                            </div>
+                            
                             <div id="legend"></div>
                             <!-- The Action Bar -->
                         </div>
