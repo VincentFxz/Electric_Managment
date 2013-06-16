@@ -11,11 +11,9 @@ var construtAmmeterRecordPane;
 var ammeterRecordPaneConstruted = false;
 
 var companyPane;
-var construtCompanyPane;
 var companyPaneConstruted = false;
 
 var projectPane;
-var construtProjectPane;
 var projectPaneConstruted = false;
 
 var cpPane;
@@ -162,13 +160,11 @@ require([
         var ammeter_record_width = main_container_width * 0.24;
         var user_cell_width = main_container_width * 0.17;
         var company_cell_width = main_container_width / 3;
-        // var project_cell_width = (main_container_width - 100) / 7;
         var project_cell_width = "10em";
 
         var cp_cell_width = main_container_width * 0.20;
         var pa_cell_width = main_container_width * 0.20;
         var up_cell_width = main_container_width * 0.20;
-        var last_cell_width = "5em";
 
         var ammeterManager = {
             store : new JsonRestStore({
@@ -291,11 +287,11 @@ require([
                     }
                 });
 
-            },
+            }
 
         };
 
-        projectUserManager = {
+        var projectUserManager = {
             store : new JsonRestStore({
                 target : "/up/list"
             }),
@@ -552,6 +548,38 @@ require([
             // }
         };
 
+        var gprsManager = {
+            store : new JsonRestStore({
+                target : "/gprs/list"
+            }),
+            getStore : function () {
+                return this.store;
+            },
+            addGPRS : function (gprs, callBack, errorCallBack) {
+                this.store.newItem(gprs);
+                this.store.save({
+                    onComplete : function () {
+                        callBack();
+                    },
+                    onError : function () {
+                        errorCallBack();
+                    }
+                });
+            },
+            getGPRS : function (callBack, errorCallBack) {
+                this.store.fetch({
+                    "query" : {},
+                    onComplete : function (gprsModules){
+                        callBack(gprsModules);
+                    },
+                    onError : function () {
+                        errorCallBack();
+                    }
+                }); 
+            }
+
+        };
+
         var constructors = {
 
             CompanyPaneConstructor : function(){
@@ -594,56 +622,37 @@ require([
             },
 
             CreateProjectDialogConstructor : function (companyName){
-
                 if(request){
                     request.ammetersForProject = [];
                     request.usersForProject = [];
                 }
-               
                 var projectCompanyCombo = registry.byId("projectCompany");
-                
-                if(registry.byId("createNewCompanyRadio").checked){
+                var clearComponents = function () {
                     var projectCompanyCombo = registry.byId("projectCompanyCombo");
                     var projectCompanyTextBox = registry.byId("projectCompanyTextBox");
-                    
                     if(projectCompanyCombo){
                         registry.remove("projectCompanyCombo");
                         domConstruct.destroy("widget_projectCompanyCombo");
                     }
-                    
                     if(projectCompanyTextBox){
-                        
                         registry.remove("projectCompanyTextBox");
                         domConstruct.destroy("widget_projectCompanyTextBox");
                     }
-                    
+                };
+                if(registry.byId("createNewCompanyRadio").checked){
+                    clearComponents();
                     var projectCompanyTextBox = document.getElementById("projectCompanyTextBox")||document.createElement("input");
                     projectCompanyTextBox.setAttribute("id", "projectCompanyTextBox");
                     document.getElementById("projectCompanyLi").appendChild(projectCompanyTextBox);
-                    
-                    
                     var companyForProjectTextBox = new TextBox({
                         placeHolder: "输入公司名称"
                     },"projectCompanyTextBox");
                 }
-                
                 if(registry.byId("selectExistingCompanyradio").checked){
-                    var projectCompanyCombo = registry.byId("projectCompanyCombo")
-                    var projectCompanyTextBox = registry.byId("projectCompanyTextBox");
-                    if(projectCompanyTextBox){
-                        registry.remove("projectCompanyTextBox");
-                        domConstruct.destroy("widget_projectCompanyTextBox");
-                    }
-                    
-                    if(projectCompanyCombo){
-                        registry.remove("projectCompanyCombo");
-                        domConstruct.destroy("widget_projectCompanyCombo");
-                    }
-            
+                    clearComponents();
                     var projectCompanyCombo = document.getElementById("projectCompanyCombo")||document.createElement("input");
                     projectCompanyCombo.setAttribute("id", "projectCompanyCombo");
                     document.getElementById("projectCompanyLi").appendChild(projectCompanyCombo);
-
                     var projectCompanyCombo = new ComboBox({
                         id: "projectCompanyCombo",
                         name: "company",
@@ -688,22 +697,8 @@ require([
                         }
                     }, addButtonNodeId);
                     add_project_btn.startup();
-                    
-                    //create addFromExistButton
-                    var addFromExistButtonNodeId = paneNode + "AddFromExsitButton";
-                    var addFromExitAddButtonNode = document.createElement("div");
-                    addFromExitAddButtonNode.setAttribute("id", addFromExistButtonNodeId);
-                    document.getElementById(paneNode).appendChild(addFromExitAddButtonNode);
-                    var addProjectFromExistBtn = new Button({
-                        label: "从已存在的项目中添加",
-                        onClick: function(){
-                            
-                        }
-                    },addFromExistButtonNodeId);
-                    
                     //create close tab button
                     constructCloseTabBtn(paneNode);
-
                     //create grid node
                     var gridNodeId = paneNode + "Grid";
                     var newGridNode = document.createElement("div");
@@ -713,7 +708,6 @@ require([
                     var newGridLayout = layouts.projectGridLayout;
                     var newGrid = constructNewGridForPane(gridNodeId, newGridLayout, projectManager.getStore()); 
                     if(companyId){
-                        
                         newGrid.setQueryAfterLoading({
                             "companyId" : companyId
                         });  
@@ -784,7 +778,7 @@ require([
 
                 var paneNode = dijit.byId(ammeterPaneName);
                 if(paneNode){
-                    paneGrid = dijit.byId(ammeterPaneName+"Grid");
+                    var paneGrid = dijit.byId(ammeterPaneName+"Grid");
                     paneGrid.setQueryAfterLoading({"id" : "*"}); 
                     //tabContainer.addChild(paneNode);
                     tabContainer.selectChild(dijit.byId(paneNode));
@@ -798,48 +792,12 @@ require([
                     document.getElementById(paneNode).appendChild(newAddButtonNode);
                     //construt add button
                     var add_ammeter_btn = new Button({
-
                         label: "新建",
                         onClick: function() {
-                            dojo.byId("ammeterProjectLi").style.display="list-item";
-                            var ammeterProjectCombo = registry.byId("ammeterProject");
-                            if(!ammeterProjectCombo){
-
-                                var getProjectNameCallBack = function(projectName) {
-
-                                    var projectForAmmeterCombo = new ComboBox({
-                                        id: "ammeterProject",
-                                        name: "project",
-                                        value: projectName,
-                                        store: stores.projectStore,
-                                        searchAttr: "projectName"
-                                    }, "ammeterProject");
-
-                                    registry.byId("createAmmeterDialog").show();
-                                };
-
-                                projectManager.getProjectName(projectId, getProjectNameCallBack);
-
-
-                            }else{
-
-                                registry.byId("createAmmeterDialog").show();
-                            }
+                            constructors.CreateAmmeterDialogConstructor(projectId);
                         }
                     }, addButtonNodeId);
                     add_ammeter_btn.startup();
-                    
-                    //create addFromExistButton
-                    var addFromExistButtonNodeId = paneNode + "AddFromExsitButton";
-                    var addFromExitAddButtonNode = document.createElement("div");
-                    addFromExitAddButtonNode.setAttribute("id", addFromExistButtonNodeId);
-                    document.getElementById(paneNode).appendChild(addFromExitAddButtonNode);
-                    var addProjectFromExistBtn = new Button({
-                        label: "从已存在的项目中添加",
-                        onClick: function(){
-                            
-                        }
-                    },addFromExistButtonNodeId);
                     
                     //create close tab button
                     constructCloseTabBtn(paneNode);
@@ -890,30 +848,104 @@ require([
                     var newDeleteButtonNode = document.createElement("div");
                     newDeleteButtonNode.setAttribute("id", deleteButtonNodeId);
                     document.getElementById(paneNode).appendChild(newDeleteButtonNode);
-
                     var deleteAmmeterBtn = new Button({
-
                         label: "删除",
                         onClick: function() {
-                            var deleteAmmeterSuccessCallBack = function () {
-
-                            };
-
-                            var deleteAmmeterErrorCallBack = function() {
-
-                            };
-
+                            var deleteAmmeterSuccessCallBack = function () {};
+                            var deleteAmmeterErrorCallBack = function() {};
                             var ammeterGrid = registry.byId(gridNodeId);
                             var ammeterSelected = ammeterGrid.selection.getSelected();
                             if (ammeterSelected.length) {
                                 for (key in ammeterSelected) {
-                                    console.log(ammeterSelected[key]);
                                     ammeterManager.deleteAmmeter(ammeterSelected[key], deleteAmmeterSuccessCallBack, deleteAmmeterErrorCallBack);
                                 }
                             };
                         }
                     }, deleteButtonNodeId);
                 }
+            },
+
+            CreateAmmeterDialogConstructor : function (projectId) {
+                if (projectId) {
+                    var projectForAmmeterCombo = registry.byId("ammeterProject");
+                    var getProjectNameCallBack;
+                    if (!projectForAmmeterCombo) {
+                        getProjectNameCallBack = function(projectName) {
+                            var projectForAmmeterCombo = new ComboBox({
+                                id: "ammeterProject",
+                                name: "project",
+                                value: projectName,
+                                store: projectManager.getStore(),
+                                searchAttr: "projectName"
+                            }, "ammeterProject");
+                            registry.byId("createAmmeterDialog").show();
+                        };
+                    } else {
+                        getProjectNameCallBack = function(projectName) {
+                            projectForAmmeterCombo.set("value", projectName);
+                            registry.byId("createAmmeterDialog").show();
+                        };
+                    }
+                    projectManager.getProjectName(projectId, getProjectNameCallBack);
+                }else {
+                    var projectForAmmeterCombo = registry.byId("ammeterProject");
+                    if(!projectForAmmeterCombo){
+                        var projectForAmmeterCombo = new ComboBox({
+                            id: "ammeterProject",
+                            name: "project",
+                            // value: projectName,
+                            store: projectManager.getStore(),
+                            searchAttr: "projectName"
+                        }, "ammeterProject");
+                    }
+                }
+                var clearComponents = function () {
+                    var ammeterGPRSCombo = registry.byId("ammeterGPRSCombo");
+                    var ammeterGPRSNameTextBox = registry.byId("ammeterGPRSNameTextBox");
+                    var ammeterGPRSIdentifierTextBox = registry.byId("ammeterGPRSIdentifierTextBox");
+                    if (ammeterGPRSCombo) {
+                        registry.remove("ammeterGPRSCombo");
+                        domConstruct.destroy("widget_ammeterGPRSCombo");
+                    }
+                    if (ammeterGPRSNameTextBox) {
+                        registry.remove("ammeterGPRSNameTextBox");
+                        domConstruct.destroy("widget_ammeterGPRSNameTextBox");
+                    }
+                    if (ammeterGPRSIdentifierTextBox) {
+                        registry.remove("ammeterGPRSIdentifierTextBox");
+                        domConstruct.destroy("widget_ammeterGPRSIdentifierTextBox");
+                    }
+                };
+                if(registry.byId("createNewGPRSRadio").checked){
+                    clearComponents();
+                    var ammeterGPRSNameTextBox = document.getElementById("ammeterGPRSNameTextBox")||document.createElement("input");
+                    ammeterGPRSNameTextBox.setAttribute("id", "ammeterGPRSNameTextBox");
+                    document.getElementById("ammeterGPRSLi").appendChild(ammeterGPRSNameTextBox);
+                    var ammeterGPRSNameTextBox = new TextBox({
+                        placeHolder: "输入GPRS名称"
+                    },"ammeterGPRSNameTextBox");
+                    var ammeterGPRSIdentifierTextBox = document.getElementById("ammeterGPRSIdentifierTextBox")||document.createElement("input");
+                    ammeterGPRSIdentifierTextBox.setAttribute("id", "ammeterGPRSIdentifierTextBox");
+                    document.getElementById("ammeterGPRSLi").appendChild(ammeterGPRSIdentifierTextBox);
+                    var ammeterGPRSIdentifierTextBox = new TextBox({
+                        placeHolder: "输入GPRS识别码"
+                    },"ammeterGPRSIdentifierTextBox");
+                    document.getElementById("widget_ammeterGPRSIdentifierTextBox").setAttribute("style", "margin-left:2em;")
+                }
+                if(registry.byId("selectExistingGPRSRadio").checked){
+                    clearComponents();
+                    var ammeterGPRSCombo = document.getElementById("ammeterGPRSCombo")||document.createElement("input");
+                    ammeterGPRSCombo.setAttribute("id", "ammeterGPRSCombo");
+                    document.getElementById("ammeterGPRSLi").appendChild(ammeterGPRSCombo);
+                    var ammeterGPRSCombo = new ComboBox({
+                        id: "ammeterGPRSCombo",
+                        name: "name",
+                        // value: companyName,
+                        store: gprsManager.getStore(),
+                        searchAttr: "name"
+                    }, "ammeterGPRSCombo");
+                }
+                registry.byId("createAmmeterDialog").show();
             },
 
             UserPaneConstructor : function (){
@@ -958,7 +990,6 @@ require([
                         onClick: function() {
                             var user_selected = userGrid.selection.getSelected();
                             if (user_selected.length) {
-
                                 for(var i = 0; i < user_selected.length; i ++){
 
                                     var deleteUserSuccCallBack = function () {
@@ -970,7 +1001,6 @@ require([
                                     };
                                     userManager.deleteUser(user_selected[i], deleteUserSuccCallBack, deleteUserErrorCallBack);
                                 }
-
                             }
                         }
                     }, "user_delete_button");
@@ -1355,8 +1385,6 @@ require([
 
                         on(slider, "change", function(value){
                             zoomY = value/10 * Y *1.5;
-                            console.log(zoomY);
-                            // chart.setAxisWindow("y",2,100).render();
                             chart.zoomIn("y",[0,zoomY]);
                         });
                     };
@@ -2444,13 +2472,14 @@ require([
             });
         }
 
-        var addAmmeterForProjectBtn = registry.byId("addAmmeterForProjectBtn");
-        if(addAmmeterForProjectBtn){
-        	on(addAmmeterForProjectBtn, "click", function(){
-        		dojo.byId("ammeterProjectLi").style.display="none";
-        		registry.byId("createAmmeterDialog").show();
-        	})
-        }
+        // no btn found
+        // var addAmmeterForProjectBtn = registry.byId("addAmmeterForProjectBtn");
+        // if(addAmmeterForProjectBtn){
+        // 	on(addAmmeterForProjectBtn, "click", function(){
+        // 		dojo.byId("ammeterProjectLi").style.display="none";
+        // 		registry.byId("createAmmeterDialog").show();
+        // 	})
+        // }
         
         var addNewAmmeterForNewCreatingProjectBtn = registry.byId("addNewAmmeterForNewCreatingProjectBtn");
         if(addNewAmmeterForNewCreatingProjectBtn){
@@ -2571,7 +2600,7 @@ require([
 
         //Ammeter Creation Dialog Events
         var createAmmeterDialogAddBtn = registry.byId("createAmmeterDialogAddBtn");
-        if(createAmmeterDialogAddBtn){
+        if (createAmmeterDialogAddBtn) {
             on(createAmmeterDialogAddBtn, "click", function(){
                 var ammeter = {
                     name: dom.byId("ammeterName").value,
@@ -2592,6 +2621,70 @@ require([
             });
         }
 
+        var createNewGPRSRadio = registry.byId("createNewGPRSRadio");
+        if (createNewGPRSRadio) {
+            on(createNewGPRSRadio, "click", function () {
+                var ammeterGPRSCombo = registry.byId("ammeterGPRSCombo");
+                var ammeterGPRSNameTextBox = registry.byId("ammeterGPRSNameTextBox");
+                var ammeterGPRSIdentifierTextBox = registry.byId("ammeterGPRSIdentifierTextBox");
+                if (ammeterGPRSCombo) {
+                    registry.remove("ammeterGPRSCombo");
+                    domConstruct.destroy("widget_ammeterGPRSCombo");
+                }
+                if (ammeterGPRSNameTextBox) {
+                    registry.remove("ammeterGPRSNameTextBox");
+                    domConstruct.destroy("widget_ammeterGPRSNameTextBox");
+                }
+                if (ammeterGPRSIdentifierTextBox) {
+                    registry.remove("ammeterGPRSIdentifierTextBox");
+                    domConstruct.destroy("widget_ammeterGPRSIdentifierTextBox");
+                }
+                var ammeterGPRSNameTextBox = document.getElementById("ammeterGPRSNameTextBox")||document.createElement("input");
+                ammeterGPRSNameTextBox.setAttribute("id", "ammeterGPRSNameTextBox");
+                document.getElementById("ammeterGPRSLi").appendChild(ammeterGPRSNameTextBox);
+                var ammeterGPRSNameTextBox = new TextBox({
+                    placeHolder: "输入GPRS名称"
+                },"ammeterGPRSNameTextBox");
+                var ammeterGPRSIdentifierTextBox = document.getElementById("ammeterGPRSIdentifierTextBox")||document.createElement("input");
+                ammeterGPRSIdentifierTextBox.setAttribute("id", "ammeterGPRSIdentifierTextBox");
+                document.getElementById("ammeterGPRSLi").appendChild(ammeterGPRSIdentifierTextBox);
+                var ammeterGPRSIdentifierTextBox = new TextBox({
+                    placeHolder: "输入GPRS识别码"
+                },"ammeterGPRSIdentifierTextBox");
+                document.getElementById("widget_ammeterGPRSIdentifierTextBox").setAttribute("style", "margin-left:2em;");
+            }); 
+        }
+
+        var selectExistingGPRSRadio = registry.byId("selectExistingGPRSRadio");
+        if (selectExistingGPRSRadio) {
+            on(selectExistingGPRSRadio, "click", function () {
+                var ammeterGPRSCombo = registry.byId("ammeterGPRSCombo");
+                var ammeterGPRSNameTextBox = registry.byId("ammeterGPRSNameTextBox");
+                var ammeterGPRSIdentifierTextBox = registry.byId("ammeterGPRSIdentifierTextBox");
+                if (ammeterGPRSCombo) {
+                    registry.remove("ammeterGPRSCombo");
+                    domConstruct.destroy("widget_ammeterGPRSCombo");
+                }
+                if (ammeterGPRSNameTextBox) {
+                    registry.remove("ammeterGPRSNameTextBox");
+                    domConstruct.destroy("widget_ammeterGPRSNameTextBox");
+                }
+                if (ammeterGPRSIdentifierTextBox) {
+                    registry.remove("ammeterGPRSIdentifierTextBox");
+                    domConstruct.destroy("widget_ammeterGPRSIdentifierTextBox");
+                }
+                var ammeterGPRSCombo = document.getElementById("ammeterGPRSCombo")||document.createElement("input");
+                ammeterGPRSCombo.setAttribute("id", "ammeterGPRSCombo");
+                document.getElementById("ammeterGPRSLi").appendChild(ammeterGPRSCombo);
+                var ammeterGPRSCombo = new ComboBox({
+                    id: "ammeterGPRSCombo",
+                    name: "name",
+                    // value: companyName,
+                    store: gprsManager.getStore(),
+                    searchAttr: "name"
+                }, "ammeterGPRSCombo");
+            })
+        }
         //User Creation Dialog Event
         var createUserDialogAddBtn = registry.byId("createUserDialogAddBtn");
         if(createUserDialogAddBtn){

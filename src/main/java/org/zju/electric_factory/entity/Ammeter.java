@@ -37,18 +37,64 @@ public class Ammeter {
      */
     @Column(name="COMPANY_NAME")
     private String companyName;
-    
+
+    /**
+     * 互感器读数
+     */
     @Column(name = "SENSOR_RATE")
     private Float sensorRate;
-    
+
+    /**
+     * 技改前能耗
+     */
     @Column(name = "FORMER_COST")
     private Float formerCost;
-    
+
+    /**
+     * 上限
+     */
     @Column(name = "UPPER_LIMIT")
     private Float upperLimit;
-    
+
+    /**
+     * 下限
+     */
     @Column(name = "LOWER_LIMIT")
     private Float lowerLimit;
+
+    /**
+     * 电表标识码
+     */
+    @Column(name = "IDENTIFIER")
+    private String identifier;
+
+    /**
+     * 累时器标识码
+     */
+    @Column(name = "TIMESUM_RECORDER_IDENTIFIER")
+    private String timeSumRecorderIdentifier;
+
+    /**
+     * 电表读数标识码
+     */
+    @Column(name = "AMMETER_RECORD_IDENTIFIER")
+    private String ammeterRecordIndentifier;
+
+    public String getTimeSumRecorderIdentifier() {
+        return timeSumRecorderIdentifier;
+    }
+
+    public void setTimeSumRecorderIdentifier(String timeSumRecorderIdentifier) {
+        this.timeSumRecorderIdentifier = timeSumRecorderIdentifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
 
     public Float getSensorRate() {
 		return sensorRate;

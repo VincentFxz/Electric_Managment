@@ -187,11 +187,11 @@
                                         <div data-dojo-type="dijit.TooltipDialog" id="new_cp_dialog">
                                             <form id="add_cp_form" method="post" action="/cp/add">
                                             <div>
-                                                <strong><label class="add_form_label" for="cpCompanyName">公司名称</label></strong>
+                                                <strong><label class="add_form_label" for="companyForCP">公司名称</label></strong>
                                                 <input id = "companyForCP" />
                                             </div>
                                             <div>
-                                                <strong><label class="add_form_label" for="cpProjectName">项目名称</label></strong>
+                                                <strong><label class="add_form_label" for="projectForCP">项目名称</label></strong>
                                                 <input id = "projectForCP" />
                                             </div>
                                             <div>
@@ -221,11 +221,11 @@
                                         <div data-dojo-type="dijit.TooltipDialog" id="new_pa_dialog">
                                             <form id="add_pa_form" method="post" action="/pa/add">
                                             <div>
-                                                <strong><label class="add_form_label" for="paProjectName">项目名称</label></strong>
+                                                <strong><label class="add_form_label" for="projectForPACombo">项目名称</label></strong>
                                                 <input id="projectForPACombo" />
                                             </div>
                                             <div>
-                                                <strong><label class="add_form_label" for="paAmmeterName">电表名称</label></strong>
+                                                <strong><label class="add_form_label" for="ammeterForPACombo">电表名称</label></strong>
                                                 <input id="ammeterForPACombo" />
                                             </div>
                                             <div>
@@ -556,7 +556,7 @@
 								<form id="newProjectDialogForm" method="post" action="/project/add" >
                                     <ul class="nav">
                                     	
-                                   		<fieldset id="hours" class="dijitInline">
+                                   		<fieldset id="createOrSelectCompany" class="dijitInline">
                                    			<li style="margin-bottom: 9px;">
 	                                            <label class="dialogLabel" for="createNewCompanyRadio">新建公司:</label>
 	                                            <input type="radio" id="createNewCompanyRadio"  value="full" dojoType="dijit.form.RadioButton" />
@@ -600,7 +600,7 @@
                                             invalidMessage="请输入正确的比率格式 (ex: 0.5)"/>
                                         </li>
                                         <li style="margin-bottom: 9px;">
-                                            <label class="dialogLabel" for="ammeterAdded">已经添加的电表:</label><br>
+                                            <label class="dialogLabel" for="ammeterAddedMultiSelect">已经添加的电表:</label><br>
                                     		<select id="ammeterAddedMultiSelect" multiple data-dojo-type="dijit.form.MultiSelect" data-dojo-props='name:"select", style:{height:"15em", width:"22em", border:"5px solid #ededed"}'>
                                     		</select>
                                         </li>
@@ -651,30 +651,47 @@
                                             </input>
                                         </li>
                                         </li>
-                                        <li id="ammeterProjectLi" style="margin-bottom: 9px; display:none;">
+                                        <li id="ammeterProjectLi" style="margin-bottom: 9px;">
                                             <label class="dialogLabel" for="ammeterProject">电表项目:</label>
                                             <input class="medium" id="ammeterProject" />
                                         </li>
                                         <li style="margin-bottom: 9px;">
                                             <label class="dialogLabel" for="sensorRate">互感器倍率:</label>
-                                            <input type="text" id="sensorRate" class="short"dojoType="dijit.form.ValidationTextBox" trim="true" required="true" regExp="^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$|^[1-9]\d*$"
+                                            <input type="text" id="sensorRate" class="short" dojoType="dijit.form.ValidationTextBox" trim="true" required="true" regExp="^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$|^[1-9]\d*$"
                                             invalidMessage="请输入正确的互感器倍率格式 (ex: 5.5)"/>
                                         </li>
                                         <li style="margin-bottom: 9px;">
                                             <label class="dialogLabel" for="formerCost">技改前能耗:</label>
-                                            <input type="text" id="formerCost" class="short"dojoType="dijit.form.ValidationTextBox" trim="true" required="true" regExp="^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$|^[1-9]\d*$"
+                                            <input type="text" id="formerCost" class="short" dojoType="dijit.form.ValidationTextBox" trim="true" required="true" regExp="^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$|^[1-9]\d*$"
                                             invalidMessage="请输入正确的能耗格式 (ex: 5.5)"/>
                                         </li>
                                         <li style="margin-bottom: 9px;">
                                             <label class="dialogLabel" for="upperLimit">警报上限:</label>
-                                            <input type="text" id="upperLimit" class="short"dojoType="dijit.form.ValidationTextBox" trim="true" required="true" regExp="^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$|^[1-9]\d*$"
+                                            <input type="text" id="upperLimit" class="short" dojoType="dijit.form.ValidationTextBox" trim="true" required="true" regExp="^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$|^[1-9]\d*$"
                                             invalidMessage="请输入正确的警报上限格式 (ex: 5.5)"/>
                                         </li>
                                         <li style="margin-bottom: 9px;">
                                             <label class="dialogLabel" for="lowerLimit">警报下限:</label>
-                                            <input type="text" id="lowerLimit" class="short"dojoType="dijit.form.ValidationTextBox" trim="true" required="true" regExp="^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$|^[1-9]\d*$"
+                                            <input type="text" id="lowerLimit" class="short" dojoType="dijit.form.ValidationTextBox" trim="true" required="true" regExp="^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$|^[1-9]\d*$"
                                             invalidMessage="请输入正确的警报下限格式 (ex: 5.5)"/>
                                         </li>
+                                        <fieldset id="createOrSelectGPRS" class="dijitInline">
+                                            <li style="margin-bottom: 9px;">
+                                                <label class="dialogLabel" for="createNewGPRSRadio">新建GPRS模块:</label>
+                                                <input type="radio" id="createNewGPRSRadio" checked  value="full" dojoType="dijit.form.RadioButton" />
+                                            </li>
+                                            <li style="margin-bottom: 9px;">
+                                                <label class="dialogLabel" for="selectExistingGPRSRadio">选择已有GPRS:</label>
+                                                <input type="radio" id="selectExistingGPRSRadio"  value="full" dojoType="dijit.form.RadioButton" />
+                                            </li>
+                                        </fieldset>
+                                        <li style="margin-bottom: 9px;" id="ammeterGPRSLi">
+                                            <label class="dialogLabel" id="ammeterGPRSLabel" for="ammeterGPRS"> GPRS:</label>
+                                            <input class="medium dijitHidden" id="ammeterGPRSCombo" />
+                                            <input class="medium dijitHidden" id="ammeterGPRSNameTextBox" />
+                                            <input class="medium dijitHidden" id="ammeterGPRSIdentifierTextBox" />
+                                        </li>
+
                                     </ul>
                                 </form>
                                 
