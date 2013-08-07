@@ -28,6 +28,9 @@ var upPane;
 var constructUPPane;
 var upPaneConstruted = false;
 
+var agPane;
+var agPaneConstruted = false;
+
 var constructNewPane;
 
 var saveComputationPane;
@@ -43,6 +46,10 @@ var constructSaveComputationChartPane;
 var saveComputationChartPaneConstructed = false;
 
 var activedMenuItem;
+
+var request = {};
+
+
 
 
 require([
@@ -110,6 +117,15 @@ require([
 
     ready(function() {
 
+        var userStatusBtn=document.getElementById("userStatusBtn");
+        userStatusBtn.onclick=function(){
+            if(document.getElementById("userDropDown").style.display == "none"){
+                document.getElementById("userDropDown").style.display = "block";
+            }else{
+                document.getElementById("userDropDown").style.display = "none";
+            }
+        };
+
         dojox.grid.DataGrid.prototype.setQueryAfterLoading = function(query) { 
             if (this._isLoading === true) { 
                 if (this._queryAfterLoadingHandle !== undefined) { 
@@ -142,6 +158,7 @@ require([
         paPane = dijit.byId("paPane");
         upPane = dijit.byId("upPane");
         saveComputationChartPane = registry.byId("saveComputationChartPane");
+        agPane = dijit.byId("agPane");
 
         tabContainer.removeChild(userPane);
         // tabContainer.removeChild(ammeterPane);
@@ -153,6 +170,7 @@ require([
         tabContainer.removeChild(cpPane);
         tabContainer.removeChild(paPane);
         tabContainer.removeChild(upPane);
+        tabContainer.removeChild(agPane);
         tabContainer.removeChild(saveComputationChartPane);
 
         var main_container_width = dojo.style("main_container", "width");
@@ -161,6 +179,7 @@ require([
         var user_cell_width = main_container_width * 0.17;
         var company_cell_width = main_container_width / 3;
         var project_cell_width = "10em";
+        var gprs_cell_width = "20em";
 
         var cp_cell_width = main_container_width * 0.20;
         var pa_cell_width = main_container_width * 0.20;
@@ -270,11 +289,9 @@ require([
         };
 
         var companyProjectManager = {
-
             store : new JsonRestStore({
                 target : "/cp/list"
             }),
-
             addCompanyProject: function(companyProject, callBack, errorCallBack){
                 this.store.newItem(companyProject);
                 this.store.save({
@@ -286,9 +303,7 @@ require([
                         errorCallBack();
                     }
                 });
-
             }
-
         };
 
         var projectUserManager = {
@@ -346,15 +361,12 @@ require([
         };
 
         var projectManager = {
-
             store : new JsonRestStore({
                 target: "/project/list/"
             }),
-
             getStore: function () {
                 return this.store;
             },
-
             getProjectName : function (projectId, callBack){
 
                 var projectName;
@@ -368,7 +380,6 @@ require([
                     }
                 });
             },
-
             saveProject : function (callBack, errorCallBack){
                 this.store.save({
                     onComplete : function(){
@@ -380,7 +391,6 @@ require([
                     }
                 });
             },
-
             deleteProject : function (project, callBack, errorCallBack){
                 this.store.deleteItem(project);
                 this.store.save({
@@ -392,7 +402,6 @@ require([
                         errorCallBack();
                     }
                 });
-                
             },
             addProject : function(project, callBack, errorCallBack){
                 this.store.newItem(project);
@@ -405,10 +414,6 @@ require([
                         errorCallBack();
                     }
                 });
-            },
-
-            getProjectNameCallBack : function (){
-
             }
         };
 
@@ -454,18 +459,15 @@ require([
                     }
                 });
             }
- 
         };
 
         var saveComputationManager = {
             store : new JsonRestStore({
                 target : "/saveComputation/list"
             }),
-
             getStore : function () {
                 return this.store;
             },
-
             getSaveComputationByDate : function (startDate, endDate, ammeterName, callBack, errorCallBack) {
                 this.store.fetch({
                     "query" : {
@@ -484,19 +486,15 @@ require([
             store : new JsonRestStore({
                 target : "/scr/list"
             }),
-
             jsonRest : new JsonRest({
                 target : "scr/list"
             }),
-
             getStore : function () {
                 return this.store;
             },
-
             getJsonRest : function () {
                 return this.jsonRest;
             },
-
             addSaveComputationRecord : function (saveComputation, callBack, errorCallBack) {
                 this.store.newItem(saveComputation);
                 this.store.save({
@@ -509,7 +507,6 @@ require([
                     }
                 });
             },
-
             getSaveComputationRecord : function (callBack, errorCallBack) {
                 this.store.fetch({
                     "query" : {},
@@ -519,7 +516,6 @@ require([
                     }
                 });
             }
-
             // getRealCost : function (callBack, errorCallBack) {
             //     getValue("realCost", callBack, errorCallBack);
             // },
@@ -560,6 +556,7 @@ require([
                 this.store.save({
                     onComplete : function () {
                         callBack();
+                        topic.publish("gprs", "update");
                     },
                     onError : function () {
                         errorCallBack();
@@ -576,15 +573,92 @@ require([
                         errorCallBack();
                     }
                 }); 
+            },
+            saveGPRS : function (callBack, errorCallBack) {
+                this.store.save({
+                    onComplete : function () {
+                        callBack();
+                        topic.publish("updateGPRS", "gprsUpdated");
+                    },
+                    onError : function () {
+                        errorCallBack();
+                    }
+                });
+            },
+            deleteGPRS : function (gprs, callBack, errorCallBack) {
+                this.store.deleteItem(gprs);
+                this.store.save({
+                    onComplete : function(){
+                        callBack();
+                        topic.publish("updateGPRS", "gprsUpdated");
+                    },
+                    onError : function(){
+                        errorCallBack();
+                    }
+                });
             }
+        };
 
+        var ammeterGPRSManager = {
+            store : new JsonRestStore({
+                target : "/ammetergprs/list"
+            }),
+            getStore : function () {
+                return this.store;
+            },
+            addAmmeterGPRS :function (gprsAmmeterLink, callBack, errorCallBack) {
+                this.store.newItem(gprsAmmeterLink);
+                this.store.save({
+                    onComplete : function () {
+                        callBack;
+                        topic.publish ("ammetergprs", "update");
+                    },
+                    onError : function () {
+                        errorCallBack()
+                    }
+                });
+            },
+            
+            getAmmeterGPRS : function (callBack, errorCallBack) {
+                this.store.fetch({
+                    "query" : {},
+                    onComplete : function (ammeterGPRSLinks){
+                        callBack(ammeterGPRSLinks);
+                    },
+                    onError : function () {
+                        errorCallBack();
+                    }
+                });
+            },
+
+            saveAmmeterGPRS : function (callBack, errorCallBack) {
+                this.store.save({
+                    onComplete : function () {
+                        callBack();
+                        topic.publish("ammetergprs", "gprsUpdated");
+                    },
+                    onError : function () {
+                        errorCallBack();
+                    }
+                });
+            },
+            deleteGPRS : function (ammetergprs, callBack, errorCallBack) {
+                this.store.deleteItem(ammetergprs);
+                this.store.save({
+                    onComplete : function(){
+                        callBack();
+                        topic.publish("ammetergprs", "gprsUpdated");
+                    },
+                    onError : function(){
+                        errorCallBack();
+                    }
+                });
+            }
         };
 
         var constructors = {
-
             CompanyPaneConstructor : function(){
                 var construtCompanyGrid = function construtCompanyGrid() {
-                    
                     companyGrid = new EnhancedGrid({
                         store: companyManager.getStore(),
                         autoWidth: true,
@@ -606,9 +680,7 @@ require([
                             "id" : "*"
                         });
                     });
-
                 }
-
                 if (!companyPaneConstruted) {
                     if (typeof companyPane != "undefined") {
                         tabContainer.addChild(companyPane, 0);
@@ -620,7 +692,6 @@ require([
                     tabContainer.selectChild(companyPane);
                 }
             },
-
             CreateProjectDialogConstructor : function (companyName){
                 if(request){
                     request.ammetersForProject = [];
@@ -667,19 +738,16 @@ require([
                     createProjectForCompanyDialog.show();
                 }
             },
-
             ProjectPaneConstructor : function (projectPaneName, companyId){
-
                 projectPaneName = projectPaneName || "项目管理";
-
                 var paneNode = dijit.byId(projectPaneName);
                 if(paneNode){
-                    paneGrid = dijit.byId(projectPaneName + "Grid");
+                    var paneGrid = dijit.byId(projectPaneName + "Grid");
                     if(paneGrid){
                         paneGrid.setQueryAfterLoading({"id" : "*"}); 
-                    //tabContainer.addChild(paneNode);
-                    tabContainer.selectChild(dijit.byId(paneNode));
-                    return ;
+                        //tabContainer.addChild(paneNode);
+                        tabContainer.selectChild(dijit.byId(paneNode));
+                        return ;
                     }
                 }else{
                     paneNode = constructNewPane(projectPaneName, projectPaneName, "width: 100%;",tabContainer);
@@ -690,7 +758,6 @@ require([
                     document.getElementById(paneNode).appendChild(newAddButtonNode);
                     //construt add button
                     var add_project_btn = new Button({
-
                         label: "新建",
                         onClick: function() {
                             constructors.CreateProjectDialogConstructor(companyId);                                                                                    
@@ -710,50 +777,43 @@ require([
                     if(companyId){
                         newGrid.setQueryAfterLoading({
                             "companyId" : companyId
+                        });
+                        topic.subscribe("updateProject", function(text){
+                            newGrid.setQueryAfterLoading({"companyId" : companyId}); 
+                        });  
+                    }else{
+                        topic.subscribe("updateProject", function(text){
+                            newGrid.setQueryAfterLoading({"id" : "*"}); 
                         });  
                     }
-
                     //save btn
                     var saveButtonNodeId = paneNode + "SaveButton";
                     var newSaveButtonNode = document.createElement("div");
                     newSaveButtonNode.setAttribute("id", saveButtonNodeId);
                     document.getElementById(paneNode).appendChild(newSaveButtonNode);
-
                     var saveProjectBtn = new Button({
-
                         label: "保存",
                         onClick: function() {
                             var saveProjectSuccessCallBack = function () {
-
                             };
-
                             var saveProjectErrorCallBack = function() {
-
                             };
-
-                            projectManager.saveProject(saveProjectSuccessCallBack, saveProjectErrorCallBack);                                                                                    
+                            projectManager.saveProject(saveProjectSuccessCallBack, saveProjectErrorCallBack);
                         }
                     }, saveButtonNodeId);
                     saveProjectBtn.startup();
-
                     //delete btn
                     var deleteButtonNodeId = paneNode + "DeleteButton";
                     var newDeleteButtonNode = document.createElement("div");
                     newDeleteButtonNode.setAttribute("id", deleteButtonNodeId);
                     document.getElementById(paneNode).appendChild(newDeleteButtonNode);
-
                     var deleteProjectBtn = new Button({
-
                         label: "删除",
                         onClick: function() {
                             var deleteProjectSuccessCallBack = function () {
-
                             };
-
                             var deleteProjectErrorCallBack = function() {
-
                             };
-
                             var projectGrid = registry.byId(gridNodeId);
                             var projectSelected = projectGrid.selection.getSelected();
                             if (projectSelected.length) {
@@ -764,18 +824,95 @@ require([
                         }
                     }, deleteButtonNodeId);
                     saveProjectBtn.startup();
-
-                    topic.subscribe("updateProject", function(text){
-                        newGrid.setQueryAfterLoading({"id" : "*"}); 
-                    });
-
+                    
                 }
             },
+            GPRSPaneConstructor : function (gprsName) {
+                var gprsName = gprsName || "GPRS模块管理";
+                var paneNode = dijit.byId(gprsName);
+                if(paneNode){
+                    var paneGrid = dijit.byId(gprsName + "Grid");
+                    if(paneGrid){
+                        paneGrid.setQueryAfterLoading({"id" : "*"});
+                        tabContainer.selectChild(dijit.byId(paneNode));
+                        return ;
+                    }
+                }else{
+                    paneNode = constructNewPane(gprsName, gprsName, "width: 100%;",tabContainer);
+                    //create button node
+                    var addButtonNodeId = paneNode + "AddButton";
+                    var newAddButtonNode = document.createElement("div");
+                    newAddButtonNode.setAttribute("id", addButtonNodeId);
+                    document.getElementById(paneNode).appendChild(newAddButtonNode);
+                    //construt add button
+                    var addGPRSBtn = new Button({
+                        label: "新建",
+                        onClick: function() {
+                            constructors.CreateGPRSDialogConstructor();
+                        }
+                    }, addButtonNodeId);
+                    addGPRSBtn.startup();
+                    //create close tab button
+                    constructCloseTabBtn(paneNode);
+                    //create grid node
+                    var gridNodeId = paneNode + "Grid";
+                    var newGridNode = document.createElement("div");
+                    document.getElementById(paneNode).appendChild(newGridNode);
+                    newGridNode.setAttribute("id", gridNodeId);
+                    newGridNode.setAttribute("style", "height:400px;");
+                    var newGridLayout = layouts.gprsGridLayout;
+                    var newGrid = constructNewGridForPane(gridNodeId, newGridLayout, gprsManager.getStore());
+                    //save btn
+                    var saveButtonNodeId = paneNode + "SaveButton";
+                    var newSaveButtonNode = document.createElement("div");
+                    newSaveButtonNode.setAttribute("id", saveButtonNodeId);
+                    document.getElementById(paneNode).appendChild(newSaveButtonNode);
+                    var saveGPRSBtn = new Button({
+                        label: "保存",
+                        onClick: function() {
+                            var saveGPRSSuccessCallBack = function () {
+                            };
+                            var saveGPRSErrorCallBack = function() {
+                            };
+                            gprsManager.saveGPRS(saveGPRSSuccessCallBack, saveGPRSErrorCallBack);
+                        }
+                    }, saveButtonNodeId);
+                    saveGPRSBtn.startup();
+                    //delete btn
+                    var deleteButtonNodeId = paneNode + "DeleteButton";
+                    var newDeleteButtonNode = document.createElement("div");
+                    newDeleteButtonNode.setAttribute("id", deleteButtonNodeId);
+                    document.getElementById(paneNode).appendChild(newDeleteButtonNode);
+                    var deleteGPRSBtn = new Button({
+                        label: "删除",
+                        onClick: function() {
+                            var deleteGPRSSuccessCallBack = function () {
+                            };
+                            var deleteGPRSErrorCallBack = function() {
+                            };
+                            var gprsGrid = registry.byId(gridNodeId);
+                            var gprsSeleted = gprsGrid.selection.getSelected();
+                            if (gprsSeleted.length) {
+                                for (var key in gprsSeleted) {
+                                    gprsManager.deleteGPRS(gprsSeleted[key], deleteGPRSSuccessCallBack(), deleteGPRSErrorCallBack);
+                                }
+                            };
+                        }
+                    }, deleteButtonNodeId);
+                    deleteGPRSBtn.startup();
 
-            AmmeterPaneConstructor : function (ammeterPaneName, projectId){
-
+                    topic.subscribe("updateGPRS", function(text){
+                        newGrid.setQueryAfterLoading({"id" : "*"});
+                    });
+                }
+            },
+            CreateGPRSDialogConstructor : function () {
+                registry.byId("createGPRSDialog").show();
+            },
+            AmmeterPaneConstructor : function (ammeterPaneName, projectId, gprsId){
+                console.log("projectId" + projectId);
+                console.log("gprsId" + gprsId);
                 ammeterPaneName = ammeterPaneName || "电表管理";
-
                 var paneNode = dijit.byId(ammeterPaneName);
                 if(paneNode){
                     var paneGrid = dijit.byId(ammeterPaneName+"Grid");
@@ -798,10 +935,8 @@ require([
                         }
                     }, addButtonNodeId);
                     add_ammeter_btn.startup();
-                    
                     //create close tab button
                     constructCloseTabBtn(paneNode);
-
                     //create grid node
                     var gridNodeId = paneNode + "Grid";
                     var newGridNode = document.createElement("div");
@@ -814,35 +949,38 @@ require([
                         newGrid.setQueryAfterLoading({
                             "projectId" : projectId
                         });
-                    }
-
-                    topic.subscribe("updateAmmeter", function(text){
-                        newGrid.setQueryAfterLoading({"id" : "*"}); 
-                    });
-
+                        topic.subscribe("updateAmmeter", function(text){
+                            newGrid.setQueryAfterLoading({"projectId" : projectId}); 
+                        });
+                    } else if (gprsId){
+                        newGrid.setQueryAfterLoading({
+                            "gprsId" : gprsId
+                        });
+                        topic.subscribe("updateAmmeter", function(text){
+                            newGrid.setQueryAfterLoading({"gprsId" : gprsId}); 
+                        });
+                    } else {
+                        topic.subscribe("updateAmmeter", function(text){
+                            newGrid.setQueryAfterLoading({"id" : "*"}); 
+                        });
+                    } 
+                    
                     //save btn
                     var saveButtonNodeId = paneNode + "SaveButton";
                     var newSaveButtonNode = document.createElement("div");
                     newSaveButtonNode.setAttribute("id", saveButtonNodeId);
                     document.getElementById(paneNode).appendChild(newSaveButtonNode);
-
                     var saveAmmeterBtn = new Button({
-
                         label: "保存",
                         onClick: function() {
                             var saveAmmeterSuccessCallBack = function () {
-
                             };
-
                             var saveAmmeterErrorCallBack = function() {
-
                             };
-
-                            ammeterManager.saveAmmeter(saveAmmeterSuccessCallBack, saveAmmeterErrorCallBack);                                                                                    
+                            ammeterManager.saveAmmeter(saveAmmeterSuccessCallBack, saveAmmeterErrorCallBack);
                         }
                     }, saveButtonNodeId);
                     saveAmmeterBtn.startup();
-
                     //delete btn
                     var deleteButtonNodeId = paneNode + "DeleteButton";
                     var newDeleteButtonNode = document.createElement("div");
@@ -940,7 +1078,7 @@ require([
                     var ammeterGPRSCombo = new ComboBox({
                         id: "ammeterGPRSCombo",
                         name: "name",
-                        // value: companyName,
+                        value: "",
                         store: gprsManager.getStore(),
                         searchAttr: "name"
                     }, "ammeterGPRSCombo");
@@ -978,7 +1116,8 @@ require([
                     var save_button = new Button({
                         label: "保存",
                         onClick: function() {
-                            userDataStore.save();
+                            userManager.saveUser();
+                            // userDataStore.save();
 
                         }
                     }, "user_save_button");
@@ -1068,7 +1207,6 @@ require([
                         }
                     }, "add_up_btn");
                     add_up_btn.startup();
-
                     //construt delete button
                     var up_delete_button = new Button({
                         label: "删除",
@@ -1120,6 +1258,96 @@ require([
                     }
                 } else {
                     tabContainer.selectChild(upPane);
+                }
+            },
+
+            AmmeterGPRSPaneConstructor : function () {
+
+                var agGrid;
+
+                var construtAGGrid = function construtagGrid() {
+                    agGrid = constructNewGridForPane("ag_grid", layouts.agGridLayout, ammeterGPRSManager.getStore());
+                    topic.subscribe("ammetergprs",function (text) {
+                        agGrid.setQueryAfterLoading({
+                            "id" : "*"
+                        });
+                    });
+                };
+
+                var constructAGBtns = function constructAGBtns(){
+                    //construt add button
+                    var add_ag_btn = new Button({
+
+                        label: "新建",
+                        onClick: function() {
+                            console.log(dijit.byId("ammeterForAGCombo").get("value"));
+                            var ammeterGPRS = {
+                                ammeterName: dijit.byId("ammeterForAGCombo").get("value"),
+                                gprsName: dijit.byId("gprsForAGCombo").get("value")
+                            };
+
+                            var addAmmeterGPRSSuccCallBack = function () {
+
+                            };
+                            var addAmmeterGPRSErrorCallBack = function () {
+
+                            };
+                            ammeterGPRSManager.addAmmeterGPRS(ammeterGPRS, addAmmeterGPRSSuccCallBack, addAmmeterGPRSErrorCallBack);
+                            
+                        }
+                    }, "add_ag_btn");
+                    add_ag_btn.startup();
+                    //construt delete button
+                    var ag_delete_button = new Button({
+                        label: "删除",
+                        onClick: function() {
+                            var ag_selected = agGrid.selection.getSelected();
+                            if (ag_selected.length) {
+                                for (var i = 0; i < ag_selected.length; i++) {
+                                    var deleteAmmeterGPRSSuccCallBack = function () {
+
+                                    };
+                                    var deleteAmmeterGPRSErrorCallBack = function () {
+
+                                    };
+                                    projectUserManager.deleteProjectUser(ag_selected[i], deleteAmmeterGPRSSuccCallBack, deleteAmmeterGPRSErrorCallBack);
+                                }
+                            }
+                        }
+                    }, "ag_delete_button");
+                    ag_delete_button.startup();
+                };
+            
+                var constructAmmeterGPRSForAGCombo = function constructAmmeterGPRSForagCombo() {
+                    
+                    var ammeterForAGCombo = new ComboBox({
+                        id: "ammeterForAGCombo",
+                        name: "ammeter",
+                        value: "",
+                        store: ammeterManager.getStore(),
+                        searchAttr: "name"
+                    }, "ammeterForAGCombo");
+
+                    var gprsForAGCombo = new ComboBox({
+                        id: "gprsForAGCombo",
+                        name: "gprs",
+                        value: "",
+                        store: gprsManager.getStore(),
+                        searchAttr: "name"
+                    }, "gprsForAGCombo");
+                };
+
+                if (!agPaneConstruted) {
+                    if (typeof agPane != "undefined") {
+                        tabContainer.addChild(agPane, 0);
+                        tabContainer.selectChild(agPane);
+                        construtAGGrid();
+                        constructAGBtns();
+                        constructAmmeterGPRSForAGCombo();
+                        agPaneConstruted = true;
+                    }
+                } else {
+                    tabContainer.selectChild(agPane);
                 }
             },
 
@@ -1451,6 +1679,18 @@ require([
                 });
             },
 
+            gprsGridOptFormatter : function(gprsId){
+                return new Button({
+                    label:"查看电表",
+                    onClick: function() {
+
+                        var ammeterPaneName = "GPRS编号" + gprsId + "的电表";
+                        constructors.AmmeterPaneConstructor(ammeterPaneName, null, gprsId);
+                        
+                    }
+                });
+            },
+
             companyGridOptFormatter : function(companyId){
                 return new Button({
                     label:"查看项目",
@@ -1475,6 +1715,31 @@ require([
                             "id" : "*"
                         });
 
+                    }
+                });
+            },
+
+            userGridOptFormatter: function (id) {
+                return new Button({
+                    label : "修改密码",
+                    onClick : function () {
+                        registry.byId("modifyPasswordDialog").show();
+                        var modifyPasswordFun = function modifyPasswordFun() {
+                            xhr.get({
+                                url: "/user/list/"+id+"/"+registry.byId("newPassword").value,
+                                timeout: 3000,
+                                // give up after 3 seconds
+                                handleAs: "json",
+                                load: function() {
+                                    alert("修改成功！");
+                                }
+                            });
+                        };
+
+                        on(registry.byId("modifyPasswordBtn"), "click", function () {
+                            modifyPasswordFun();
+                            registry.byId("modifyPasswordDialog").hide();
+                        });
                     }
                 });
             }
@@ -1513,6 +1778,13 @@ require([
                 field: "project",
                 width: user_cell_width + "px",
                 editable: false
+            }, {
+                name: "操作",
+                field: "id",
+                 width: project_cell_width,
+                type: dojox.grid.cells._Widget,
+                editable: false,
+                formatter: formatters.userGridOptFormatter
             }
 
             ],
@@ -1551,13 +1823,13 @@ require([
                     },{
                         name: "项目名", field: "projectName"
                     },{
-                        name: "日期", field: "startDate",  formatter: formatters.dateFormatter,
+                        name: "日期", field: "startDate",  formatter: formatters.dateFormatter
                     },{
                         name: "累时器值", field: "startTimeSum"
                     },{
                         name: "电表度数", field: "startValue"
                     },{
-                        name: "日期", field: "endDate",  formatter: formatters.dateFormatter,
+                        name: "日期", field: "endDate",  formatter: formatters.dateFormatter
                     },{
                         name: "累时器值", field: "endTimeSum"
                     },{
@@ -1632,6 +1904,33 @@ require([
             }, {
                 name: "用户名称",
                 field: "userName",
+                width: up_cell_width + "px",
+                canSort: true
+            }],
+
+            agGridLayout : [{
+                name: "编号",
+                field: "id",
+                width: up_cell_width * 0.2 + "px",
+                canSort: true
+            }, {
+                name: "电表编号",
+                field: "ammeterId",
+                width: up_cell_width + "px",
+                canSort: true
+            },  {
+                name: "电表名称",
+                field: "ammeterName",
+                width: up_cell_width + "px",
+                canSort: true
+            },  {
+                name: "GPRS编号",
+                field: "gprsId",
+                width: up_cell_width + "px",
+                canSort: true
+            }, {
+                name: "GPRS名称",
+                field: "gprsName",
                 width: up_cell_width + "px",
                 canSort: true
             }],
@@ -1738,9 +2037,32 @@ require([
                 type: dojox.grid.cells._Widget,
                 editable: false,
                 formatter: formatters.companyGridOptFormatter
+            }],
+
+            gprsGridLayout : [{
+                name: "GPRS编号",
+                field: "id",
+                width: gprs_cell_width,
+                canSort: true
+            },{
+                name: "GPRS名称",
+                field: "name",
+                width: gprs_cell_width,
+                canSort: true
+            },{
+                name: "GPRS识别码",
+                field: "identifier",
+                width: gprs_cell_width,
+                canSort: true
+            },{
+                name: "操作",
+                field: "id",
+                 width: project_cell_width,
+                type: dojox.grid.cells._Widget,
+                editable: false,
+                formatter: formatters.gprsGridOptFormatter
             }]
         };
-                
         //project ammeter pane
         construtPAPane = function construtPAPane() {
             var construtPAGrid = function construtPAGrid() {
@@ -2353,24 +2675,11 @@ require([
         var newProjectDialogAddBtn = dijit.byId("newProjectDialogAddBtn");
         if(newProjectDialogAddBtn){
             on(newProjectDialogAddBtn, "click", function(){
-            	
-            	if(registry.byId("createNewCompanyRadio").checked){
-            		var companyName = registry.byId(projectCompanyTextBox).value;
-                    var company = {"companyName" : companyName};
-                    var addCompanySuccessCallBack = function (company) {
-                        addProject();
-                    };
-                    var addCompanyErrorCallBack = function (error) {
 
-                    };
-                    companyManager.addCompany(company, addCompanySuccessCallBack, addCompanyErrorCallBack);
-            	}else{
-                    addProject();
+                if(registry.byId("selectExistingCompanyradio").checked){
+                    var companyName = registry.byId("projectCompanyCombo").value;                   
                 }
             	
-            	if(registry.byId("selectExistingCompanyradio").checked){
-            		var companyName = registry.byId("projectCompanyCombo").value;            		
-            	}
                 var projectName = dom.byId("forCompanyProjectName").value;
                 var addProject = function(){
                     var addProjectSuccessCallBack = function () {
@@ -2446,7 +2755,23 @@ require([
                         request.usersForProject = [];
                     }
                 };
-    
+
+            	if(registry.byId("createNewCompanyRadio").checked){
+            		var companyName = registry.byId(projectCompanyTextBox).value;
+                    var company = {"companyName" : companyName};
+                    var addCompanySuccessCallBack = function (company) {
+                        addProject();
+                    };
+                    var addCompanyErrorCallBack = function (error) {
+
+                    };
+                    companyManager.addCompany(company, addCompanySuccessCallBack, addCompanyErrorCallBack);
+            	}else{
+                    addProject();
+                }
+            	
+            	
+               
                 registry.byId("createProjectForCompanyDialog").hide();
             });
         }
@@ -2565,6 +2890,13 @@ require([
             });
         }
 
+        var showCreateUserDialogBtn = registry.byId("showCreateUserDialogBtn");
+        if(showCreateUserDialogBtn){
+            on(showCreateUserDialogBtn, "click", function () {
+                registry.byId("createUserDialog").show();
+            });
+        }
+
 
         var userMultiSelectRightBtn = registry.byId("AmmeterMultiSelectRightBtn");
         if(AmmeterMultiSelectRightBtn){
@@ -2602,22 +2934,53 @@ require([
         var createAmmeterDialogAddBtn = registry.byId("createAmmeterDialogAddBtn");
         if (createAmmeterDialogAddBtn) {
             on(createAmmeterDialogAddBtn, "click", function(){
-                var ammeter = {
-                    name: dom.byId("ammeterName").value,
-                    pumpName: dom.byId("pumpName").value,
-                    projectName: dom.byId("ammeterProject").value,
-                    sensorRate: dom.byId("sensorRate").value,
-                    formerCost: dom.byId("formerCost").value,
-                    upperLimit: dom.byId("upperLimit").value,
-                    lowerLimit: dom.byId("lowerLimit").value
-                };
-                var addAmmeterSuccCallBack = function () {
-                    registry.byId("createAmmeterDialog").hide();
-                };
-                var addAmmeterErrorCallBack = function () {
+                
 
+                if(registry.byId("createNewGPRSRadio").checked){
+                    var gprsName = registry.byId("ammeterGPRSNameTextBox").value;
+                    var gprsIdentifer = registry.byId("ammeterGPRSIdentifierTextBox").value;
+
+                    var gprsModule = {
+                      name : gprsName,
+                      identifier : gprsIdentifer
+                    };
+
+                    var addGprsSuccCallBack = function () {
+                        var ammeter = {
+                            name: dom.byId("ammeterName").value,
+                            pumpName: dom.byId("pumpName").value,
+                            projectName: dom.byId("ammeterProject").value,
+                            sensorRate: dom.byId("sensorRate").value,
+                            formerCost: dom.byId("formerCost").value,
+                            upperLimit: dom.byId("upperLimit").value,
+                            lowerLimit: dom.byId("lowerLimit").value
+                        };
+                        var addAmmeterSuccCallBack = function () {
+                            var ammeterGPRS = {
+                                ammeterName: ammeter.name,
+                                gprsName: gprsModule.name,
+                            };
+
+                            var addAmmeterGPRSSuccCallBack = function () {
+
+                            };
+                            var addAmmeterGPRSErrorCallBack = function () {
+
+                            };
+                            ammeterGPRSManager.addAmmeterGPRS(ammeterGPRS, addAmmeterGPRSSuccCallBack, addAmmeterGPRSErrorCallBack);
+                            registry.byId("createAmmeterDialog").hide();
+                        };
+                        var addAmmeterErrorCallBack = function () {
+
+                        }
+                        ammeterManager.addAmmeter(ammeter, addAmmeterSuccCallBack, addAmmeterErrorCallBack);
+                    };
+
+                    var addGprsErrorCallBack = function () {
+
+                    };
+                    gprsManager.addGPRS(gprsModule, addGprsSuccCallBack, addGprsErrorCallBack);
                 }
-                ammeterManager.addAmmeter(ammeter, addAmmeterSuccCallBack, addAmmeterErrorCallBack);
             });
         }
 
@@ -2685,6 +3048,13 @@ require([
                 }, "ammeterGPRSCombo");
             })
         }
+
+        var createGPRSDialogCancelBtn = registry.byId("createGPRSDialogCancelBtn");
+        if(createGPRSDialogCancelBtn) {
+            on(createGPRSDialogCancelBtn, "click", function () {
+                registry.byId("createGPRSDialog").hide();
+            });
+        }
         //User Creation Dialog Event
         var createUserDialogAddBtn = registry.byId("createUserDialogAddBtn");
         if(createUserDialogAddBtn){
@@ -2697,31 +3067,21 @@ require([
                 };
                 var addUserSuccCallBack = function () {
                     registry.byId("createUserDialog").hide();
-                    
                 };
                 var addUserErrorCallBack = function () {
-
                 };
                 userManager.addUser(user, addUserSuccCallBack, addUserErrorCallBack);
             });
         }
-
         //save computation events
         var saveComputationBtn = registry.byId("saveComputationBtn");
         if(saveComputationBtn){
             on(saveComputationBtn, "click", function(){
-
                 var saveComputationDialog = registry.byId("saveComputationDialog");
                 var saveComputationStartDate = dom.byId("saveComputationStartDate").value;
                 var saveComputationEndDate = dom.byId("saveComputationEndDate").value;
                 var saveComputationAmmeter = registry.byId("saveComputationAmmeter").value;
-                // var targetUrl = "/saveComputation/list/startDate/saveComputationStartDate/endDate/saveComputationEndDate";
-                
                 var getSaveComputationByDateSucc = function getSaveComputationByDateSucc (saveComputation) {
-
-                    console.log(saveComputation);
-                    // console.log(savecomputations[0].ammeterName);
-
                     registry.byId("saveComputationDialogAmmeterName").set("value", saveComputation.ammeterName);
                     registry.byId("saveComputationDialogProjectName").set("value", saveComputation.projectName);
                     registry.byId("saveComputationDialogStartDate").set("value", saveComputation.startDate);
@@ -2741,17 +3101,11 @@ require([
                     registry.byId("saveComputationDialogPartsRatio").set("value", saveComputation.partsRatio);
                     registry.byId("saveComputationDialogTheOtherPartyBouns").set("value", saveComputation.theOtherPartyBouns);
                     registry.byId("saveComputationDialogThePartyBonus").set("value", saveComputation.thePartyBonus);
-
                     console.log(registry.byId("saveComputationDialogAmmeterName").value);
                     saveComputationDialog.show();
-
-
                 };
-
                 var getSaveComputationByDateErr = function getSaveComputationByDateErr () {
-
                 };
-
                 saveComputationManager.getSaveComputationByDate(saveComputationStartDate, saveComputationEndDate, saveComputationAmmeter, getSaveComputationByDateSucc, getSaveComputationByDateErr);
 
                 // stores.constructSaveComputationStore = new JsonRestStore({
@@ -2789,24 +3143,39 @@ require([
                     theOtherPartyBouns : registry.byId("saveComputationDialogTheOtherPartyBouns").value,
                     thePartyBonus : registry.byId("saveComputationDialogThePartyBonus").value,
                 };
-
                 var addSaveComputationRecordSucc = function () {
                     registry.byId("saveComputationDialog").hide();
                 };
-
                 var addSaveComputationRecordErr = function () {
                     registry.byId("saveComputationDialog").hide();
-                }
-
+                };
                 saveComputationRecordManager.addSaveComputationRecord(saveComputationRecord, addSaveComputationRecordSucc, addSaveComputationRecordErr);
                 console.log(registry.byId("saveComputationDialogAmmeterName").value);
-
             });
         }
 
+        //create gprs module dialog events
+        var createGPRSDialogAddBtn = registry.byId("createGPRSDialogAddBtn");
+        if(createGPRSDialogAddBtn) {
+            on(createGPRSDialogAddBtn, "click", function () {
+                var gprsModule = {
+                  name : dom.byId("gprsName").value,
+                  identifier : dom.byId("gprsIdentifer").value
+                };
+
+                var addGprsSuccCallBack = function () {
+                    registry.byId("createGPRSDialog").hide();
+                };
+
+                var addGprsErrorCallBack = function () {
+
+                };
+                gprsManager.addGPRS(gprsModule, addGprsSuccCallBack, addGprsErrorCallBack);
+            });
+
+            
+        }
         //save computation record chart event
-
-
         //deal with Menu active
         var activeMenuItem = function activeMenuItem(menuItem){
         	if(activedMenuItem){
@@ -2890,8 +3259,25 @@ require([
                 constructors.ProjectUserPaneConstructor();
             });
         }
-        
-        
+
+        var gprsMenuItem = dojo.byId("gprsMenuItem");
+        if (gprsMenuItem) {
+            on(gprsMenuItem, "click", function () {
+               var gprsMenuItemBtn = dojo.byId("gprsMenuItemBtn");
+                activeMenuItem(gprsMenuItemBtn);
+                constructors.GPRSPaneConstructor();
+            });
+        }
+
+        var ammeterGprsMenuItem = dojo.byId("ammeterGprsMenuItem");
+        if (ammeterGprsMenuItem) {
+            on(ammeterGprsMenuItem, "click", function () {
+               var ammeterGprsMenuItemBtn = dojo.byId("ammeterGprsMenuItemBtn");
+                activeMenuItem(ammeterGprsMenuItemBtn);
+                constructors.AmmeterGPRSPaneConstructor();
+            });
+        }
+
         var saveComputationMenuItem = dojo.byId("saveComputationMenuItem");
         if(saveComputationMenuItem){
             on(saveComputationMenuItem, "click", function(){
@@ -2955,7 +3341,6 @@ require([
                 className: "seven",
                 style: {fontWeight: "bold"}
             });
-
             dom.byId("AddedAmmeterMultiSelect").appendChild(option);
             }
         });
@@ -2968,7 +3353,6 @@ require([
                     className: "seven",
                     style: {fontWeight: "bold"}
                 });
-
                 dom.byId("addedUsersMultiSelect").appendChild(option);
             }
         });
@@ -2988,8 +3372,6 @@ require([
 
         		ammeterAddedMultiSelect.appendChild(option);
         	}
-        	
-        	
         });
 
         topic.subscribe("updateProjectUser", function (text) {
@@ -3005,7 +3387,6 @@ require([
             }
 
         });
-
         constructLastAmmeterStatusPane();
     });
 });

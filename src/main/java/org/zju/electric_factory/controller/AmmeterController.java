@@ -53,8 +53,7 @@ public class AmmeterController {
 	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/list", headers = "Accept=application/json")
-	public @ResponseBody
-	List<Ammeter> listAmmeters() {
+	public @ResponseBody List<Ammeter> listAmmeters() {
 		boolean userHasAdminRole = false;
 		
 		User currentUser = userManager.getCurrentUser();
@@ -297,6 +296,15 @@ public class AmmeterController {
 		List<Ammeter> ammeters = new ArrayList<Ammeter>();
 		if(null != projectId){
 			ammeters = ammeterManager.getAmmetersOwnByProject(Long.parseLong(projectId));
+		}
+		return ammeters;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/list/", headers = "Accept=application/json", params="gprsId")
+	public @ResponseBody List<Ammeter> listAmmetersByGPRSId(@RequestParam String gprsId){
+		List<Ammeter> ammeters = new ArrayList<Ammeter>();
+		if(null != gprsId){
+			ammeters = ammeterManager.getAmmeterByGPRSId(Long.parseLong(gprsId));
 		}
 		return ammeters;
 	}

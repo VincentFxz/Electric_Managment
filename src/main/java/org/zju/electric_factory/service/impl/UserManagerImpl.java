@@ -2,6 +2,8 @@ package org.zju.electric_factory.service.impl;
 
 import java.util.List;
 
+import javassist.expr.NewArray;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.slf4j.Logger;
@@ -74,6 +76,11 @@ public class UserManagerImpl implements UserManager {
 	@Override
 	public User getUserByUserName(String userName) {
 		return userDAO.findUser(userName);
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(new Sha256Hash("password").toHex());
+		System.out.println(Sha256Hash.fromHexString(new Sha256Hash("password").toHex()));
 	}
 
 }

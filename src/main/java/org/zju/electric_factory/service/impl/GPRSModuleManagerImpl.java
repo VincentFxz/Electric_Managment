@@ -25,6 +25,7 @@ public class GPRSModuleManagerImpl implements GPRSModuleManager
 
     @Override
     public List<GPRSModule> getGPRSModules() throws Exception {
+        List<GPRSModule> gprsModules =  gprsModuleDAO.getAllGPRSModules();
         return gprsModuleDAO.getAllGPRSModules();
     }
 
@@ -36,5 +37,11 @@ public class GPRSModuleManagerImpl implements GPRSModuleManager
     @Override
     public void editGPRSModule(GPRSModule gprsModule) throws Exception {
         //To change body of implemented methods use File | Settings | File Templates.
+        gprsModuleDAO.save(gprsModule);
+    }
+    
+    @Override
+    public void add(GPRSModule gprsModule) throws Exception {
+        gprsModuleDAO.save(gprsModule);
     }
 }

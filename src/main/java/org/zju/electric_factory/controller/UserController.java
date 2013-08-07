@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.zju.electric_factory.dao.impl.UserDAOImpl;
+import org.zju.electric_factory.entity.Ammeter;
 import org.zju.electric_factory.entity.Company;
 import org.zju.electric_factory.entity.Project;
 import org.zju.electric_factory.entity.Role;
@@ -42,97 +45,127 @@ public class UserController {
 	private UserProjectLinkManager userProjectLinkManager;
 	@Autowired
 	private UserCompanyLinkManager userCompanyLinkManager;
+	@Autowired
+	private UserDAOImpl userDAOImpl;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/list", headers = "Accept=application/json")
-	public @ResponseBody List<UserVO> getUsers() {
+	public @ResponseBody
+	List<UserVO> getUsers() {
 		SecurityUtils.getSubject().getPrincipal();
 		List<User> users = userManager.getAllUsers();
 		List<UserVO> userVOs = new ArrayList<UserVO>();
-		for(User user : users){
-			UserVO userVo	= new UserVO();
+		for (User user : users) {
+			UserVO userVo = new UserVO();
 			Company company = companyManager.getCompanyByUserId(user.getId());
-			if(null != company){
+			if (null != company) {
 				userVo.setCompany(company.getCompanyName());
 			}
 			userVo.setUsername(user.getUsername());
 			userVo.setId(user.getId());
 			userVo.setEmail(user.getEmail());
 			StringBuilder sb = new StringBuilder();
-			for(Role role : user.getRoles()){
+			for (Role role : user.getRoles()) {
 				sb.append(role.getName());
 				sb.append(" ");
 			}
 			userVo.setRoles(sb.toString());
-			
-			List<Project> projectOwnByUserList = projectManager.getProjectsOwnByUser(user.getId());
+
+			List<Project> projectOwnByUserList = projectManager
+					.getProjectsOwnByUser(user.getId());
 			sb = new StringBuilder();
-			if(null != projectOwnByUserList&&(projectOwnByUserList.size()> 0)){
-				for(Project project : projectOwnByUserList){
+			if (null != projectOwnByUserList
+					&& (projectOwnByUserList.size() > 0)) {
+				for (Project project : projectOwnByUserList) {
 					sb.append(project.getProjectName());
 					sb.append(" ");
 				}
 				userVo.setProject(sb.toString());
-				
-				
+
 			}
 			userVOs.add(userVo);
 		}
 		return userVOs;
 	}
-	
-	@RequestMapping(method=RequestMethod.PUT,value="/list/{id}",headers ="Accept=application/json")
-    public @ResponseBody User updateUser(@PathVariable String id,@RequestBody User user){
-        userManager.updateUser(user);
-        return user;
-    }
-	
-	@RequestMapping(method=RequestMethod.GET, value="/list/{id}", headers="Accept=application/json")
-    public @ResponseBody User getUser(@PathVariable String id){
+
+//	@RequestMapping(method = RequestMethod.PUT, value = "/list/{id}", headers = "Accept=application/json")
+//	public @ResponseBody
+//	User updateUser(@PathVariable String id, @RequestBody User user) {
+//		userManager.updateUser(user);
+//		return user;
+//	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/list/{id}", headers = "Accept=application/json")
+	public @ResponseBody
+	User getUser(@PathVariable String id) {
 		return userManager.getUser(Long.parseLong(id));
-    }
-	
-	@RequestMapping(method=RequestMethod.POST,value="/add",headers="Accept=application/json")
-    public @ResponseBody UserVO addUser(UserVO userVO,String password){
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/add", headers = "Accept=application/json")
+	public @ResponseBody
+	UserVO addUser(UserVO userVO, String password) {
 		User user = new User();
 		user.setEmail(userVO.getEmail());
 		user.setUsername(userVO.getUsername());
 		user.setPassword(password);
 		userManager.createUser(user);
-		if(null != userVO.getProject()){
-			Project project = projectManager.getProjectByProjectName(userVO.getProject());
+		if (null != userVO.getProject()) {
+			Project project = projectManager.getProjectByProjectName(userVO
+					.getProject());
 			UserProjectLink userProjectLink = new UserProjectLink();
 			userProjectLink.setProjectId(project.getId());
 			userProjectLink.setUserId(user.getId());
 			userProjectLinkManager.add(userProjectLink);
 		}
-		
-		if(null != userVO.getCompany()){
-			Company company = companyManager.getCompanyByCompanyName(userVO.getCompany());
+
+		if (null != userVO.getCompany()) {
+			Company company = companyManager.getCompanyByCompanyName(userVO
+					.getCompany());
 			UserCompanyLink userCompanyLink = new UserCompanyLink();
 			userCompanyLink.setCompanyId(company.getId());
 			userCompanyLink.setUserId(user.getId());
 			userCompanyLinkManager.add(userCompanyLink);
 		}
 		return userVO;
-    }
-	
-	@RequestMapping(method=RequestMethod.POST,value="/list",headers="Accept=application/json")
-    public @ResponseBody User addUser(@RequestBody User user){
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/list", headers = "Accept=application/json")
+	public @ResponseBody
+	User addUser(@RequestBody User user) {
 		userManager.createUser(user);
 		return user;
-    }
+	}
 	
-	@RequestMapping(method=RequestMethod.DELETE, value="/list/{id}", headers="Accept=application/json")
-    public @ResponseBody boolean deleteUser(@PathVariable String id){
+	@RequestMapping(method = RequestMethod.GET, value = "/list/{userId}/{password}", headers = "Accept=application/json")
+	public @ResponseBody void modifyPassword(@PathVariable String userId, @PathVariable String password) {
+		User user = userDAOImpl.findUniqueBy("id", Long.parseLong(userId));
+		user.setPassword(new Sha256Hash(password).toHex());
+		userDAOImpl.save(user);
+	}
+
+	@RequestMapping(method = RequestMethod.DELETE, value = "/list/{id}", headers = "Accept=application/json")
+	public @ResponseBody
+	boolean deleteUser(@PathVariable String id) {
 		userManager.deleteUser(Long.parseLong(id));
 		return true;
-    }
-	
-	@RequestMapping(method=RequestMethod.PUT,value="/add",headers="Accept=application/json")
-    public @ResponseBody boolean putUser(UserVO userVO){
+	}
+
+	@RequestMapping(method = RequestMethod.PUT, value = "/add", headers = "Accept=application/json")
+	public @ResponseBody
+	boolean putUser(UserVO userVO) {
 		return true;
-    }
-	
-	
+	}
+
+	@RequestMapping(method = RequestMethod.PUT, value = "/list/{id}", headers = "Accept=application/json")
+	public @ResponseBody
+	User updateUser(@PathVariable String id, @RequestBody UserVO userVO) {
+		User user = userDAOImpl.findUniqueBy("id", userVO.getId());
+		user.setUsername(userVO.getUsername());
+		user.setEmail(userVO.getEmail());
+		Set<Role> roles = user.getRoles();
+		Role role = new Role(userVO.getRoles());
+		roles.add(role);
+		userDAOImpl.save(user);
+		return user;
+	}
 
 }

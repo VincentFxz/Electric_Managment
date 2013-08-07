@@ -105,4 +105,6 @@ public interface AmmeterManager {
     public List<Ammeter> getAmmetersOwnByProject(Long projectId);
     
     public List<Ammeter> getAmmetersOwnByCompany(Long companyId);
+    
+    public List<Ammeter> getAmmeterByGPRSId (Long gprsId);
 }

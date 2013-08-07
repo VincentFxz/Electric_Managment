@@ -13,7 +13,9 @@ import org.zju.electric_factory.dao.AmmeterDAO;
 import org.zju.electric_factory.dao.ProjectAmmeterLinkDAO;
 import org.zju.electric_factory.dao.UserCompanyLinkDAO;
 import org.zju.electric_factory.dao.UserProjectLinkDAO;
+import org.zju.electric_factory.dao.impl.AmmeterGPRSLinkDAOImpl;
 import org.zju.electric_factory.entity.Ammeter;
+import org.zju.electric_factory.entity.AmmeterGPRSLink;
 import org.zju.electric_factory.entity.ProjectAmmeterLink;
 import org.zju.electric_factory.entity.UserCompanyLink;
 import org.zju.electric_factory.entity.UserProjectLink;
@@ -33,6 +35,9 @@ public class AmmeterManagerImpl implements AmmeterManager{
     
     @Autowired
     private UserCompanyLinkDAO userCompanyLinkDAO;
+    
+    @Autowired
+    private AmmeterGPRSLinkDAOImpl ammeterGPRSLinkDAOImpl;
     
 
 	public void add(Ammeter ammeter) {
@@ -166,6 +171,17 @@ public class AmmeterManagerImpl implements AmmeterManager{
 	@Override
 	public void deleteAmmeterbyId(Long id) {
 		ammeterDAO.delete(id);
+	}
+
+	@Override
+	public List<Ammeter> getAmmeterByGPRSId(Long gprsId) {
+		List<Ammeter> ammeters = new ArrayList<Ammeter>();
+		List<AmmeterGPRSLink> ammeterGPRSLinks = ammeterGPRSLinkDAOImpl.findBy("gprsId", gprsId);
+		for(AmmeterGPRSLink ammeterGPRSLink : ammeterGPRSLinks){
+			Ammeter ammeter = ammeterDAO.get(ammeterGPRSLink.getAmmeterId());
+			ammeters.add(ammeter);
+		}
+		return ammeters;
 	}
 	
 

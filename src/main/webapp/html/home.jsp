@@ -5,7 +5,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>浙大智电</title>
+    <title>劲力节能</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -112,22 +112,25 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 </a>
-                <a class="brand" href="#">浙大智电</a>
+                <a class="brand" href="#">劲力节能</a>
                 <div class="nav-collapse">
                 <ul class="nav">
-                    <li class="active"><a href="#">主页</a></li>
+                    <li class="active"><a href="#">返回主页</a></li>
+                    <!--
+                    
                     <li><a href="#">关于我们</a></li>
                     <li><a href="#">联系方式</a></li>
+                -->
                 </ul>
                 <div class="btn-group pull-right">
-                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                    <a id="userStatusBtn" class="btn dropdown-toggle" data-toggle="dropdown" href="#" >
                     <i class="icon-user"></i> <shiro:principal />
                     <span class="caret"></span>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Profile</a></li>
+                    <ul id="userDropDown" class="dropdown-menu">
+                        <li><a href="/logout">切换用户</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Sign Out</a></li>
+                        <li><a href="/logout">退出</a></li>
                     </ul>
                 </div>
             </div><!-- /.nav-collapse -->
@@ -152,7 +155,11 @@
                         <li id="projectMenuItemBtn"><a id="projectMenuItem" href="#" >项目管理</a></li>
                         <li id = "paMenuItemBtn"><a id="paMenuItem" href="#" >项目电表管理</a></li>
                         <li id="puMenuItemBtn" ><a id="puMenuItem" href="#" >项目用户管理</a></li>
-                        
+
+                        <li class="nav-header">GPRS管理</li>
+                        <li id="gprsMenuItemBtn"><a id="gprsMenuItem" href="#" >GPRS管理</a></li>
+                        <li id="ammeterGprsMenuItemBtn"><a id="ammeterGprsMenuItem" href="#" >GPRS电表管理</a></li>
+
                         <li class="nav-header">电表管理</li>
                         <shiro:hasRole name="admin">  
                         <li id="ammeterMenuItemBtn"><a id="ammeterMenuItem" href="#">电表管理</a></li>
@@ -279,10 +286,42 @@
                             </div>
                         </div>
                         <!-- /up upne -->
+                        <div id = "agPane" data-dojo-type="dijit.layout.ContentPane" title="电表GPRS管理">
+                            <div id = "ag_grid_container" style = "width: 100%;" class = "claro">
+                                <shiro:hasRole name="admin">
+                                    <div data-dojo-type="dijit.form.DropDownButton">
+                                        <span>新建</span>
+                                        <div data-dojo-type="dijit.TooltipDialog" id="new_ag_dialog">
+                                            <form id="add_ag_form">
+                                            <div>
+                                                <strong><label class="add_form_label" for="ammeterForAGCombo">电表名</label></strong>
+                                                <input id="ammeterForAGCombo" />
+                                            </div>
+                                            <div>
+                                                <strong><label class="add_form_label" for="gprsForAGCombo">gprs名</label></strong>
+                                                <input id="gprsForAGCombo" />
+                                            </div>
+                                            <div>
+                                                <button id="add_ag_btn"></button>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </shiro:hasRole>    
+                                <!-- The Data Grid -->
+                                <br />
+                                <div id="ag_grid" class="claro" style="height:400px"></div>
+                                <!-- The Action Bar -->
+                                <div id="modify_bar" class="claro">
+                                    <button id="ag_delete_button"></button>
+                                </div>
+                            </div>
+                        </div>
 
                         <div id = "userPane" data-dojo-type="dijit.layout.ContentPane" title = "用户管理">
                             <div id="search_var">
-                                <!-- <div data-dojo-type="dijit.form.DropDownButton">
+                                <!--
+                                <div data-dojo-type="dijit.form.DropDownButton">
                                     <span>新建</span>
                                     
                                     <div data-dojo-type="dijit.TooltipDialog" id="new_user_dialog">
@@ -313,7 +352,14 @@
                                         </form>
                                     </div>
                                     
-                                </div> -->
+                                </div>
+                                -->
+                                <button id="showCreateUserDialogBtn" style="margin-left:1em;" data-dojo-type="dijit.form.Button">
+                                            新建用户
+                                </button>
+                                <div class="dijitHidden">
+
+                                </div>
                             </div>
                             <!-- The Data Grid -->
                             <br />
@@ -705,6 +751,37 @@
                                 </div>
                             </div>
 
+                            <div data-dojo-type="dijit.Dialog" data-dojo-id="createGPRSDialog" id="createGPRSDialog" title="添加电表" style="width:56em;">
+                                <form id="createGPRSDialogForm" method="post" action="/gprs/add" >
+                                    <ul class="nav">
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="gprsName">GPRS名称:</label>
+                                            <input id="gprsName" type="text" dojoType="dijit.form.ValidationTextBox" class="long"
+                                                required="true" 
+                                                ucfirst="true" invalidMessage="">
+                                            </input>
+
+                                        </li>
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="gprsIdentifer">GPRS标示:</label>
+                                            <input id="gprsIdentifer" type="text" dojoType="dijit.form.ValidationTextBox" class="long"
+                                                required="true" 
+                                                ucfirst="true" invalidMessage="">
+                                            </input>
+                                            
+                                        </li>
+                                    </ul>
+                                </form>
+                                <div class="dijitDialogPaneActionBar">
+                                    <button id="createGPRSDialogAddBtn" data-dojo-type="dijit.form.Button">
+                                        添加
+                                    </button>
+                                    <button id="createGPRSDialogCancelBtn" data-dojo-type="dijit.form.Button">
+                                        取消
+                                    </button>
+                                </div>
+                            </div>
+
                             <!-->Create User Dialog</!-->
                             <div data-dojo-type="dijit.Dialog" data-dojo-id="createUserDialog" id="createUserDialog" title="添加电表" style="width:56em;">
                                 <form id="createUserDialogForm" method="post" action="/user/list" >
@@ -822,6 +899,29 @@
                                         完成
                                     </button>
                                     <button id="addAmmeterForProjectCancelBtn" data-dojo-type="dijit.form.Button">
+                                        取消
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div data-dojo-type="dijit.Dialog" data-dojo-id="modifyPasswordDialog" id="modifyPasswordDialog" title="添加电表" style="width:56em;">
+                                <form id="modifyPasswordDialogForm" method="post" action="/user/list" >
+                                    <ul class="nav">
+                                        <li style="margin-bottom: 9px;">
+                                            <label class="dialogLabel" for="newPassword">新密码:</label>
+                                            <input id="newPassword" type="text" dojoType="dijit.form.ValidationTextBox" class="long"
+                                                required="true" 
+                                                ucfirst="true" invalidMessage="">
+                                            </input>
+                                        </li>
+                                    </ul>
+                                </form>
+                                
+                                <div class="dijitDialogPaneActionBar">
+                                    <button id="modifyPasswordBtn" data-dojo-type="dijit.form.Button">
+                                        修改
+                                    </button>
+                                    <button id="modifyPasswordCancelBtn" data-dojo-type="dijit.form.Button">
                                         取消
                                     </button>
                                 </div>

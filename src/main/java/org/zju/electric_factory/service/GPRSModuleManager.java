@@ -15,4 +15,5 @@ public interface GPRSModuleManager {
     public List<GPRSModule> getGPRSModules() throws Exception;
     public void deleteGPRSModule (GPRSModule gprsModule) throws Exception;
     public void editGPRSModule (GPRSModule gprsModule) throws Exception;
+    public void add(GPRSModule gprsModule) throws Exception;
 }
