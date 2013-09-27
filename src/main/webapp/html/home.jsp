@@ -83,8 +83,6 @@
 
     </style>
 
-    
-
     <script src = "/dojo1.7src/dojo/dojo.js" 
         data-dojo-config="
             async:true,
@@ -232,7 +230,7 @@
                                                 <input id="projectForPACombo" />
                                             </div>
                                             <div>
-                                                <strong><label class="add_form_label" for="ammeterForPACombo">电表名称</label></strong>
+                                                <strong><label class="add_form_label" for="ammeterForPACombo">电表标识</label></strong>
                                                 <input id="ammeterForPACombo" />
                                             </div>
                                             <div>
@@ -487,7 +485,7 @@
                                 <form id="createSaveComputationForm" method="post" action="/company/add" >
                                     <ul class="nav">
                                         <li style="margin-bottom: 9px;">
-                                            <label class="dialogLabel" for="saveComputationDialogAmmeterName">电表名称:</label>
+                                            <label class="dialogLabel" for="saveComputationDialogAmmeterName">电表标识:</label>
                                             <input id="saveComputationDialogAmmeterName" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
                                         </li>
                                         <li style="margin-bottom: 9px;">
@@ -496,7 +494,7 @@
                                         </li>
                                         <li style="margin-bottom: 9px;">
                                             <label class="dialogLabel" for="saveComputationDialogStartDate">开始时间:</label>
-                                            <input id="saveComputationDialogStartDate" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                            <input id="saveComputationDialogStartDate" dojoType="dijit.form.DateTextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true'/>
                                         </li>
                                         <li style="margin-bottom: 9px;">
                                             <label class="dialogLabel" for="saveComputationDialogStartTimeSum">开始累时器值:</label>
@@ -508,7 +506,7 @@
                                         </li>
                                         <li style="margin-bottom: 9px;">
                                             <label class="dialogLabel" for="saveComputationDialogEndDate">结束时间:</label>
-                                            <input id="saveComputationDialogEndDate" data-dojo-type="dijit.form.TextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true, value:"Should be returned"'/>
+                                            <input id="saveComputationDialogEndDate" dojoType="dijit.form.DateTextBox" data-dojo-props='name:"readOnlyWidget", readOnly:true'/>
                                         </li>
                                         <li style="margin-bottom: 9px;">
                                             <label class="dialogLabel" for="saveComputationDialogEndTimeSum">结束累时器值:</label>
@@ -683,14 +681,14 @@
                                 <form id="createAmmeterDialogForm" method="post" action="/ammeter/add" >
                                     <ul class="nav">
                                         <li style="margin-bottom: 9px;">
-                                            <label class="dialogLabel" for="ammeterName">电表名称:</label>
+                                            <label class="dialogLabel" for="ammeterName">电表标识:</label>
                                             <input id="ammeterName" type="text" dojoType="dijit.form.ValidationTextBox" class="long"
                                                 required="true" 
                                                 ucfirst="true" invalidMessage="">
                                             </input>
                                         </li>
                                         <li style="margin-bottom: 9px;">
-                                            <label for="pumpName" class="dialogLabel">泵名称:</label>
+                                            <label for="pumpName" class="dialogLabel">电表名称:</label>
                                             <input id="pumpName" type="text" dojoType="dijit.form.ValidationTextBox" class="long"
                                                 required="false" 
                                                 ucfirst="true" invalidMessage="">

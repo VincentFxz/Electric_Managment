@@ -10,12 +10,18 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.zju.electric_factory.dao.impl.AmmeterDAOImpl;
 import org.zju.electric_factory.dao.impl.AmmeterGPRSLinkDAOImpl;
+import org.zju.electric_factory.dao.impl.AmmeterRecordDAOImpl;
+import org.zju.electric_factory.dao.impl.GPRSModuleDAOImpl;
 import org.zju.electric_factory.entity.Ammeter;
 import org.zju.electric_factory.entity.AmmeterGPRSLink;
+import org.zju.electric_factory.entity.AmmeterRecord;
+import org.zju.electric_factory.entity.GPRSModule;
 
 @Component
 public class AmmeterClient {
@@ -23,16 +29,24 @@ public class AmmeterClient {
 	private AmmeterGPRSLinkDAOImpl ammeterGPRSLinkDAOImpl;
 	@Autowired
 	private AmmeterDAOImpl ammeterDAOImpl;
+	@Autowired
+	private GPRSModuleDAOImpl gprsModuleDAOImpl;
+	@Autowired AmmeterRecordDAOImpl ammeterRecordDAOImpl;
+	
+	@Autowired
+	private AmmeterRecordManagerImpl ammeterRecordManagerImpl;
+
+
 
 	public static final int PORT = 5000;
 	public static final byte[] HEART_BEAT_HEADER = { (byte) 0x68, (byte) 0x31,
 			(byte) 0x00, (byte) 0x31, (byte) 0x00 };
+	public static final byte[] gprsMessageTail = { (byte) 0x11, (byte) 0x22,
+			(byte) 0x33, (byte) 0x44, (byte) 0x55, (byte) 0x66, (byte) 0x01 };
 	public static final int HEART_BEAT_LENGTH = 27;
-	private Long timestamp = new Date().getTime();
-
-	private int i = 0;
 
 	public void moniter() throws Exception {
+		System.out.println("*******************************start moniter");
 		ServerSocket serverSocket = new ServerSocket(PORT);
 		while (true) {
 			Socket clientSocket = serverSocket.accept();
@@ -48,38 +62,54 @@ public class AmmeterClient {
 						socketReader);
 				DataOutputStream dataOutputStream = new DataOutputStream(
 						socketWriter);
-
+				System.out.println("start to read");
 				while (true) {
-					System.out.println("received");
-					byte[] received = new byte[1024];
+					//
+					byte[] received = new byte[64];
 					int count = dataInputStream.read(received);
 					byte[] output = AmmeterClient
 							.trimByteArray(received, count);
-					System.out.println(output);
+					System.out.println(AmmeterClient.bytesToHexString(output));
 					if (headerMatched(output, HEART_BEAT_HEADER,
 							HEART_BEAT_HEADER.length)) {
 						byte[] gprsIdentifierBytes = new byte[5];
 						for (int i = 0; i < 5; i++) {
 							gprsIdentifierBytes[5 - i - 1] = output[i
-									+ HEART_BEAT_HEADER.length];
+									+ HEART_BEAT_HEADER.length + 2];
 						}
-						
+
 						String gprsIdentifier = bytesToHexString(gprsIdentifierBytes);
 						System.out.println("gprs:" + gprsIdentifier);
 						List<byte[]> ammeterIdentifiers = getAmmeterIdentifierByGprsIdentifier(gprsIdentifier);
 						makeQuery(ammeterIdentifiers, dataOutputStream);
-						
-					}else{
-						System.out.println(AmmeterClient.bytesToHexString(output));
-						System.out.println(parseIncome(output));
+
+					} else {
+						System.out.println(AmmeterClient
+								.bytesToHexString(output));
+						System.out.println("电表读数" + parseIncome(output));
+						Integer ammeterValueInteger = parseIncome(output);
+						AmmeterRecord ammeterRecord = new AmmeterRecord();
+						List<Ammeter> ammeters = ammeterDAOImpl.findBy("name", "000000000030");
+						Ammeter ammeter = ammeters.get(0);
+						ammeterRecord.setAmmeterId(ammeter.getId());
+						ammeterRecord.setAmmeterName(ammeter.getName());
+						ammeterRecord.setAmmeterValue(ammeterValueInteger);
+						ammeterRecord.setRecordDate(new Date());
+						ammeterRecord.setTimeSum(0.0f);
+						ammeterRecordManagerImpl.add(ammeterRecord);
 					}
 				}
 			}
 		}
 	}
+	
+	
 
-	public void makeQuery(List<byte[]> ammeterIdentifiers, DataOutputStream dataOutputStream) throws IOException {
+	public void makeQuery(List<byte[]> ammeterIdentifiers,
+			DataOutputStream dataOutputStream) throws IOException {
 		for (byte[] ammeterIdentifier : ammeterIdentifiers) {
+			System.out.println(AmmeterClient
+					.bytesToHexString(ammeterIdentifier));
 			byte[] b = new byte[26];
 			b[0] = (byte) 0xfe;
 			b[1] = (byte) 0xfe;
@@ -98,7 +128,7 @@ public class AmmeterClient {
 			b[14] = (byte) 0x33;
 			b[15] = (byte) 0x33;
 			b[16] = (byte) 0x33;
-			b[17] = (byte) 0x4E;
+			b[17] = (byte) 0xE1;
 			b[18] = (byte) 0x16;
 			b[19] = (byte) 0x11;
 			b[20] = (byte) 0x22;
@@ -107,6 +137,8 @@ public class AmmeterClient {
 			b[23] = (byte) 0x55;
 			b[24] = (byte) 0x66;
 			b[25] = (byte) 0x01;
+			System.out.println("send request:");
+			System.out.println(AmmeterClient.bytesToHexString(b));
 			dataOutputStream.write(b);
 			dataOutputStream.flush();
 		}
@@ -115,26 +147,35 @@ public class AmmeterClient {
 
 	public List<byte[]> getAmmeterIdentifierByGprsIdentifier(
 			String gprsIdentifier) {
+		System.out.println("********************************start getammeterid");
 		List<byte[]> ammeterIdentifiers = new ArrayList<byte[]>();
-		List<AmmeterGPRSLink> ammeterGPRSLinks = ammeterGPRSLinkDAOImpl.findBy(
-				"gprsId", gprsIdentifier);
-		for (AmmeterGPRSLink ammeterGPRSLink : ammeterGPRSLinks) {
-			List<Ammeter> ammeters = ammeterDAOImpl.findBy("id",
-					ammeterGPRSLink.getId());
-			for (Ammeter ammeter : ammeters) {
-				ammeterIdentifiers.add(reverseBytes(hexStringToBytes(ammeter
-						.getName())));
+		List<GPRSModule> gprsModules = gprsModuleDAOImpl.findBy("identifier",
+				gprsIdentifier);
+		System.out.println(gprsModules.get(0).getId());
+		if ((null != gprsModules) && (gprsModules.size() > 0)) {
+			List<AmmeterGPRSLink> ammeterGPRSLinks = ammeterGPRSLinkDAOImpl
+					.findBy("gprsId", gprsModules.get(0).getId());
+			System.out.println("ammeter id"
+					+ ammeterGPRSLinks.get(0).getAmmeterId());
+			for (AmmeterGPRSLink ammeterGPRSLink : ammeterGPRSLinks) {
+				List<Ammeter> ammeters = ammeterDAOImpl.findBy("id",
+						ammeterGPRSLink.getAmmeterId());
+				for (Ammeter ammeter : ammeters) {
+					System.out.println(ammeter.getName());
+					System.out
+							.println(AmmeterClient
+									.bytesToHexString(reverseBytes(hexStringToBytes(ammeter
+											.getName()))));
+					ammeterIdentifiers
+							.add(reverseBytes(hexStringToBytes(ammeter
+									.getName())));
+				}
 			}
 		}
+
 		return ammeterIdentifiers;
 	}
 
-	// public byte[] getReverseByteArrUseHexString(String hexString) {
-	// byte[] reverseByte = new byte[6];
-	// if (null != hexString) {
-	//
-	// }
-	// }
 
 	public static byte[] reverseBytes(byte[] code) {
 		for (int i = 0; i < code.length / 2; i++) {
@@ -176,7 +217,6 @@ public class AmmeterClient {
 							socketReader);
 					DataOutputStream dataOutputStream = new DataOutputStream(
 							socketWriter);
-
 					while (true) {
 						byte[] received = new byte[1024];
 						// dataOutputStream.write(b);
@@ -194,54 +234,24 @@ public class AmmeterClient {
 
 	}
 
-	// byte[] b = new byte[26];
-	// b[0] = (byte) 0xfe;
-	// b[1] = (byte) 0xfe;
-	// b[2] = (byte) 0xfe;
-	// b[3] = (byte) 0x68;
-	// if(recogCode.size()!= 6){
-	// continue;
-	// }
-	// int i =0;
-	// for(String recogCodeEle : recogCode){
-	// b[i+4]=(byte)Integer.parseInt(recogCodeEle, 16);
-	// i++;
-	// }
-	// b[10] = (byte) 0x68;
-	// b[11] = (byte) 0x11;
-	// b[12] = (byte) 0x04;
-	// b[13] = (byte) 0x33;
-	// b[14] = (byte) 0x33;
-	// b[15] = (byte) 0x33;
-	// b[16] = (byte) 0x33;
-	// b[17] = (byte) 0x4E;
-	// b[18] = (byte) 0x16;
-	// b[19] = (byte) 0x11;
-	// b[20] = (byte) 0x22;
-	// b[21] = (byte) 0x33;
-	// b[22] = (byte) 0x44;
-	// b[23] = (byte) 0x55;
-	// b[24] = (byte) 0x66;
-	// b[25] = (byte) 0x01;
-	// dataOutputStream.write(b);
-	// dataOutputStream.flush();
-
-	public int parseIncome(byte[] output) {
-		int dataInt = 0;
+	public Integer parseIncome(byte[] output) {
+		StringBuilder parsedData = new StringBuilder();
 		if (output[12] == (byte) 0x08) {
 			byte[] data = new byte[4];
 			data[0] = output[17];
 			data[1] = output[18];
 			data[2] = output[19];
 			data[3] = output[20];
+			System.out.println(AmmeterClient.bytesToHexString(data));
 
+		
 			for (int i = data.length - 1; i >= 0; i--) {
-				int dataOnThisPosition = data[i] & 0xFF;
-				dataInt = dataInt * 10;
-				dataInt = dataInt + dataOnThisPosition;
+				int unParsedData = data[i] & 0xFF;
+				int dataAfterLabel = unParsedData - 0x33;
+				parsedData.append(Integer.toHexString(dataAfterLabel));
 			}
 		}
-		return dataInt;
+		return Integer.parseInt(parsedData.toString());
 	}
 
 	public void test() {
@@ -332,49 +342,12 @@ public class AmmeterClient {
 						// dataInputStream.readFully(received);
 						System.out.println(AmmeterClient
 								.bytesToHexString(output));
-
 					}
 				}
-
-				// int totalBytesRcvd=0;
-				// int bytesRcvd;
-
-				// while(totalBytesRcvd<34){
-				// if((bytesRcvd=socketReader.read(received, totalBytesRcvd,
-				// 34-totalBytesRcvd))==-1){
-				// throw new SocketException("Connection closed prematurely");
-				// }
-				// totalBytesRcvd+=bytesRcvd;
-				//
-				// System.out.println("Receved: "+AmmeterClient.bytesToHexString(received));
-				// System.out.println(totalBytesRcvd);
-				// }
-				// //
-				//
-				// socketWriter.write(b);
-				// socketWriter.flush();
-				// received = new byte[34];
-				//
-				// while(totalBytesRcvd<34){
-				// if((bytesRcvd=socketReader.read(received, totalBytesRcvd,
-				// 34-totalBytesRcvd))==-1){
-				// throw new SocketException("Connection closed prematurely");
-				// }
-				// totalBytesRcvd+=bytesRcvd;
-				//
-				// System.out.println("Receved: "+new
-				// String(AmmeterClient.bytesToHexString(received)));
-				// System.out.println(totalBytesRcvd);
-				// }
-				// System.out.println("Receved: "+new
-				// String(AmmeterClient.bytesToHexString(received)));
-				// clientSocket.close();
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public static byte[] trimByteArray(byte[] input, int size) {
@@ -420,43 +393,10 @@ public class AmmeterClient {
 	}
 
 	public static void main(String[] args) {
-		// System.out.println("helloworld");
-		// // try in idea
-		// byte[] b = new byte[26];
-		// // 68 75 06 00 08 08 12
-		// b[0] = (byte) 0xfe;
-		// b[1] = (byte) 0xfe;
-		// b[2] = (byte) 0xfe;
-		// b[3] = (byte) 0x68;
-		// b[4] = (byte) 0x75;
-		// b[5] = (byte) 0x06;
-		// b[6] = (byte) 0x00;
-		// b[7] = (byte) 0x08;
-		// b[8] = (byte) 0x08;
-		// b[9] = (byte) 0x12;
-		// b[10] = (byte) 0x68;
-		// b[11] = (byte) 0x11;
-		// b[12] = (byte) 0x04;
-		// b[13] = (byte) 0x33;
-		// b[14] = (byte) 0x33;
-		// b[15] = (byte) 0x33;
-		// b[16] = (byte) 0x33;
-		// b[17] = (byte) 0x4E;
-		// b[18] = (byte) 0x16;
-		// b[19] = (byte) 0x11;
-		// b[20] = (byte) 0x22;
-		// b[21] = (byte) 0x33;
-		// b[22] = (byte) 0x44;
-		// b[23] = (byte) 0x55;
-		// b[24] = (byte) 0x66;
-		// b[25] = (byte) 0x01;
-
 		System.out.println(((byte) 0xfe) & 0xFF);
-		String string = "fe68";
+		String string = "000000000030";
 		System.out.println(hexStringToBytes(string).length);
 		System.out.println(bytesToHexString(hexStringToBytes(string)));
-		// new AmmeterClient().test();
-
 	}
 
 }

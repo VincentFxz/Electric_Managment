@@ -1,3 +1,5 @@
+// alert(new Date(parseInt("1380302750394")));
+
 var userPane;
 var construtUserPane;
 var userPaneConstruted = false;
@@ -44,12 +46,11 @@ var lastAmmeterStatusPaneConstructed = false;
 var saveComputationChartPane;
 var constructSaveComputationChartPane;
 var saveComputationChartPaneConstructed = false;
-
 var activedMenuItem;
 
 var request = {};
 
-
+var stores = {};
 
 
 require([
@@ -516,32 +517,6 @@ require([
                     }
                 });
             }
-            // getRealCost : function (callBack, errorCallBack) {
-            //     getValue("realCost", callBack, errorCallBack);
-            // },
-
-            // getEletricSave : function (callBack, errorCallBack) {
-            //     getValue("electricSave", callBack, errorCallBack);
-            // },
-
-            // getCoalSave : function (callBack, errorCallBack) {
-            //     getValue("coalSave", callBack, errorCallBack);
-            // },
-
-            // getThePartyBonus : function (callBack, errorCallBack) {
-            //     getValue("thePartyBonus", callBack, errorCallBack);
-            // }
-
-            // getValue : function (key, callBack, errorCallBack) {
-            //     this.store.fetch({
-            //         "query" : {},
-            //         onComplete : function (item){
-            //             if(item[key]){
-            //                 callBack(item[key]) ;
-            //             }
-            //         }
-            //     });
-            // }
         };
 
         var gprsManager = {
@@ -1409,10 +1384,6 @@ require([
                 
 
                 var constructSaveComputationChart = function constructSaveComputationChart () {
-                    // Define the data
-                    // var chartData = [10000,9200,11811,12000,7662,13887,14200,12222,12000,10009,11288,12099];
-                    // var chartData2 = [3000,12000,17733,9876,12783,12899,13888,13277,14299,12345,12345,15763];
-                    // var chartData3 = [3000,12000,17733,9876,12783,12899,13888,13277,14299,12345,12345,15763].reverse();
                     var getSaveComputationRecordSucc = function getSaveComputationRecordSucc (saveComputationRecords) {
 
                         var realCosts = [];
@@ -1420,10 +1391,7 @@ require([
                         var electricSaves = [];
                         var thePartyBonuses = [];
                         var axisXLayout = [];
-
                         var Y;
-                        
-
                         var getMaxY = function (items) {
 
                             var maxY = 0;
@@ -1433,7 +1401,6 @@ require([
                                     maxY = items[j];
                                 }
                             }
-
                             return maxY;
                         }
 
@@ -1468,9 +1435,6 @@ require([
                             date.setTime(saveComputationRecords[i].endDate);
                             axisXItem.text = date.getFullYear() + "年" + date.getMonth() + "月" + date.getDate() + "日" + date.getHours() + "时"; 
                             axisXLayout.push(axisXItem);
-                            // coalSaves.push(saveComputationRecords[i].coalSave);
-                            // electricSaves.push(saveComputationRecords[i].eletricSave);
-                            // thePartyBonuses.push(saveComputationRecords[i].thePartyBonus);
                         }
 
                         if(realCosts && electricSaves && coalSaves && thePartyBonuses){
@@ -1482,77 +1446,6 @@ require([
                             console.log(maxCandidate);
                             Y = getMaxY(maxCandidate);
                         }
-
-                        // var realCostCheckBox = registry.byId("realCostCheckBox");
-                        // if(realCostCheckBox){
-                        //     on(realCostCheckBox, "change", function(){
-                        //         chart.removeAxis("y");
-                        //         chart.addAxis("y", { min: 0, max: getMaxY(realCosts), vertical: true, fixLower: "major", fixUpper: "major" });
-                        //         if(registry.byId("realCostCheckBox").get("checked")){
-                        //             chart.addSeries("技改后能耗", realCosts);
-                        //         }else{
-                        //             chart.removeSeries("技改后能耗");
-                        //         }
-                                
-                        //         chart.render();
-                        //         legend.refresh();
-                        //     });
-
-
-                        // }
-
-                        // var electricSaveCheckBox = registry.byId("electricSaveCheckBox");
-                        // if(electricSaveCheckBox){
-                        //     on(electricSaveCheckBox, "change", function(){
-                        //         Y = getMaxY(electricSaves);
-                        //         chart.removeAxis("y");
-                        //         chart.addAxis("y", { min: 0, max: Y , vertical: true, fixLower: "major", fixUpper: "major" });
-                                
-                        //         if(registry.byId("electricSaveCheckBox").get("checked")){
-                        //             chart.addSeries("节约电量", electricSaves);
-                        //         }else{
-                        //             chart.removeSeries("节约电量");
-                        //         }
-                                
-                        //         chart.render();
-                        //         legend.refresh();
-                        //     });
-                        // }
-
-                        // var coalSaveCheckBox = registry.byId("coalSaveCheckBox");
-                        // if(coalSaveCheckBox){
-                        //     on(coalSaveCheckBox, "change", function(){
-                        //         chart.removeAxis("y");
-                        //         chart.addAxis("y", { min: 0, max: getMaxY(coalSaves), vertical: true, fixLower: "major", fixUpper: "major" });
-                        //         if(registry.byId("coalSaveCheckBox").get("checked")){
-                        //             chart.addSeries("节约煤", coalSaves);
-                        //         }else{
-                        //             chart.removeSeries("节约煤");
-                        //         }
-                                
-                        //         chart.render();
-                        //         legend.refresh();
-                        //     });
-                        // }
-
-                        // var thePartyBonusCheckBox = registry.byId("thePartyBonusCheckBox");
-                        // if(thePartyBonusCheckBox){
-                        //     on(thePartyBonusCheckBox, "change", function(){
-                        //         chart.removeAxis("y");
-                        //         chart.addAxis("y", { min: 0, max: getMaxY(thePartyBonuses), vertical: true, fixLower: "major", fixUpper: "major" });
-                        //         if(registry.byId("thePartyBonusCheckBox").get("checked")){
-                        //             chart.addSeries("用能方收益", thePartyBonuses);
-                        //         }else{
-                        //             chart.removeSeries("用能方收益");
-                        //         }
-                                
-                        //         chart.render();
-                        //         legend.refresh();
-                        //     });
-                        // }
-
-                        // console.log("getSaveComputationRecordSucc");
-
                         
                         // Create the chart within it's "holding" node
                         var chart = new Chart("saveComputationChart");
@@ -1640,14 +1533,6 @@ require([
                     tabContainer.selectChild(saveComputationChartPane);
                 }
             }
-        };
-
-        var request = {
-
-        };
-
-        var stores = {
-
         };
 
         var formatters = {
@@ -1795,7 +1680,7 @@ require([
                 width: "15em",
                 canSort: true
             }, {
-                name: "电表示数",
+                name: "电表示数(Kwh)",
                 field: "ammeterValue",
                 width: "15em",
                 canSort: true
@@ -1827,7 +1712,7 @@ require([
                     },{
                         name: "累时器值", field: "startTimeSum"
                     },{
-                        name: "电表度数", field: "startValue"
+                        name: "电表度数(Kwh)", field: "startValue"
                     },{
                         name: "日期", field: "endDate",  formatter: formatters.dateFormatter
                     },{
@@ -1856,13 +1741,15 @@ require([
                         name: "节能公司收益", field: "theOtherPartyBouns"
                     },{
                         name: "用能公司收益", field: "thePartyBonus"
-                    },{
-                        name: "操作",
-                        field: "id",
-                        type: dojox.grid.cells._Widget,
-                        editable: false,
-                        formatter: formatters.saveComputationGridOptFormatter
-                    }],[{
+                    },
+                    // {
+                    //     name: "操作",
+                    //     field: "id",
+                    //     type: dojox.grid.cells._Widget,
+                    //     editable: false,
+                    //     formatter: formatters.saveComputationGridOptFormatter
+                    // }
+                    ],[{
                         name: "电表信息", colSpan: 2
                     },{
                         name: "抄表起始示数", colSpan: 3
@@ -1919,7 +1806,7 @@ require([
                 width: up_cell_width + "px",
                 canSort: true
             },  {
-                name: "电表名称",
+                name: "电表标识",
                 field: "ammeterName",
                 width: up_cell_width + "px",
                 canSort: true
@@ -1941,12 +1828,12 @@ require([
                 width: ammeter_cell_width * 0.5 + "px",
                 canSort: true
             }, {
-                name: "电表名称",
+                name: "电表标识",
                 field: "name",
                 width: ammeter_cell_width + "px",
                 editable: true
             }, {
-                name: "泵名称",
+                name: "电表名称",
                 field: "pumpName",
                 width: ammeter_cell_width + "px",
                 editable: true
@@ -2093,7 +1980,7 @@ require([
                             width: pa_cell_width + "px",
                             canSort: true
                         }, {
-                            name: "电表名称",
+                            name: "电表标识",
                             field: "ammeterName",
                             width: pa_cell_width + "px",
                             canSort: true
@@ -2413,7 +2300,7 @@ require([
                             width: "25%",
                             canSort: true
                         }, {
-                            name: "电表名称",
+                            name: "电表标识",
                             field: "ammeterName",
                             width: "25%",
                             canSort: true
@@ -3084,10 +2971,13 @@ require([
                 var getSaveComputationByDateSucc = function getSaveComputationByDateSucc (saveComputation) {
                     registry.byId("saveComputationDialogAmmeterName").set("value", saveComputation.ammeterName);
                     registry.byId("saveComputationDialogProjectName").set("value", saveComputation.projectName);
-                    registry.byId("saveComputationDialogStartDate").set("value", saveComputation.startDate);
+                    alert("hehe");
+                    alert(formatters.dateFormatter(parseInt(saveComputation.startDate)));
+                    alert("hehehe");
+                    registry.byId("saveComputationDialogStartDate").attr("value", new Date(parseInt(saveComputation.startDate)));
                     registry.byId("saveComputationDialogStartTimeSum").set("value", saveComputation.startTimeSum);
                     registry.byId("saveComputationDialogStartValue").set("value", saveComputation.startValue);
-                    registry.byId("saveComputationDialogEndDate").set("value", saveComputation.endDate);
+                    registry.byId("saveComputationDialogEndDate").attr("value", new Date(parseInt(saveComputation.endDate)));
                     registry.byId("saveComputationDialogEndTimeSum").set("value", saveComputation.endTimeSum);
                     registry.byId("saveComputationDialogEndValue").set("value", saveComputation.endValue);
                     registry.byId("saveComputationDialogSensorRate").set("value", saveComputation.sensorRate);
@@ -3107,15 +2997,8 @@ require([
                 var getSaveComputationByDateErr = function getSaveComputationByDateErr () {
                 };
                 saveComputationManager.getSaveComputationByDate(saveComputationStartDate, saveComputationEndDate, saveComputationAmmeter, getSaveComputationByDateSucc, getSaveComputationByDateErr);
+                saveComputationDialog.show();
 
-                // stores.constructSaveComputationStore = new JsonRestStore({
-                //     target: targetUrl
-                // });
-
-                // saveComputationGrid.setQueryAfterLoading({
-                //     "startDate" : saveComputationStartDate,
-                //     "endDate": saveComputationEndDate
-                // }); 
             });
         }
 
