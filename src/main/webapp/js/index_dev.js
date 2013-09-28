@@ -2971,9 +2971,6 @@ require([
                 var getSaveComputationByDateSucc = function getSaveComputationByDateSucc (saveComputation) {
                     registry.byId("saveComputationDialogAmmeterName").set("value", saveComputation.ammeterName);
                     registry.byId("saveComputationDialogProjectName").set("value", saveComputation.projectName);
-                    alert("hehe");
-                    alert(formatters.dateFormatter(parseInt(saveComputation.startDate)));
-                    alert("hehehe");
                     registry.byId("saveComputationDialogStartDate").attr("value", new Date(parseInt(saveComputation.startDate)));
                     registry.byId("saveComputationDialogStartTimeSum").set("value", saveComputation.startTimeSum);
                     registry.byId("saveComputationDialogStartValue").set("value", saveComputation.startValue);
@@ -3033,7 +3030,7 @@ require([
                     registry.byId("saveComputationDialog").hide();
                 };
                 saveComputationRecordManager.addSaveComputationRecord(saveComputationRecord, addSaveComputationRecordSucc, addSaveComputationRecordErr);
-                console.log(registry.byId("saveComputationDialogAmmeterName").value);
+                // console.log(registry.byId("saveComputationDialogAmmeterName").value);
             });
         }
 
