@@ -6,16 +6,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.zju.electric_factory.dao.impl.AmmeterDAOImpl;
 import org.zju.electric_factory.dao.impl.AmmeterGPRSLinkDAOImpl;
 import org.zju.electric_factory.dao.impl.GPRSModuleDAOImpl;
 import org.zju.electric_factory.entity.Ammeter;
 import org.zju.electric_factory.entity.AmmeterGPRSLink;
 import org.zju.electric_factory.entity.GPRSModule;
+import org.zju.electric_factory.entity.ProjectAmmeterLink;
 import org.zju.electric_factory.vo.AmmeterGPRSVO;
 
 @Controller
@@ -65,4 +63,13 @@ public class AmmeterGPRSLinkController {
 		}
 		return null;
 	}
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/list/{id}", headers = "Accept=application/json")
+    public @ResponseBody
+    boolean deleteAmmeterGPRS(@PathVariable String id) {
+        ameterGprsLinkDAOImpl.delete(Long.parseLong(id));
+        return true;
+    }
+
+
 }

@@ -220,7 +220,15 @@ require([
             getStore: function () {
                 return this.store;
             }
+        };
+
+        var ammeterRecordManager = {
+             store: new JsonRestStore({
+                target: "/ammeter_record/list"
+            })
         }
+
+
 
         var companyManager = {
 
@@ -523,7 +531,7 @@ require([
                 this.store.save({
                     onComplete: function () {
                         callBack();
-                        topic.publish("gprs", "update");
+                        topic.publish("updateGPRS", "update");
                     },
                     onError: function () {
                         errorCallBack();
@@ -609,7 +617,7 @@ require([
                     }
                 });
             },
-            deleteGPRS: function (ammetergprs, callBack, errorCallBack) {
+            deleteAmmeterGPRS: function (ammetergprs, callBack, errorCallBack) {
                 this.store.deleteItem(ammetergprs);
                 this.store.save({
                     onComplete: function () {
@@ -866,14 +874,12 @@ require([
                             var gprsSeleted = gprsGrid.selection.getSelected();
                             if (gprsSeleted.length) {
                                 for (var key in gprsSeleted) {
-                                    gprsManager.deleteGPRS(gprsSeleted[key], deleteGPRSSuccessCallBack(), deleteGPRSErrorCallBack);
+                                    gprsManager.deleteGPRS(gprsSeleted[key], deleteGPRSSuccessCallBack, deleteGPRSErrorCallBack);
                                 }
                             }
-                            ;
                         }
                     }, deleteButtonNodeId);
                     deleteGPRSBtn.startup();
-
                     topic.subscribe("updateGPRS", function (text) {
                         newGrid.setQueryAfterLoading({"id": "*"});
                     });
@@ -1286,7 +1292,7 @@ require([
                                     var deleteAmmeterGPRSErrorCallBack = function () {
 
                                     };
-                                    projectUserManager.deleteProjectUser(ag_selected[i], deleteAmmeterGPRSSuccCallBack, deleteAmmeterGPRSErrorCallBack);
+                                    ammeterGPRSManager.deleteAmmeterGPRS(ag_selected[i], deleteAmmeterGPRSSuccCallBack, deleteAmmeterGPRSErrorCallBack);
                                 }
                             }
                         }
@@ -2413,6 +2419,7 @@ require([
                             name: "电表记录日期",
                             field: "recordDate",
                             width: "15em",
+                            formatter: formatters.dateFormatter,
                             canSort: true
                         },
                     ],
@@ -2435,6 +2442,20 @@ require([
                 ammeterRecordGrid.setQueryAfterLoading({
                     "id": "*"
                 });
+            });
+
+            var startMoniter = registry.byId("startMoniter");
+            on(startMoniter, "click", function () {
+                xhr.get({
+                    url: "/gprsserver/start",
+                    timeout: 3000,
+                    // give up after 3 seconds
+                    handleAs: "json",
+                    load: function () {
+                        alert("抄表开始");
+                    }
+                });
+                alert("开始抄表");
             });
 
             if (!ammeterRecordPaneConstruted) {

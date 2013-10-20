@@ -6,13 +6,6 @@ import org.zju.electric_factory.entity.GPRSModule;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: vincent
- * Date: 6/10/13
- * Time: 3:53 PM
- * To change this template use File | Settings | File Templates.
- */
 @Repository
 public class GPRSModuleDAOImpl extends HibernateDAO<GPRSModule, Long> implements GPRSModuleDAO {
     @Override
@@ -28,5 +21,9 @@ public class GPRSModuleDAOImpl extends HibernateDAO<GPRSModule, Long> implements
     @Override
     public List<GPRSModule> getAllGPRSModules() throws Exception {
         return super.getAll();
+    }
+
+    public void delete(Long id){
+        super.delete(id);
     }
 }

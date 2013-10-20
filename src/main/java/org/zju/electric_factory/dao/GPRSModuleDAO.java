@@ -16,5 +16,6 @@ public interface GPRSModuleDAO {
     public GPRSModule getGPRSModuleByIdentifier (String Identifier) throws Exception;
     public void delete (GPRSModule gprsModule);
     public void save (GPRSModule gprsModule);
+    public void delete(Long id);
     public List<GPRSModule> getAllGPRSModules () throws  Exception;
 }

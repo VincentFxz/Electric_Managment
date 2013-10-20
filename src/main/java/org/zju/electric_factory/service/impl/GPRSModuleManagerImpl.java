@@ -30,8 +30,8 @@ public class GPRSModuleManagerImpl implements GPRSModuleManager
     }
 
     @Override
-    public void deleteGPRSModule(GPRSModule gprsModule) throws Exception {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void deleteGPRSModule(Long id) throws Exception {
+        gprsModuleDAO.delete(id);
     }
 
     @Override

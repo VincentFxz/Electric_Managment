@@ -2,12 +2,14 @@ package org.zju.electric_factory.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+import org.zju.electric_factory.dao.GPRSModuleDAO;
+import org.zju.electric_factory.dao.impl.GPRSModuleDAOImpl;
 import org.zju.electric_factory.entity.GPRSModule;
+import org.zju.electric_factory.entity.ProjectAmmeterLink;
 import org.zju.electric_factory.service.GPRSModuleManager;
+import org.zju.electric_factory.service.impl.GPRSModuleManagerImpl;
 
 import java.util.List;
 
@@ -20,10 +22,12 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/gprs")
+@Transactional
 public class GPRSModuleController {
 
     @Autowired
     private GPRSModuleManager gprsModuleManager;
+
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/list/", headers = "Accept=application/json")
@@ -33,8 +37,14 @@ public class GPRSModuleController {
     }
 
     @RequestMapping(method=RequestMethod.POST,value="/list",headers="Accept=application/json")
-    public @ResponseBody GPRSModule addGPRS(@RequestBody GPRSModule gprs ) throws Exception{
+    public @ResponseBody GPRSModule deleteGPRS(@RequestBody GPRSModule gprs ) throws Exception{
         gprsModuleManager.add(gprs);
         return gprs;
+    }
+
+    @RequestMapping(method=RequestMethod.DELETE,value="/list/{id}",headers="Accept=application/json")
+    public @ResponseBody boolean deleteGPRS(@PathVariable String id ) throws Exception{
+        gprsModuleManager.deleteGPRSModule(Long.parseLong(id));
+        return true;
     }
 }

@@ -37,12 +37,12 @@ public class AmmeterClient {
     private Socket clientSocket;
 
 
-    public static final int PORT = 5001;
+    public static final int PORT = 5000;
     public static final byte[] HEART_BEAT_HEADER = {(byte) 0x68, (byte) 0x31,
             (byte) 0x00, (byte) 0x31, (byte) 0x00};
     public static final byte[] gpsMessageTail = {(byte) 0x11, (byte) 0x22,
             (byte) 0x33, (byte) 0x44, (byte) 0x55, (byte) 0x66, (byte) 0x01};
-    public static final byte[] timeSumDataLabel = {(byte) 0x3B, (byte) 0x33, (byte) 0x34, (byte) 0x34};
+    public static final byte[] timeSumDataLabel = {(byte) 0x34, (byte) 0x34, (byte) 0x33, (byte) 0x3B};
     public static final byte[] ammeterValueDataLabel = {(byte) 0x33, (byte) 0x33, (byte) 0x33, (byte) 0x33};
     public static final byte[] header = {(byte) 0xfe, (byte) 0xfe, (byte) 0xfe, (byte) 0x68};
     public static final byte[] splitCode = {(byte) 0x68};
@@ -52,7 +52,7 @@ public class AmmeterClient {
 
     private static final String dbURL = "jdbc:mysql://localhost:3306/electric_factory?useUnicode=true&characterEncoding=UTF-8";
     private static final String username = "root";
-    private static final String password = "root";
+    private static final String password = "123456";
 
     private TimerTask updateToDBTask;
 
@@ -66,15 +66,22 @@ public class AmmeterClient {
                     Class.forName("com.mysql.jdbc.Driver");
                     con = DriverManager.getConnection(dbURL, username, password);
                     con.setAutoCommit(false);
-                    PreparedStatement pstmt = con.prepareStatement("INSERT INTO ammeter_record (AMMETER_ID, AMMETER_NAME, AMMETER_VALUE, RECORD_TIME, TIME_SUM) VALUES (?, ?, ?, ?, ?)");
+                    PreparedStatement qpstmt = con.prepareStatement("SELECT ID FROM AMMETER WHERE AMMETER_NAME = ?");
+                    PreparedStatement pstmt = con.prepareStatement("INSERT INTO AMMETER_RECORD (AMMETER_ID, AMMETER_NAME, AMMETER_VALUE, RECORD_TIME, TIME_SUM) VALUES (?, ?, ?, ?, ?)");
                     System.out.println("write to db");
                     if (null != ammeterRecordMap && ammeterRecordMap.size() > 0) {
                         for (Map.Entry<String, AmmeterRecord> entry : ammeterRecordMap.entrySet()) {
                             AmmeterRecord ammeterRecord = entry.getValue();
                             System.out.println("add record" + entry.getKey() + ":" + entry.getValue());
+                            qpstmt.setString(1,ammeterRecord.getAmmeterName());
+                            ResultSet resultSet = qpstmt.executeQuery();
+                            Long ammeterId= null;
+                            while(resultSet.next()){
+                                ammeterId =resultSet.getLong("ID");
+                            }
 
-//                            pstmt.setLong(1, ammeterRecord.getAmmeterId());
-                            pstmt.setLong(1, 1);
+//                          pstmt.setLong(1, ammeterRecord.getAmmeterId());
+                            pstmt.setLong(1, ammeterId);
                             pstmt.setString(2, ammeterRecord.getAmmeterName());
                             pstmt.setFloat(3, ammeterRecord.getAmmeterValue());
                             pstmt.setTimestamp(4, new Timestamp(new Date().getTime()));
@@ -84,6 +91,10 @@ public class AmmeterClient {
                         pstmt.executeBatch();
                         con.commit();
                         ammeterRecordMap.clear();
+                        pstmt.close();
+                        qpstmt.close();
+                    } else {
+                        System.out.println("没有数据");
                     }
                 } catch (ClassNotFoundException e) {
                     System.out.println("找不到驱动程序类 ，加载驱动失败！");
@@ -103,24 +114,6 @@ public class AmmeterClient {
             }
         };
     }
-
-    private TimerTask closeSocketTimeTask;
-
-    {
-        closeSocketTimeTask = new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    clientSocket.close();
-                    this.cancel();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-    }
-
-    private Timer closeSocketTimer = new Timer();
 
     public AmmeterClient() {
     }
@@ -154,24 +147,21 @@ public class AmmeterClient {
                     while (true) {
                         byte[] received = new byte[64];
                         int count = dataInputStream.read(received);
-
-//                        if(count < 0){
-//                            continue;
-//                        }
-//                        closeSocketTimer.cancel();
                         byte[] output = AmmeterClient
                                 .trimByteArray(received, count);
                         System.out.println("message received" + AmmeterClient.bytesToHexString(output));
                         if (headerMatched(output, HEART_BEAT_HEADER,
                                 HEART_BEAT_HEADER.length)) {
-//                        String gprsIdentifier = getGprsIdentifyFromHeartBeatMsg(output);
-//                        List<byte[]> ammeterIdentifiers = getAmmeterIdentifierByGprsIdentifier(gprsIdentifier);
+                        String gprsIdentifier = getGprsIdentifyFromHeartBeatMsg(output);
+                        List<byte[]> ammeterIdentifiers = getAmmeterIdentifierByGprsIdentifier(gprsIdentifier);
+                            System.out.println(gprsIdentifier);
 //                        makeQuery(ammeterIdentifiers, dataOutputStream);
                             //test
-                            List<byte[]> ammeterIdentifiersForTest = new ArrayList<byte[]>();
-                            byte[] ammeterForTest = {(byte) 0xaa, (byte) 0xaa, (byte) 0xaa, (byte) 0xaa, (byte) 0xaa, (byte) 0xaa};
-                            ammeterIdentifiersForTest.add(ammeterForTest);
-                            makeQuery(ammeterIdentifiersForTest, dataOutputStream);
+//                            List<byte[]> ammeterIdentifiersForTest = new ArrayList<byte[]>();
+//                            byte[] ammeterForTest = {(byte) 0xaa, (byte) 0xaa, (byte) 0xaa, (byte) 0xaa, (byte) 0xaa, (byte) 0xaa};
+//                            ammeterIdentifiersForTest.add(ammeterForTest);
+                            makeAmmeterValueQuery(ammeterIdentifiers, dataOutputStream);
+                            makeTimeSumQuery(ammeterIdentifiers, dataOutputStream);
                         } else {
                             System.out.println(AmmeterClient
                                     .bytesToHexString(output));
@@ -205,7 +195,7 @@ public class AmmeterClient {
         return obj.length;
     }
 
-    private byte[] getReqQueryMessage(byte[] ammeterIdentifier) {
+    private byte[] getReqQueryMessage(byte[] ammeterIdentifier, byte[] dataLabel) {
         byte[] queryMessage = new byte[26];
         int offset = 0;
         offset += appendMessage(queryMessage, header, offset);
@@ -213,15 +203,37 @@ public class AmmeterClient {
         offset += appendMessage(queryMessage, splitCode, offset);
         offset += appendMessage(queryMessage, readOperateCode, offset);
         offset += appendMessage(queryMessage, readOperateDataLen, offset);
-        offset += appendMessage(queryMessage, ammeterValueDataLabel, offset);
+        offset += appendMessage(queryMessage, dataLabel, offset);
         offset += appendMessage(queryMessage, getCheckSum(queryMessage, offset), offset);
         offset += appendMessage(queryMessage, endCode, offset);
         offset += appendMessage(queryMessage, gpsMessageTail, offset);
         return queryMessage;
     }
 
+    private void makeTimeSumQuery(List<byte[]> ammeterIdentifiers,
+                                  DataOutputStream dataOutputStream) throws IOException {
+        for (byte[] ammeterIdentifier : ammeterIdentifiers) {
+            System.out.println(AmmeterClient
+                    .bytesToHexString(ammeterIdentifier));
+            if (ammeterIdentifier.length != 6) {
+                byte[] tmp = new byte[6];
+                int i = 6 - ammeterIdentifier.length + 1;
+                System.arraycopy(ammeterIdentifier, 0, tmp, i, ammeterIdentifier.length);
+                ammeterIdentifier = tmp;
+            }
+            byte[] queryMessage = getReqQueryMessage(ammeterIdentifier, timeSumDataLabel);
+//            todo continue tomorrow
+            System.out.println("send request:");
+            System.out.println(AmmeterClient.bytesToHexString(queryMessage));
+            dataOutputStream.write(queryMessage);
+            dataOutputStream.flush();
+        }
+    }
 
-    public void makeQuery(List<byte[]> ammeterIdentifiers,
+    private void
+
+
+    makeAmmeterValueQuery(List<byte[]> ammeterIdentifiers,
                           DataOutputStream dataOutputStream) throws IOException {
         for (byte[] ammeterIdentifier : ammeterIdentifiers) {
             System.out.println(AmmeterClient
@@ -232,7 +244,7 @@ public class AmmeterClient {
                 System.arraycopy(ammeterIdentifier, 0, tmp, i, ammeterIdentifier.length);
                 ammeterIdentifier = tmp;
             }
-            byte[] queryMessage = getReqQueryMessage(ammeterIdentifier);
+            byte[] queryMessage = getReqQueryMessage(ammeterIdentifier, ammeterValueDataLabel);
 //            todo continue tomorrow
             System.out.println("send request:");
             System.out.println(AmmeterClient.bytesToHexString(queryMessage));
@@ -243,7 +255,7 @@ public class AmmeterClient {
 
     private byte[] getCheckSum(byte[] queryMessage, int length) {
         int sum = 0;
-        for (int i = 0; i < length; i++) {
+        for (int i = 3; i < length; i++) {
             sum += queryMessage[i] & 0xFF;
         }
         byte[] checksum = {(byte) sum};
@@ -256,8 +268,9 @@ public class AmmeterClient {
         List<byte[]> ammeterIdentifiers = new ArrayList<byte[]>();
         List<GPRSModule> gprsModules = gprsModuleDAOImpl.findBy("identifier",
                 gprsIdentifier);
-        System.out.println(gprsModules.get(0).getId());
+
         if ((null != gprsModules) && (gprsModules.size() > 0)) {
+            System.out.println(gprsModules.get(0).getId());
             List<AmmeterGPRSLink> ammeterGPRSLinks = ammeterGPRSLinkDAOImpl
                     .findBy("gprsId", gprsModules.get(0).getId());
             System.out.println("ammeter id"
@@ -310,8 +323,8 @@ public class AmmeterClient {
         String ammeterIdentify = null;
         if (null != message) {
             byte[] data = new byte[6];
+            System.arraycopy(message, 4, data, 0, 6);
             reverseBytes(data);
-            System.arraycopy(message, 5, data, 0, 6);
             ammeterIdentify = bytesToHexString(data);
         }
         return ammeterIdentify;
@@ -332,6 +345,22 @@ public class AmmeterClient {
             byte[] data = new byte[4];
             System.arraycopy(message, 17, data, 0, 4);
             for (int i = data.length - 1; i >= 0; i--) {
+
+                int unParsedData = data[i] & 0xFF;
+                int dataAfterLabel = unParsedData - 0x33;
+                dataContent.append(Integer.toHexString(dataAfterLabel));
+            }
+        }
+        return dataContent.toString();
+    }
+
+    public String getParsedTimeSumDataContent(byte[] message) {
+        StringBuilder dataContent = new StringBuilder();
+        if (null != message) {
+            byte[] data = new byte[3];
+            System.arraycopy(message, 17, data, 0, 3);
+            for (int i = data.length - 1; i >= 0; i--) {
+
                 int unParsedData = data[i] & 0xFF;
                 int dataAfterLabel = unParsedData - 0x33;
                 dataContent.append(Integer.toHexString(dataAfterLabel));
@@ -341,13 +370,9 @@ public class AmmeterClient {
     }
 
     public void parseIncome(byte[] message) {
-        StringBuilder parsedData = new StringBuilder();
-        if (message[12] == (byte) 0x08) {
             String ammeterIdentify = getAmmeterIdentifyFromMessage(message);
             byte[] dataLabel = getDataLabel(message);
-            String dataContent = getParsedDataContent(message);
 
-            System.out.println(dataContent);
             AmmeterRecord ammeterRecord = null;
             if (ammeterRecordMap.containsKey(ammeterIdentify)) {
                 ammeterRecord = ammeterRecordMap.get(ammeterIdentify);
@@ -357,12 +382,18 @@ public class AmmeterClient {
             }
             ammeterRecord.setAmmeterName(ammeterIdentify);
             if (Arrays.equals(dataLabel, ammeterValueDataLabel)) {
-                ammeterRecord.setAmmeterValue(Float.parseFloat(dataContent));
+                String dataContent = getParsedDataContent(message);
+                System.out.println("电量读取值为：" + dataContent);
+                ammeterRecord.setAmmeterValue(Float.parseFloat(dataContent) / 100);
             } else if (Arrays.equals(dataLabel, timeSumDataLabel)) {
-                ammeterRecord.setTimeSum(Float.parseFloat(dataContent));
+                String dataContent = getParsedTimeSumDataContent(message);
+                ammeterRecord.setTimeSum(Float.parseFloat(dataContent) / 10);
             }
-            ammeterRecordMap.put(ammeterIdentify, ammeterRecord);
-        }
+            if(null != ammeterRecord) {
+                ammeterRecordMap.put(ammeterIdentify, ammeterRecord);
+            }
+
+
     }
 
     public void test() {
